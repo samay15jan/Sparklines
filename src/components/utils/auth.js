@@ -8,6 +8,9 @@ const googleLogin = () => {
       .then((result) => {
         const user = result.user
         const userId = user.uid
+        localStorage.setItem('username', user.displayName)
+        localStorage.setItem('email', user.email)
+        localStorage.setItem('photoURL', user.photoURL)
         set(ref(database, 'sparklines/users/' + userId), {
           name: user.displayName,
           email: user.email,

@@ -1,11 +1,16 @@
 import React from 'react'
-import Login from './components/landing_page/header/Login'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Landing from './pages/Landing'
+import Dashboard from './pages/Dashboard'
 
 const App = () => {
   return (
-    <div>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+      </Routes>
+    </Router>
   )
 }
 

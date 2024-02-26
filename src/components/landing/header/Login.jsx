@@ -3,9 +3,9 @@ import { googleLogin } from '../../utils/auth'
 
 const Login = () => {
   return (
-    <>
+    <div>
         <button onClick={googleLogin}>Google Login</button>
-    </>
+    </div>
   )
 }
 
