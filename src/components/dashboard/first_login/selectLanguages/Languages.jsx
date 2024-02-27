@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Button from './Button'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -8,7 +8,7 @@ const Heading = styled.h1`${tw`text-4xl font-bold px-20 pt-20 pb-10`}`
 const SubContainer = styled.div`${tw`grid grid-cols-4 mx-20`}`
 const NextButton = styled.button`${tw`absolute right-0 mx-20 my-10 px-10 py-3 border-2 rounded-md text-2xl font-bold`}`
 
-const Languages = () => {
+const Languages = ({ onNext, selectedData }) => {
     const [selectedLang, setSelectedLang] = useState([]);
     const values = ['English', 'Hindi', 'Punjabi', 'Haryanvi', 'Tamil', 'Telugu', 'Marathi', 'Gujarati', 'Bengali', 'Kannada', 'Bhojpuri', 'Malayalam', 'Urdu', 'Rajasthani', 'Odia', 'Assamese']
 
@@ -18,15 +18,19 @@ const Languages = () => {
     }
 
     const handleSelection = (lang) => {
-        const index = selectedLang.indexOf(lang)
-        if(index == -1) {
-            selectedLang.push(lang)
+        const isSelected = selectedLang.includes(lang)
+        if(!isSelected) {
+          setSelectedLang([...selectedLang, lang])
         }else {
-            selectedLang.splice(index)
+          const updatedLang = selectedLang.filter((element) => element !== lang)
+          setSelectedLang(updatedLang)
         }
-        setSelectedLang([...selectedLang]);
     }
     
+    useEffect(() => {
+      selectedData(selectedLang)
+    }, [selectedLang])
+
     return (
       <Container>
         <Heading>Select Language</Heading>
@@ -37,7 +41,7 @@ const Languages = () => {
               </div>
             ))}
         </SubContainer>
-        {selectedLang.length > 0  && <NextButton>Next</NextButton>}
+        {selectedLang.length > 0  && <NextButton onClick={onNext}>Next</NextButton>}
       </Container>
   )
 }
