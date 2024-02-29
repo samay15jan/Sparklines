@@ -11,6 +11,7 @@ const googleLogin = () => {
         localStorage.setItem('username', user.displayName)
         localStorage.setItem('email', user.email)
         localStorage.setItem('photoURL', user.photoURL)
+        localStorage.setItem('userId', userId)
         set(ref(database, 'sparklines/users/' + userId), {
           name: user.displayName,
           email: user.email,

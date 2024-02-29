@@ -5,14 +5,14 @@ import { auth } from '../components/utils/firebase'
 
 const Landing = () => {
   const navigate = useNavigate()
-  const email = localStorage.getItem('email')
+  const userId = localStorage.getItem('userId')
 
   // Redirect
   useEffect(() => {
-    if(email) {
+    if(userId) {
       navigate('/dashboard')
     }
-  },[auth, email])
+  },[auth, userId])
 
   return (
     <div>

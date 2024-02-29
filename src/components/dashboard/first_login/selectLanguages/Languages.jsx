@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 const Container = styled.div`${tw``}`
-const Heading = styled.h1`${tw`text-4xl font-bold px-20 pt-20 pb-10`}`
-const SubContainer = styled.div`${tw`grid grid-cols-4 mx-20`}`
+const SubContainer = styled.div`${tw`grid grid-cols-4 mx-20 mt-5`}`
 const NextButton = styled.button`${tw`absolute right-0 mx-20 my-10 px-10 py-3 border-2 rounded-md text-2xl font-bold`}`
 
 const Languages = ({ onNext, selectedData }) => {
@@ -33,7 +32,6 @@ const Languages = ({ onNext, selectedData }) => {
 
     return (
       <Container>
-        <Heading>Select Language</Heading>
         <SubContainer>
             {values.map((lang, index) => (
               <div key={index}>
