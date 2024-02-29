@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const ButtonUI = styled.div`${tw`p-5 text-xl font-bold m-2 hover:cursor-pointer rounded-xl border-2 shadow-2xl`}
+const ButtonUI = styled.div`${tw`p-5 text-xl font-bold m-2 hover:cursor-pointer rounded-xl border-4 shadow-2xl`}
 background-color: ${({ bgcolor }) => bgcolor};
 border-color: ${({ border }) => border ? 'white' : 'black'};
 `
