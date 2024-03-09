@@ -5,7 +5,7 @@ import { auth } from '../components/utils/firebase'
 
 const Landing = () => {
   const navigate = useNavigate()
-  const userId = localStorage.getItem('userId')
+  var userId = localStorage.getItem('userId')
 
   // Redirect
   useEffect(() => {

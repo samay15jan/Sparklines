@@ -25,6 +25,7 @@ const Dashboard = () => {
       set(ref(database, 'sparklines/users/' + userId + '/preferences/'), {
         'language': selectedLang,
         'following': selectedArtists,
+        'initialLogin': true,
       })
     } catch (error) {
       console.log(error)
