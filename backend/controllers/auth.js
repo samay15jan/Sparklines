@@ -1,5 +1,5 @@
-import User from '../models/UserSchema'
-const jwt = require('jsonwebtoken');
+const User = require('../models/UserSchema')
+const jwt = require('jsonwebtoken')
 
 // Register new user
 const register = async (req, res, next) => {
