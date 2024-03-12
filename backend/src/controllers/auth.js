@@ -12,7 +12,7 @@ const register = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-} 
+}
 
 // Login existing user
 const login = async (req, res, next) => {

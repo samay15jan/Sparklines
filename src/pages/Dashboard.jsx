@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FirstLogin from '../components/dashboard/first_login/FirstLogin'
+import Image from '../components/dashboard/first_login/Image.jsx'
 import { auth, database } from '../components/utils/firebase.js'
 import { set, ref } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
@@ -36,16 +37,19 @@ const Dashboard = () => {
 
   return (
     <div className='text-[#edeff0] bg-[#00040c] w-screen h-screen overflow-hidden'>
+
       <Helmet>
         <title>{'Sparklines'}</title>
         <meta name='description' content='A Music Streaming Platform' />
       </Helmet>
+      
       {firstLogin === true 
         ? <FirstLogin closeMenu={() => showFirstLogin(false)} returnData={handleDatabase}/>
         : <div>
-            Setting Up Things
+            <Image/>
           </div>
       }
+
     </div>
   )
 }
