@@ -1,7 +1,7 @@
 const express = require('express') 
-const connectDB = require('./database/db')
-const authRoutes = require('./routes/auth')
-const userRoutes = require('./routes/user')
+const connectDB = require('./src/database/db')
+const authRoutes = require('./src/routes/auth')
+const userRoutes = require('./src/routes/user')
 require('dotenv').config()
 
 const app = express()
