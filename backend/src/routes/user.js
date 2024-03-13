@@ -7,7 +7,7 @@ const upload = multer({ dest: 'public/avatar' })
 const router = express.Router()
 
 router.get("/profile", authenticate, (req, res) => {
-    res.json({ message: `Welcome ${req.user.username}` })
+    res.json({ message: `Welcome ${req.user.username}, UserId: ${req.user._id}` })
 })
 
 router.post('/avatar', upload.single('avatar'), imageUploader, (req, res) => {
