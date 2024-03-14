@@ -51,7 +51,7 @@ Endpoint: /auth/login, /user/profile
     curl -X GET -H "Authorization: Bearer {AUTHORIZATION_KEY}" http://localhost:3000/user/profile
 
 #### Update Profile Pic: 
-Endpoint: /auth/login, /user/profile
+Endpoint: /auth/avatar
 
     -Test-
 
