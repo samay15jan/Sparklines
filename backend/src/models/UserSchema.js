@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema(
         },
         profilePic: {
             type: String,
+        },
+        newUser: {
+            type: Boolean,
         }
     }
 )
