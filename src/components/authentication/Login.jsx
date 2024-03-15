@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { register, login } from './authMethods'
 
 const Container = styled.div`${tw`flex justify-center`}`
 const SubContainer = styled.div`${tw`w-2/3 min-h-screen items-center grid grid-cols-1 py-44 justify-center`}`
@@ -14,8 +14,7 @@ const Input = styled.input`${tw`text-lg p-2 my-2 h-12 rounded-md`}
   outline: 1px solid #ccced0;
   &:focus {
     outline: 2px solid grey;
-}`  
-
+}`
 const Button = styled.input`${tw`mt-5 text-white text-xl h-14 rounded-md bg-[#23233f]`}
 transition: background 0.3s ease;
 &:hover {
@@ -27,7 +26,6 @@ transition: background 0.3s ease;
   background: #db916a;
 
 }`
-
 const SwitchContainer = styled.div`${tw`flex justify-center mt-5`}`
 const Text = styled.div`${tw`font-medium opacity-50 text-center`}`
 const SwitchButton = styled.button`${tw`font-bold ml-1`}
@@ -48,11 +46,12 @@ const Login = () => {
 
   // Auto Redirect
   const navigate = useNavigate()
-
-  const userData = {
-    "email": email,
-    "password": password
-  }
+  useEffect(() => {
+    const userData = localStorage.getItem('userId')
+    if(userData){
+      navigate('/dashboard')
+    }
+  }, [response])
 
   const changeMenu = () => {
     type === 'Login' 
@@ -71,37 +70,62 @@ const Login = () => {
     setPassword(event.target.value)
   }
 
-  const handleSubmit = async (event) => {
+  
+  const handleRegistration = async (event) => {
     event.preventDefault()
     try {
-      const apiRegister = await axios.post('http://localhost:3000/auth/register', userData)
-      const apiResponse = apiRegister.data.message
-      setResponse(apiResponse)
-      if(apiResponse === 'Registration successful'){
-        const apiLogin = await axios.post('http://localhost:3000/auth/login', userData)
-        const token = apiLogin.data.token
-        if(token){
-          const apiAuth = await axios.get('http://localhost:3000/user/profile', {
-            headers: {
-              Authorization: `Bearer ${token}` 
-            }
-          })
-          const apiResponseAuth = apiAuth.data.message
-          localStorage.setItem('userId', apiResponseAuth)
+      if(!email.length > 0 || !password.length > 0){
+        setResponse('Fields cannot be empty')
+        return
+      }
+      const userData = { "email": email, "password": password }
+      const registeredUser = await register(userData)
+      if (registeredUser.success) {
+        const loggedInUser = await login(userData)
+        if (loggedInUser){
+          localStorage.setItem('userId', loggedInUser.data.userId)
+          localStorage.setItem('username', loggedInUser.data.username)
+          localStorage.setItem('email', loggedInUser.data.email)
+          localStorage.setItem('profilePic', loggedInUser.data.profilePic)
+          setResponse('Successfully Created User')
+        }else {
+          setResponse(loggedInUser.error)
         }
+      }else{
+        setResponse(registeredUser.error)
       }
     } catch (error) {
       console.log(error)
     }
   }
   
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      if(!email.length > 0 || !password.length > 0){
+        setResponse('Fields cannot be empty')
+        return
+      }
+      const userData = { "email": email, "password": password }
+      const loggedInUser = await login(userData)
+      if (loggedInUser && loggedInUser.data){
+        localStorage.setItem('userData', loggedInUser)
+        setResponse('Successfully Logged In')
+      }else {
+        setResponse(loggedInUser.error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Container>
         <SubContainer>
             <div>
             <Heading>Welcome to Sparklines !</Heading>
             <SubHeading>Embrace the Rhythm of Your Soul</SubHeading>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={type === 'Login' ? handleLogin : handleRegistration}>
                 <Input autoFocus={true} placeholder='Email' type='email' value={email} onChange={handleEmail} autoComplete='off'/>
                 <Input placeholder='Password' type='password' value={password} onChange={handlePassword} autoComplete='off'/>
                 <Error>{response}</Error>
