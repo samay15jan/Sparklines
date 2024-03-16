@@ -1,8 +1,12 @@
 import React from 'react'
+import AutoNavigate from '../utils/AutoNavigate'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <AutoNavigate />
+      Dashboard
+    </div>
   )
 }
 

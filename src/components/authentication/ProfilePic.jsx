@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import SendButton from './SendButton'
-import { updateData, updateProfile } from '../../utils/authMethods'
+const SendButton = lazy(() => import('./SendButton'))
+import { updateData, imageUploader } from '../../utils/authMethods'
+import { useNavigate } from 'react-router-dom'
 
-const Container = styled.form`${tw`grid justify-center`}`
+const Container = styled.div`${tw`grid justify-center`}`
 const Heading = styled.div`${tw`text-2xl mb-2 font-bold text-center`}`
-const Image = styled.img`${tw`h-full object-cover w-1/3 rounded-full mb-6`}`
+const Image = styled.img`${tw`h-full object-cover w-1/3 rounded-full`}`
 const Upload = styled.label`${tw`w-full flex justify-center hover:ring-gray-500 hover:ring-2 mb-2`}`
 const Input = styled.input`${tw`w-full text-lg p-2 my-2 h-12 rounded-md`}
   outline: 1px solid #ccced0;
@@ -15,39 +16,77 @@ const Input = styled.input`${tw`w-full text-lg p-2 my-2 h-12 rounded-md`}
 }`
 
 
-const ProfilePic = () => {
+const ProfilePic = ({ data }) => {
+  const imageUrl = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png'
   const [name, setName] = useState('')
-  const [type, setType] = useState(true)
+  const [pic, setPic] = useState(imageUrl)
+  const userId = data.userId
+  const email = data.email
+  const navigate = useNavigate()
 
-  const imageUrl = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png' 
-
-  const handleEmail = (event) => {
+  const handleName = (event) => {
     setName(event.target.value)
   }
 
-  const handleData = (event) => {
-    event.preventDefault()
-    
+  const handleSkip = () => {
+    navigate('/dashboard')
+  }
+
+  const handleNext = async () => {
+    try {
+      if (name && pic) {
+        const data = { 'username': name, 'profilePic': pic, 'userId': userId }
+        const response = await updateData(data)
+        if (response.userData) {
+          setDataLocally(response.userData)
+          navigate('/dashboard')
+        }
+      } else {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleImageUploader = async (event) => {
+    const file = event.target.files[0]
+    try {
+      if (file) {
+        const response = await imageUploader(file)
+        if (response.profilePic) {
+          setPic(response.profilePic)
+        }
+      } else {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const setDataLocally = (data) => {
+    localStorage.setItem('userId', userId)
+    localStorage.setItem('email', email)
+    localStorage.setItem('username', data.username)
+    localStorage.setItem('profilePic', data.profilePic)
   }
 
   return (
     <div>
-      <Heading>{type ? 'Upload Profile Photo' : 'Enter Your Name'}</Heading>
-      {type
-       ? (
-        <Container encType="multipart/form-data" method="post">
-          <>
-            <Upload htmlFor="file-upload">
-              <Image src={imageUrl} alt="Upload Image"/>
-            </Upload>
-            <input className='hidden' id="file-upload" type="file"/>
-          </>
-        </Container>
-       ) : <Input placeholder='Name' type='name' value={name} onChange={handleEmail} autoComplete='off' />
-      }
+      <Heading>{'Complete your Profile'}</Heading>
+      <Container>
+        <>
+          <Upload autoFocus={true} htmlFor="file-upload">
+            <Image src={pic} alt="Upload Image" />
+          </Upload>
+          <input className='hidden' id="file-upload" type="file" onChange={handleImageUploader} />
+        </>
+      </Container>
+      <Input placeholder='Name' type='name' value={name} onChange={handleName} autoComplete='off' />
       <div className='grid grid-cols-2 space-x-2'>
-        <SendButton value='Skip' onclick={() => setType(!type)}/>
-        <SendButton value='Next' />
+        <SendButton value='Skip' onclick={handleSkip}/>
+        <SendButton value='Next' onclick={handleNext} />
       </div>
     </div>
   )

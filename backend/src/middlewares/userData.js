@@ -2,38 +2,38 @@ const cloudinary = require('cloudinary').v2
 const fs = require('fs');
 const User = require('../models/UserSchema')
 
-const updateUsername = async (req, res, next) => {
-  const username = req.body
-  const userId = req.body.userId
+const updateData = async (req, res, next) => {
+  const { username, profilePic, userId } = req.body
 
   if(!username){
-    res.status(401).json({ message: 'An Error Occured' })
-    return
+    return res.status(401).json({ message: 'An Error Occured' })
   }
 
   try {
     const user = await User.findOneAndUpdate(
       { _id: userId },
-      { username: username },
+      { username: username, profilePic: profilePic },
       { new: true }
     )
+
     if (!user) {
       return res.status(404).json({ message: 'User does not exist' })
+      
     }
+    req.user = user
     next()
   } catch (error) {
-    res.status(500).json({ message: 'An Error Occured' })
+      return res.status(500).json({ message: 'An Error Occured' })
   }
 }
 
 
 const imageUploader = async (req, res, next) => {
   const profilePic = req.file
-  const userId = req.body.userId
 
   if (!profilePic) {
-    res.status(404).json({ message: 'Image not found!' })
-    return
+    return res.status(404).json({ message: 'Image not found!' })
+    
   }
 
   const config = {
@@ -44,34 +44,18 @@ const imageUploader = async (req, res, next) => {
 
   try {
     cloudinary.config(config)
+    const result = await cloudinary.uploader.upload(profilePic.path, { public_id: profilePic.originalname })
+    fs.unlinkSync(profilePic.path)
 
-    let i = 0 
-    while (i < 2) {
-      const result = await cloudinary.uploader.upload(profilePic.path, { public_id: profilePic.originalname })
-      if (result) {
-        fs.unlinkSync(profilePic.path)
-        break
-      } else (i++)
-    }
     if(!result){
-      res.status(500).json({ message: 'An error occured!' })
+      return res.status(401).json({ message: 'An error occured!' })    
     }
-
-    const user = await User.findOneAndUpdate(
-      { _id: userId },
-      { profilePic: result.secure_url },
-      { new: true }
-    )
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' })
-    }
-
-    req.profilePic = user.profilePic
-    next()
+    
+    req.profilePic = result.secure_url
+    next()    
   } catch (error) {
-      res.status(401).json({ message: 'Failed to upload' })
+      return res.status(500).json({ message: 'Failed to upload' })
   }
 }
 
-module.exports = { updateUsername, imageUploader }
+module.exports = { updateData, imageUploader }
