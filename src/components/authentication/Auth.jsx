@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { useNavigate } from 'react-router-dom'
 import { register, login } from '../../utils/authMethods'
-import SendButton from './SendButton'
+const SendButton = lazy(() => import('./SendButton'))
 
 const Heading = styled.div`${tw`text-4xl mb-2 font-bold`}`
 const SubHeading = styled.div`${tw`text-lg mb-5 font-medium opacity-50`}`
@@ -30,35 +31,30 @@ const Auth = ({ data }) => {
   const [password, setPassword] = useState('')
   const [type, setType] = useState('Login')
   const [response, setResponse] = useState('')
-  const [authData, setAuthData] = useState('')
 
-  useEffect(() => {
-    if(authData != ''){
-      data(authData)
-    }
-  }, [authData, response])
+  const navigate = useNavigate()
 
   const changeMenu = () => {
-    type === 'Login' 
-      ? setType('Sign Up') 
+    type === 'Login'
+      ? setType('Sign Up')
       : setType('Login')
     setEmail('')
     setPassword('')
     setResponse('')
-  } 
+  }
 
   const handleEmail = (event) => {
     setEmail(event.target.value)
   }
-  
+
   const handlePassword = (event) => {
     setPassword(event.target.value)
   }
-  
+
   const handleRegistration = async (event) => {
     event.preventDefault()
     try {
-      if(!email.length > 0 || !password.length > 0){
+      if (!email.length > 0 || !password.length > 0) {
         setResponse('Fields cannot be empty')
         return
       }
@@ -66,33 +62,34 @@ const Auth = ({ data }) => {
       const registeredUser = await register(userData)
       if (registeredUser.success) {
         const loggedInUser = await login(userData)
-        if (loggedInUser){
+        if (loggedInUser) {
           setResponse('Successfully Created User')
-          setAuthData(loggedInUser.data)
-        }else {
+          data(loggedInUser.data)
+        } else {
           setResponse(loggedInUser.error)
         }
-      }else{
+      } else {
         setResponse(registeredUser.error)
       }
     } catch (error) {
       console.log(error)
     }
   }
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      if(!email.length > 0 || !password.length > 0){
+      if (!email.length > 0 || !password.length > 0) {
         setResponse('Fields cannot be empty')
         return
       }
       const userData = { "email": email, "password": password }
       const loggedInUser = await login(userData)
-      if (loggedInUser && loggedInUser.data){
+      if (loggedInUser && loggedInUser.data) {
         setResponse('Successfully Logged In')
-        setAuthData(loggedInUser.data)
-      }else {
+        setDataLocally(loggedInUser.data)
+        navigate('/dashboard')
+      } else {
         setResponse(loggedInUser.error)
       }
     } catch (error) {
@@ -100,15 +97,22 @@ const Auth = ({ data }) => {
     }
   }
 
+  const setDataLocally = (data) => {
+    localStorage.setItem('userId', data.userId)
+    localStorage.setItem('email', data.email)
+    localStorage.setItem('username', data.username)
+    localStorage.setItem('profilePic', data.profilePic)
+  }
+
   return (
     <div>
       <Heading>Welcome to Sparklines !</Heading>
       <SubHeading>Embrace the Rhythm of Your Soul</SubHeading>
       <Form onSubmit={type === 'Login' ? handleLogin : handleRegistration}>
-          <Input autoFocus={true} placeholder='Email' type='email' value={email} onChange={handleEmail} autoComplete='off'/>
-          <Input placeholder='Password' type='password' value={password} onChange={handlePassword} autoComplete='off'/>
-          <Error>{response}</Error>
-          <SendButton value={type}/>
+        <Input autoFocus={true} placeholder='Email' type='email' value={email} onChange={handleEmail} autoComplete='off' />
+        <Input placeholder='Password' type='password' value={password} onChange={handlePassword} autoComplete='off' />
+        <Error>{response}</Error>
+        <SendButton value={type}/>
       </Form>
       <SwitchContainer>
         <Text>

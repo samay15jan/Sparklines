@@ -33,11 +33,11 @@ import axios from 'axios'
   }
 
   // Update Username
-  const updateData = async (updatedName) => {
+  const updateData = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/user/username', {'username': updatedName})
+      const response = await axios.post('http://localhost:3000/user/updateData', data)
       if (response && response.status === 200) {
-        return { success: response.data.message }
+        return { userData: response.data.userData }
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {
@@ -47,11 +47,13 @@ import axios from 'axios'
   }
 
   // Update ProfilePic
-  const updateProfile = async (pic) => {
+  const imageUploader = async (pic) => {
     try {
-      const response = await axios.post('http://localhost:3000/user/profilePic', {'profilePic': pic})
+      const formData = new FormData()
+      formData.append('profilePic', pic)
+      const response = await axios.post('http://localhost:3000/user/imageUploader', formData)
       if (response && response.status === 200) {
-        return { success: response.data.message, profilePic: response.data.profilePic }
+        return { profilePic: response.data.profilePic }
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {
@@ -61,4 +63,4 @@ import axios from 'axios'
   }
 
 
-export { register, login, updateData, updateProfile }
+export { register, login, updateData, imageUploader }

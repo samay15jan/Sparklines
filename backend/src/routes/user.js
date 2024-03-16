@@ -1,6 +1,6 @@
 const express = require ('express')
 const { authenticate } = require('../middlewares/auth')
-const { updateUsername, imageUploader } = require('../middlewares/userData')
+const { updateData, imageUploader } = require('../middlewares/userData')
 const multer = require('multer')
 const upload = multer({ dest: 'public/avatar' })
 
@@ -19,12 +19,19 @@ router.get('/profile', authenticate, (req, res) => {
     )
 })
 
-router.post('/username', updateUsername, (res) => {
-  res.status(200).json({ message: `Successfully Updated` })
+router.post('/updateData', updateData, (req, res) => {
+  res.status(200).json(
+    {   
+      userData:{
+        username: `${req.user.username}`,
+        profilePic: `${req.user.profilePic}`
+      }
+    }
+  )
 })
 
-router.post('/profilePic', upload.single('profilePic'), imageUploader, (req, res) => {
-    res.status(200).json({ message: 'Successfully Uploaded.',  profilePic: `${req.profilePic}` })
+router.post('/imageUploader', upload.single('profilePic'), imageUploader, (req, res) => {
+  res.status(200).json({ profilePic: `${req.profilePic}` })
 })
 
 module.exports = router
