@@ -6,9 +6,7 @@
 - ~~profile image uploader (cloudinary)~~
 - save languages and artists to database
 - add more features in backend like library(liked music, created playlists, saved albums), currently playing music, queue, 10 recently played music(for recommendations later).
-- add more database features
 - merging with sparklines-backend(JioSaavn Api)
-- remove firebase
 - Homescreen with 3 selected artists, albums, trending, charts, playlists and recently played
 - Save 20 recently played music
 - Top realtime search bar like in designs
