@@ -2,7 +2,7 @@ import React, { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
-const ProfilePic = lazy(() => import('../components/authentication/ProfilePic'))
+const Profile = lazy(() => import('../components/authentication/Profile'))
 const Auth = lazy(() => import('../components/authentication/Auth'))
 const Video = lazy(() => import('../components/authentication/Video'))
 
@@ -18,7 +18,7 @@ const Authentication = () => {
       <Container>
         <SubContainer>
           {userData != ''
-            ? <ProfilePic data={userData} />
+            ? <Profile data={userData} />
             : <Auth data={(data) => setUserData(data)} />
           }
         </SubContainer>
