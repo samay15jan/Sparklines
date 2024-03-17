@@ -16,12 +16,14 @@ const Input = styled.input`${tw`w-full text-lg p-2 my-2 h-12 rounded-md`}
 }`
 
 
-const ProfilePic = ({ data }) => {
+const Profile = ({ data }) => {
   const imageUrl = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png'
   const [name, setName] = useState('')
   const [pic, setPic] = useState(imageUrl)
   const userId = data.userId
   const email = data.email
+  const newUser = data.newUser
+
   const navigate = useNavigate()
 
   const handleName = (event) => {
@@ -70,6 +72,7 @@ const ProfilePic = ({ data }) => {
     localStorage.setItem('email', email)
     localStorage.setItem('username', data.username)
     localStorage.setItem('profilePic', data.profilePic)
+    localStorage.setItem('newUser', newUser)
   }
 
   return (
@@ -92,4 +95,4 @@ const ProfilePic = ({ data }) => {
   )
 }
 
-export default ProfilePic
+export default Profile

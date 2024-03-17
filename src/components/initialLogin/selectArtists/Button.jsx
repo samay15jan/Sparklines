@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import DefaultProfile from '../../../../assets/homepage/DefaultProfile.png'
 
 const Container = styled.div`${tw`m-2 w-36`}`
 const RoundedImage = styled.img`${tw`rounded-full ring-white opacity-100`}
@@ -11,6 +10,7 @@ ${({ border }) => border ? tw`ring-4 opacity-100` : ''}
 const Button = ({ artist, onClick }) => {
   const [artistData, setArtistData] = useState()
   const [border, setBorder] = useState(false)
+  const DefaultProfile = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png'
 
   useEffect(() => {
     const getArtistData = async (artist) => {
