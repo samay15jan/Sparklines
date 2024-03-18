@@ -2,17 +2,15 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const ButtonUI = styled.div`${tw`p-5 text-xl font-bold m-2 hover:cursor-pointer rounded-xl border-4 shadow-2xl`}
-background-color: ${({ bgcolor }) => bgcolor};
-border-color: ${({ border }) => border ? 'white' : 'black'};
+const ButtonUI = styled.div`${tw`text-center p-5 text-xl font-medium m-2 hover:cursor-pointer rounded-lg border-2 shadow-md`}
+border-color: ${({ border }) => border ? '#db916a' : 'white'};
 `
 
-const Button = ({ lang, color, onClick }) => {
+const Button = ({ lang, onClick }) => {
   const [border, setBorder] = useState(false)
 
   return (
     <ButtonUI
-      bgcolor={color}
       border={border}
       onClick={() => {onClick(lang); setBorder(!border);}}
     >

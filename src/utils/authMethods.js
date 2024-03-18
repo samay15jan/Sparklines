@@ -62,5 +62,18 @@ import axios from 'axios'
     }
   }
 
+  // Add Languages 
+  const addLanguages = async (data) => {
+    try {
+      const response = await axios.post('http://localhost:3000/user/addLanguages', data)
+      if (response && response.status === 200) {
+        return { success: response.data.languages }
+      } 
+    } catch (error) {
+      if (error.response.status === 500 || 401 || 404) {
+        return { error: error.response.data.message }
+      }
+    }
+  }
 
-export { register, login, updateData, imageUploader }
+export { register, login, updateData, imageUploader, addLanguages }
