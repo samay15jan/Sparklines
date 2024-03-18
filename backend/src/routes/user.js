@@ -1,6 +1,6 @@
 const express = require ('express')
 const { authenticate } = require('../middlewares/auth')
-const { updateData, imageUploader } = require('../middlewares/userData')
+const { updateData, imageUploader, addLanguages } = require('../middlewares/userData')
 const multer = require('multer')
 const upload = multer({ dest: 'public/avatar' })
 
@@ -32,6 +32,10 @@ router.post('/updateData', updateData, (req, res) => {
 
 router.post('/imageUploader', upload.single('profilePic'), imageUploader, (req, res) => {
   res.status(200).json({ profilePic: `${req.profilePic}` })
+})
+
+router.post('/addLanguages', addLanguages, (req, res) => {
+  res.status(200).json({ languages: req.languages })
 })
 
 module.exports = router
