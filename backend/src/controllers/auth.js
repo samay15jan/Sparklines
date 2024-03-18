@@ -4,11 +4,8 @@ const jwt = require('jsonwebtoken')
 // Register new user
 const register = async (req, res, next) => {
     const { email, password } = req.body
-    const username = 'user' + Math.round(Math.random(1042313) * 2314231)
-    const newUser = true 
-    const profilePic = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png' 
     try {
-        const user = User({ username, email, password, profilePic, newUser })
+        const user = User({ email, password })
         await user.save()
         res.status(201).json({ message: 'User Registered' })
     } catch (error) {

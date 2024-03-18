@@ -3,9 +3,6 @@ const bcrypt = require("bcrypt")
 
 const userSchema = new mongoose.Schema(
     {
-        username: {
-            type: String,
-        },
         email: {
             type: String,
             required: true,
@@ -15,14 +12,32 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        profilePic: {
+        username: {
             type: String,
+        },
+        profilePic: {
+            type: String, 
+            default: 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png'
         },
         newUser: {
             type: Boolean,
-        }
+            default: true
+        },
+        languages: {
+            type: [String],
+            default: ['english']
+        },
     }
 )
+
+// Generate a random username before saving the document
+userSchema.pre('save', async function(next){
+    const user = this
+    if (!user.isModified('username')) {
+        user.username = 'user' + Math.round(Math.random() * 1000000)
+    }
+    next()
+})
 
 // Hashing Password
 userSchema.pre('save', async function(next){
