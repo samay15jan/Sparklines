@@ -1,15 +1,17 @@
-import React, { useState, lazy } from 'react'
+import React, { useState, lazy, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
-const Profile = lazy(() => import('../components/authentication/Profile'))
 const Auth = lazy(() => import('../components/authentication/Auth'))
+const Profile = lazy(() => import('../components/authentication/Profile'))
+const Languages = lazy(() => import('../components/authentication/firstLogin/Languages'))
 const Video = lazy(() => import('../components/authentication/Video'))
 
 const Container = styled.div`${tw`flex justify-center`}`
-const SubContainer = styled.div`${tw`w-2/3 min-h-screen items-center grid grid-cols-1 py-44 justify-center`}`
+const SubContainer = styled.div`${tw`w-2/3 min-h-screen items-center grid grid-cols-1 justify-center`}`
 
 const Authentication = () => {
+  const [menu, setMenu] = useState('')
   const [userData, setUserData] = useState('')
 
   return (
@@ -17,9 +19,13 @@ const Authentication = () => {
       <AutoNavigate location='/dashboard' />
       <Container>
         <SubContainer>
-          {userData != ''
-            ? <Profile data={userData} />
-            : <Auth data={(data) => setUserData(data)} />
+          {menu != 'languages' 
+            ? <>  {userData != ''
+                  ? <Profile data={userData} onNext={() => setMenu('languages')} />
+                  : <Auth data={(data) => setUserData(data)} />
+                }
+              </>
+            : <Languages />
           }
         </SubContainer>
       </Container>
