@@ -4,13 +4,11 @@
 - ~~ask for language and atleast 3 artists~~
 - ~~User auth with (mongodb, jwt, express, mongoose, bcrypt)~~
 - ~~profile image uploader (cloudinary)~~
-- save languages and artists to database
+- ~~save languages to database~~
+- ~~Top realtime search bar like in designs~~
 - add more features in backend like library(liked music, created playlists, saved albums), currently playing music, queue, 10 recently played music(for recommendations later).
-- merging with sparklines-backend(JioSaavn Api)
-- Homescreen with 3 selected artists, albums, trending, charts, playlists and recently played
+- Homescreen with popular artists, albums, trending, charts, playlists and recently played
 - Save 20 recently played music
-- Top realtime search bar like in designs
-- On search, artist, albums, song and playlist
 - Albums and playlist page with like, shuffle, play, sort and save button
 - auto play next song with key board shortcuts
 - bottom music player (song details, progress bar, play, pause, next, back, shuffle, repeat, volume, queue, like)
@@ -31,26 +29,11 @@
 
 ### Backend Endpoints:
 
-#### Register:
-Endpoint: /auth/register
-
-    -Test-
-
-    curl -X POST -H "Content-Type: application/json" -d '{"username":"Test","email":"test@example.com","password":"test12345"}' http://localhost:3000/auth/register
-
-
-#### Login: 
-Endpoint: /auth/login, /user/profile
-
-    -Test-
-
-    curl -X POST -H "Content-Type: application/json" -d '{"email":"test@example.com","password":"test12345"}' http://localhost:3000/auth/login
-
-    curl -X GET -H "Authorization: Bearer {AUTHORIZATION_KEY}" http://localhost:3000/user/profile
-
-#### Update Profile Pic: 
-Endpoint: /auth/avatar
-
-    -Test-
-
-    curl -X POST -F 'avatar=@/{LOCATION}' -F 'userId={USER_ID}' http://localhost:3000/user/avatar
+| Method | Endpoint             | Description                 | Parameters
+| ------ | -------------------- | --------------------------- |-------------------
+| POST   | /auth/register       | Create a new user           | email, password
+| POST   | /auth/login          | Get auth token              | email, password
+| GET    | /user/profile        | Authentication              | Authorization header (JWT token)
+| POST   | /user/updateData     | Update Username/ProfilePic  | username, profilePic, userId
+| POST   | /user/imageUploader  | Cloudinary Image Uploader   | profilePic
+| POST   | /user/addLanguages   | Add Languages               | languages[], userId
