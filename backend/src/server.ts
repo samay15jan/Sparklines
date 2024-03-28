@@ -1,4 +1,6 @@
 import 'dotenv/config'
+import { UserRoute } from 'routes/user.route'
+import { AuthRoute } from 'routes/auth.route'
 import { ModulesRoute } from './routes/modules.route'
 import { LyricsRoute } from './routes/lyrics.route'
 import { HomeRoute } from './routes/home.route'
@@ -18,6 +20,8 @@ const app = new App([
   new PlaylistsRoute(),
   new LyricsRoute(),
   new ModulesRoute(),
+  new AuthRoute(),
+  new UserRoute(),
 ])
 
 app.listen()
