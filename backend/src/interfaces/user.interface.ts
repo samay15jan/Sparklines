@@ -1,4 +1,5 @@
 import type { Document } from 'mongoose'
+import type { Request } from 'express'
 
 export interface UserDoc extends Document {
   email: string
@@ -8,4 +9,23 @@ export interface UserDoc extends Document {
   newUser: boolean
   languages: string[]
   comparePassword(password: string): Promise<boolean>
+}
+
+export interface FileRequest extends Request {
+  file: {
+    fieldname: string
+    originalname: string
+    encoding: string
+    mimetype: string
+    destination: string
+    filename: string
+    path: string
+    size: number
+  }
+}
+
+export interface UserData {
+  username: string
+  profilePic: string
+  userId: string
 }

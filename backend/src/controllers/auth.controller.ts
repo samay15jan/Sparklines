@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/userSchema'
+import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
 
 export class AuthController {
@@ -9,8 +10,8 @@ export class AuthController {
       const { email, password } = req.body
       const user = new User({ email, password })
       await user.save()
-      res.status(201).json({ message: 'User Registered' })
-    } catch (error: any) {
+      res.json({ status: globalConstants.status.success, message: 'User Registered', data: null })
+    } catch (error) {
       res.status(500).json({ message: 'Internal Server Error' })
       next(error)
     }
@@ -21,21 +22,22 @@ export class AuthController {
     try {
       const { email, password } = req.body
       const user = await User.findOne({ email })
+      const key = process.env.SECRET_KEY || ''
       if (!user) {
-        return res.status(401).json({ message: 'User not found' })
+        return res.status(401).json({ status: globalConstants.status.failed, message: 'User not found', data: null })
       }
 
       const passwordMatch = await user.comparePassword(password)
       if (!passwordMatch) {
-        return res.status(401).json({ message: 'Incorrect password' })
+        res.status(401).json({ status: globalConstants.status.failed, message: 'Incorrect password', data: null })
+        return
       }
 
-      const jwtToken = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      const jwtToken = jwt.sign({ userId: user._id }, key, {
         expiresIn: '1 hour',
       })
-
-      res.status(200).json({ token: jwtToken })
-    } catch (error: any) {
+      res.json({ status: globalConstants.status.success, message: 'Generated Token (valid: 1h)', data: jwtToken })
+    } catch (error) {
       next(error)
     }
   }
