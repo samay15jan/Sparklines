@@ -12,16 +12,14 @@ export interface UserDoc extends Document {
 }
 
 export interface FileRequest extends Request {
-  file: {
-    fieldname: string
-    originalname: string
-    encoding: string
-    mimetype: string
-    destination: string
-    filename: string
-    path: string
-    size: number
-  }
+  fieldname: string
+  originalname: string
+  encoding: string
+  mimetype: string
+  destination: string
+  filename: string
+  path: string
+  size: number
 }
 
 export interface UserData {

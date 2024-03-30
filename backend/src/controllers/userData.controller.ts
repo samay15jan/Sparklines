@@ -6,20 +6,16 @@ import type { UserData } from 'interfaces/user.interface'
 export class UpdateUserProfile {
   public updateData = async (req: Request, res: Response, next: NextFunction) => {
     const { username, profilePic, userId }: UserData = req.body
-
     if (!username && !profilePic && userId) {
       res.status(401).json({ statu2s: globalConstants.status.failed, message: 'An error occured' })
       return
     }
-
     try {
       const user = await User.findOneAndUpdate({ _id: userId }, { username, profilePic }, { new: true })
-
       if (!user) {
         res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
         return
       }
-
       res.status(200).json({
         status: globalConstants.status.success,
         message: 'Successfully Changed',
@@ -27,6 +23,26 @@ export class UpdateUserProfile {
           username: `${user.username}`,
           profilePic: `${user.profilePic}`,
         },
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public addLanguages = async (req: Request, res: Response, next: NextFunction) => {
+    const { languages, userId } = req.body
+    if (!languages || !userId) {
+      return res.status(401).json({ status: globalConstants.status.failed, message: 'An error occured' })
+    }
+    try {
+      const user = await User.findOneAndUpdate({ _id: userId }, { languages }, { new: true })
+      if (!user) {
+        return res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      }
+      res.status(200).json({
+        status: globalConstants.status.success,
+        message: 'Successfully Changed',
+        data: user.languages,
       })
     } catch (error) {
       next(error)
