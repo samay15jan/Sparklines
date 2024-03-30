@@ -5,13 +5,17 @@ import axios from 'axios'
 import Response from './Response'
 const Input = lazy(() => import('./Input'))
 
-const Container = styled.div`${tw`w-screen justify-center`}`
+const Container = styled.div`${tw`text-white w-screen justify-center`}`
 
-const Search = () => {
+const Search = ({ open }) => {
     const [searchText, setSearchText] = useState('')
     const [closeSearch, setCloseSearch] = useState(false)
     const [error, setError] = useState('')
     const [apiResponse, setApiResponse] = useState('')
+
+    useEffect(() => {
+        open(closeSearch)
+    }, [closeSearch])
 
     useEffect(() => {
         searchAPI()
@@ -25,7 +29,7 @@ const Search = () => {
     const searchAPI = async () => {
         const options = {
             method: 'GET',
-            url: '/api/search',
+            url: '/api/search/all',
             params: { query: searchText }
         }
 
@@ -34,8 +38,7 @@ const Search = () => {
                 return
             }
             const { data } = await axios.request(options)
-            if (data.success) {
-                const finalData = data.data
+            if (data && data.status === 'SUCCESS') {
                 setApiResponse(data.data)
             } else {
                 throw new Error('Unable to fullfill request')
@@ -45,14 +48,13 @@ const Search = () => {
             setError('An Error Occured')
         }
     }
-
     return (
         <Container onClick={() => setCloseSearch(!closeSearch)}>
             <Input
                 close={closeSearch}
                 SearchText={handleInput}
             />
-            {searchText != '' && apiResponse &&
+            {searchText != '' && apiResponse && closeSearch &&
                 <Response
                     topResults={apiResponse?.topQuery?.results}
                     songs={apiResponse?.songs?.results}

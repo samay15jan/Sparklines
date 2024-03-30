@@ -12,7 +12,7 @@ const Playlists = ({ data }) => {
       {data && data?.map((playlist, index) => (
         <div id={playlist?.id} className='w-1/2 p-2'>
           <Image
-            src={playlist?.image[2]?.url || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
+            src={playlist?.image[2]?.link || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
             alt={playlist?.title + "'s Image"}
           />
           <div className='grid grid-cols-1'>
