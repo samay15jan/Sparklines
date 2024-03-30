@@ -20,6 +20,7 @@
     "pre-commit": "yarn lint && yarn format"
   },
   "dependencies": {
+    "@types/multer": "^1.4.11",
     "bcrypt": "^5.1.1",
     "celebrate": "^15.0.1",
     "cloudinary": "^2.0.3",
