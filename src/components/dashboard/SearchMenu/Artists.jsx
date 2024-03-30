@@ -13,7 +13,7 @@ const Artists = ({ data }) => {
       {data && data?.map((artist, index) => (
         <div id={artist?.id} className='w-1/2 p-2'>
           <Image
-            src={artist?.image[2]?.url || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
+            src={artist?.image[2]?.link || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
             alt={artist?.title + "'s Image"}
           />
           <div className='grid grid-cols-1'>

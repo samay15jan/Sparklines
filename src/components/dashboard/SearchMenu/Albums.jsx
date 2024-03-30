@@ -13,7 +13,7 @@ const Albums = ({ data }) => {
       {data && data?.map((album, index) => (
         <div id={album?.id} className='w-1/2 p-2'>
           <Image
-            src={album?.image[2]?.url || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
+            src={album?.image[2]?.link || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
             alt={album?.title + "'s Image"}
           />
           <div className='grid grid-cols-1'>
