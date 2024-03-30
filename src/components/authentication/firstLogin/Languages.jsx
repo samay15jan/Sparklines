@@ -33,9 +33,9 @@ const Languages = () => {
         setResponse('Select atleast one language')
       }
       const data = {languages: selectedLang, userId: userId}
-      const response = await addLanguages(data)
-      if(response){
-        localStorage.setItem('languages', response)
+      const language = await addLanguages(data)
+      if(language){
+        localStorage.setItem('languages', language)
       } else{
         setResponse('Failed!')
       }

@@ -3,9 +3,9 @@ import axios from 'axios'
   // User Register
   const register = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', userData)
-      if (response && response.status === 201) {
-        return { success: response.data.message }
+      const response = await axios.post('/api/auth/register', userData)
+      if (response && response.status === 200) {
+        return response.data
       } 
     } catch (error) {
         if (error.response.status === 500) {
@@ -17,12 +17,12 @@ import axios from 'axios'
   // User Login
   const login = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', userData)
+      const response = await axios.post('/api/auth/login', userData)
       if (response && response.status === 200) {
-        const authToken = { Authorization: `Bearer ${response.data.token}` }
-        const apiAuth = await axios.get('http://localhost:3000/user/profile', { headers: authToken })
+        const authToken = { Authorization: `Bearer ${response.data.data}` }
+        const apiAuth = await axios.get('/api/user/profile', { headers: authToken })
         if(apiAuth && apiAuth.status === 200){
-          return { data: apiAuth.data.userData }
+          return apiAuth.data
         }
       }
     } catch (error) {
@@ -35,9 +35,9 @@ import axios from 'axios'
   // Update Username
   const updateData = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/user/updateData', data)
+      const response = await axios.post('/api/user/updateData', data)
       if (response && response.status === 200) {
-        return { userData: response.data.userData }
+        return response.data.data
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {
@@ -51,9 +51,9 @@ import axios from 'axios'
     try {
       const formData = new FormData()
       formData.append('profilePic', pic)
-      const response = await axios.post('http://localhost:3000/user/imageUploader', formData)
+      const response = await axios.post('/api/user/imageUploader', formData)
       if (response && response.status === 200) {
-        return { profilePic: response.data.profilePic }
+        return response.data.data
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {
@@ -65,9 +65,9 @@ import axios from 'axios'
   // Add Languages 
   const addLanguages = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/user/addLanguages', data)
+      const response = await axios.post('/api/user/addLanguages', data)
       if (response && response.status === 200) {
-        return { success: response.data.languages }
+        return { success: response.data.data }
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {

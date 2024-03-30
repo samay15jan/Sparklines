@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://sparklines-backend.vercel.app/api',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         secure: true,
         rewrite: path => path.replace('/api', ''),

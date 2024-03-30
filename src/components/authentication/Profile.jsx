@@ -37,12 +37,12 @@ const Profile = ({ data, onNext }) => {
       if (name && pic) {
         const data = { 'username': name, 'profilePic': pic, 'userId': userId }
         const response = await updateData(data)
-        if (response.userData) {
-          setDataLocally(response.userData)
+        if (response) {
+          setDataLocally(response)
           onNext()
         }
       } else {
-        console.log(error)
+        console.log(response.error)
       }
     } catch (error) {
       console.log(error)
@@ -54,13 +54,13 @@ const Profile = ({ data, onNext }) => {
     try {
       if (file) {
         setLoading(!loading)
-        const response = await imageUploader(file)
-        if (response.profilePic) {
+        const profilePic = await imageUploader(file)
+        if (profilePic) {
           setLoading(false)
-          setPic(response.profilePic)
+          setPic(profilePic)
         }
       } else {
-        console.log(error)
+        console.log("Couldn't upload profile picture")
       }
     } catch (error) {
       console.log(error)
