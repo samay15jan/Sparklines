@@ -58,12 +58,12 @@ const Auth = ({ data }) => {
         setResponse('Fields cannot be empty')
         return
       }
-      const userData = { "email": email, "password": password }
+      const userData = { 'email': email, 'password': password }
       const registeredUser = await register(userData)
-      if (registeredUser.success) {
+      if (registeredUser.status === 'SUCCESS') {
         const loggedInUser = await login(userData)
-        if (loggedInUser) {
-          setResponse('Successfully Created User')
+        if (loggedInUser.status === 'SUCCESS') {
+          setResponse(loggedInUser.message)
           data(loggedInUser.data)
         } else {
           setResponse(loggedInUser.error)
