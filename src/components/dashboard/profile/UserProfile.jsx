@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 const Menu = lazy(() => import('./Menu'))
 
 const Container = styled.div`${tw`absolute right-5 top-5 drop-shadow-xl`}`
-const Image = styled.img`${tw`rounded-full`}`
+const Image = styled.img`${tw`rounded-full w-11`}`
 
 const UserProfile = () => {
   const [menu, showMenu] = useState(false)
@@ -30,7 +30,7 @@ const UserProfile = () => {
       <div onClick={handleClick}>
         {menu
           ? <GrClose className='absolute right-0 m-2' size={20} />
-          : <Image className='w-11' src={userdata.profilePic} alt="userImg" />
+          : <Image src={userdata.profilePic} alt="userImg" />
         }
       </div>
 
