@@ -35,8 +35,7 @@ const Languages = () => {
       const data = {languages: selectedLang, userId: userId}
       const language = await addLanguages(data)
       if(language){
-        const languageLowerCase = language.toLowerCase()
-        localStorage.setItem('languages', languageLowerCase)
+        localStorage.setItem('languages', language)
       } else{
         setResponse('Failed!')
       }
