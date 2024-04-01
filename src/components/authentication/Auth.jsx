@@ -102,7 +102,6 @@ const Auth = ({ data }) => {
     localStorage.setItem('email', data.email)
     localStorage.setItem('username', data.username)
     localStorage.setItem('profilePic', data.profilePic)
-    localStorage.setItem('newUser', data.newUser)
     localStorage.setItem('languages', data.languages)
   }
 
