@@ -1,21 +1,22 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import userData from "./userData"
 
 const AutoNavigate = ({ location }) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    useEffect(() => {
-        const userId = localStorage.getItem('userId')
-        const email = localStorage.getItem('email')
-        const username = localStorage.getItem('username')
-        const profilePic = localStorage.getItem('profilePic')
+  useEffect(() => {
+    const userdata = userData()
+    if (userdata.userId &&
+      userdata.email &&
+      userdata.username &&
+      userdata.profilePic
+    ) {
+      navigate(location)
+    }
+  }, [navigate])
 
-        if (userId && email && username && profilePic) {
-            navigate(location)
-        }
-    }, [navigate])
-
-    return null
+  return null
 }
 
 export default AutoNavigate

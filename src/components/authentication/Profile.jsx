@@ -22,7 +22,6 @@ const Profile = ({ data, onNext }) => {
   const [pic, setPic] = useState(imageUrl)
   const userId = data.userId
   const email = data.email
-  const newUser = data.newUser
 
   const handleName = (event) => {
     setName(event.target.value)
@@ -72,7 +71,6 @@ const Profile = ({ data, onNext }) => {
     localStorage.setItem('email', email)
     localStorage.setItem('username', data.username)
     localStorage.setItem('profilePic', data.profilePic)
-    localStorage.setItem('newUser', newUser)
   }
 
   const loadingComponent = <RotatingLines

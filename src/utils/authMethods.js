@@ -67,7 +67,7 @@ import axios from 'axios'
     try {
       const response = await axios.post('/api/user/addLanguages', data)
       if (response && response.status === 200) {
-        return { success: response.data.data }
+        return response.data.data
       } 
     } catch (error) {
       if (error.response.status === 500 || 401 || 404) {
