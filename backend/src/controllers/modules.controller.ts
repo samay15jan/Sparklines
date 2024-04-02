@@ -3,6 +3,7 @@ import { ModulesService } from '../services/modules.service'
 import type { ModulesResponse } from '../interfaces/modules.interface'
 import type { CustomResponse } from '../interfaces/response.interface'
 import type { NextFunction, Request, RequestHandler, Response } from 'express'
+import { authenticateUser } from 'middlewares/verifyUser.middleware'
 
 export class ModulesController {
   private modulesService: ModulesService
@@ -18,7 +19,6 @@ export class ModulesController {
   ) => {
     try {
       const { language } = req.query
-
       const result = await this.modulesService.modules(language as string)
 
       res.json({ status: globalConstants.status.success, message: null, data: result })

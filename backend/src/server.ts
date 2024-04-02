@@ -10,6 +10,7 @@ import { SongsRoute } from './routes/songs.route'
 import { App } from './app'
 import { SearchRoute } from './routes/search.route'
 import { ArtistsRoute } from './routes/artists.route'
+import { ApiRoute } from 'routes/api.route'
 
 const app = new App([
   new HomeRoute(),
@@ -22,6 +23,7 @@ const app = new App([
   new ModulesRoute(),
   new AuthRoute(),
   new UserRoute(),
+  new ApiRoute(),
 ])
 
 app.listen()

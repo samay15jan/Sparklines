@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { ModulesController } from '../controllers/modules.controller'
+
 import type { Route } from '../interfaces/route.interface'
 
 export class ModulesRoute implements Route {

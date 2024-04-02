@@ -9,6 +9,9 @@ export interface UserDoc extends Document {
   newUser: boolean
   languages: string[]
   comparePassword(password: string): Promise<boolean>
+  apiKey: string
+  apiKeyCreated: Date
+  apiKeyExpiry: string
 }
 
 export interface FileRequest extends Request {

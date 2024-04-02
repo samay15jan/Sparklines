@@ -27,6 +27,15 @@ const userSchema = new Schema<UserDoc>({
     type: [String],
     default: ['english'],
   },
+  apiKey: {
+    type: String,
+  },
+  apiKeyCreated: {
+    type: Date,
+  },
+  apiKeyExpiry: {
+    type: String,
+  },
 })
 
 // Generate a random username before saving the document

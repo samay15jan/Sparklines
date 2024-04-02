@@ -6,6 +6,8 @@ export const searchSchema = celebrate(
       query: Joi.string().required(),
       page: Joi.string().default(1),
       limit: Joi.string().default(10),
+      userId: Joi.string(),
+      apiKey: Joi.string(),
     }),
   },
   { abortEarly: false },
@@ -27,6 +29,8 @@ export const songsSchema = celebrate(
             })
           }
         }),
+        userId: Joi.string(),
+        apiKey: Joi.string(),  
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),
@@ -51,6 +55,8 @@ export const albumsSchema = celebrate(
             })
           }
         }),
+        userId: Joi.string(),
+        apiKey: Joi.string(),  
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),
@@ -75,6 +81,8 @@ export const artistsSchema = celebrate(
             })
           }
         }),
+        userId: Joi.string(),
+        apiKey: Joi.string(),  
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),
@@ -89,6 +97,8 @@ export const artistSongsAndAlbumsSchema = celebrate(
       page: Joi.string().default(1),
       category: Joi.string().valid('alphabetical', 'latest').optional(),
       sort: Joi.string().valid('asc', 'desc').optional(),
+      userId: Joi.string(),
+      apiKey: Joi.string(),
     }),
   },
   { abortEarly: false },
@@ -99,6 +109,8 @@ export const artistRecommendedSongsSchema = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
       language: Joi.string().default('english'),
+      userId: Joi.string(),
+      apiKey: Joi.string(),
     }),
   },
   { abortEarly: false },
@@ -109,6 +121,8 @@ export const idSchema = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
       id: Joi.string().required(),
+      userId: Joi.string(),
+      apiKey: Joi.string(),
     }),
   },
   { abortEarly: false },

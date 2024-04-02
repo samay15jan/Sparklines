@@ -34,7 +34,7 @@ export class AuthController {
       }
 
       const jwtToken = jwt.sign({ userId: user._id }, key, {
-        expiresIn: '1 hour',
+        expiresIn: '1h',
       })
       res.json({ status: globalConstants.status.success, message: 'Generated Token (valid: 1h)', data: jwtToken })
     } catch (error) {

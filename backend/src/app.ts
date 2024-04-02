@@ -11,6 +11,7 @@ import { connectDB } from './database/db'
 import type { Request, Response } from 'express'
 import type { Config } from './interfaces/config.interface'
 import type { Route } from './interfaces/route.interface'
+import { authenticateUser } from 'middlewares/verifyUser.middleware'
 
 export class App {
   public app: express.Application
@@ -40,6 +41,7 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(rateLimiterMiddleware)
     // vercel has timeout limit of 10sec on hobby plan, this allows to throw an error before vercel times out
+    this.app.use(authenticateUser)
     this.app.use(
       timeout.handler({
         timeout: 9500,
