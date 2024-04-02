@@ -35,7 +35,11 @@ import axios from 'axios'
   // Update Username
   const updateData = async (data) => {
     try {
-      const response = await axios.post('/api/user/updateData', data)
+      const headers = {
+        'userid': `${data.userId}`,
+        'Content-Type': 'application/json'
+      }
+      const response = await axios.post('/api/user/updateData', data, { headers })
       if (response && response.status === 200) {
         return response.data.data
       } 
@@ -47,11 +51,15 @@ import axios from 'axios'
   }
 
   // Update ProfilePic
-  const imageUploader = async (pic) => {
+  const imageUploader = async (pic, userId) => {
     try {
+      const headers = {
+        'userid': `${userId}`,
+        'Content-Type': 'multipart/form-data'
+      }
       const formData = new FormData()
       formData.append('profilePic', pic)
-      const response = await axios.post('/api/user/imageUploader', formData)
+      const response = await axios.post('/api/user/imageUploader', formData , { headers})
       if (response && response.status === 200) {
         return response.data.data
       } 
@@ -65,7 +73,11 @@ import axios from 'axios'
   // Add Languages 
   const addLanguages = async (data) => {
     try {
-      const response = await axios.post('/api/user/addLanguages', data)
+      const headers = {
+        'userid': `${data.userId}`,
+        'Content-Type': 'application/json'
+      }
+      const response = await axios.post('/api/user/addLanguages', data, { headers })
       if (response && response.status === 200) {
         return response.data.data
       } 

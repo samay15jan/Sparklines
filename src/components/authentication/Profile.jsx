@@ -53,7 +53,7 @@ const Profile = ({ data, onNext }) => {
     try {
       if (file) {
         setLoading(!loading)
-        const profilePic = await imageUploader(file)
+        const profilePic = await imageUploader(file, userId)
         if (profilePic) {
           setLoading(false)
           setPic(profilePic)

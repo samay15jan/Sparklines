@@ -12,6 +12,7 @@ const Search = ({ open }) => {
     const [closeSearch, setCloseSearch] = useState(false)
     const [error, setError] = useState('')
     const [apiResponse, setApiResponse] = useState('')
+    const userId = localStorage.getItem('userId')
 
     useEffect(() => {
         open(closeSearch)
@@ -30,7 +31,11 @@ const Search = ({ open }) => {
         const options = {
             method: 'GET',
             url: '/api/search/all',
-            params: { query: searchText }
+            params: { query: searchText },
+            headers: {
+              'userid': `${userId}`,
+              'Content-Type': 'application/json'
+            }
         }
 
         try {
