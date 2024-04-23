@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import { LineWave } from 'react-loader-spinner'
 
 const Container = styled.div`${tw`w-full h-screen flex flex-col items-center justify-center`}`
-const Text = styled.div`${tw`text-xl text-[#23233f]`}`
+const Text = styled.div`${tw`text-xl`}`
 
 const Loading = () => {
     const [selected, setSelected] = useState('')
@@ -26,7 +26,7 @@ const Loading = () => {
     return (
         <Container>
             <LineWave
-                color="#23233f"
+                color="white"
                 visible={true}
                 height="150"
                 width="150"
