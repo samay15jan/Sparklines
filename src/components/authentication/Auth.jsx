@@ -7,7 +7,7 @@ const SendButton = lazy(() => import('./SendButton'))
 
 const Heading = styled.div`${tw`text-4xl mb-2 font-bold`}`
 const SubHeading = styled.div`${tw`text-lg mb-5 font-medium opacity-50`}`
-const Form = styled.form`${tw`grid grid-cols-1`}`
+const Form = styled.form`${tw`text-black grid grid-cols-1`}`
 const Error = styled.div`${tw`flex justify-center text-lg font-medium`}`
 const Input = styled.input`${tw`text-lg p-2 my-2 h-12 rounded-md`}
   outline: 1px solid #ccced0;
