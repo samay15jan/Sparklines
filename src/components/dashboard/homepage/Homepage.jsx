@@ -4,10 +4,10 @@ import Carousel from './Carousel'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const Container = styled.div`${tw`m-10`}`
+const Container = styled.div`${tw`p-10`}`
 const Heading = styled.div`${tw`mt-5 text-2xl font-bold`}`
 
-const Homepage = () => {
+const Homepage = ({ playbackID }) => {
   const [data, setData] = useState()
 
   useEffect(() => {
@@ -23,22 +23,22 @@ const Homepage = () => {
     <Container>
       <Heading>Trending Songs</Heading>
       {data &&
-        <Carousel CarouselData={data.data.trending.songs} />
+        <Carousel CarouselData={data.data.trending.songs} playbackID={(id) => playbackID(id)} />
       }
 
       <Heading>Playlists you can't miss</Heading>
       {data &&
-        <Carousel CarouselData={data.data.playlists} />
+        <Carousel CarouselData={data.data.playlists} playbackID={(id) => playbackID(id)} />
       }
 
       <Heading>Popular Albums</Heading>
       {data &&
-        <Carousel CarouselData={data.data.albums} />
+        <Carousel CarouselData={data.data.albums} playbackID={(id) => playbackID(id)}/>
       }
 
       <Heading>Top Charts</Heading>
       {data &&
-        <Carousel CarouselData={data.data.charts} />
+        <Carousel CarouselData={data.data.charts} playbackID={(id) => playbackID(id)}/>
       }
     </Container>
   )
