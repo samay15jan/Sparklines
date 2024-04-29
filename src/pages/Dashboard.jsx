@@ -6,11 +6,13 @@ import tw from 'twin.macro'
 import UserProfile from '../components/dashboard/profile/UserProfile'
 const Homepage = lazy(() => import('../components/dashboard/homepage/Homepage'))
 const Search = lazy(() => import('../components/dashboard/searchMenu/Search'))
+const Playback = lazy(() => import('../components/dashboard/playback/Playback'))
 
 const Container = styled.div`${tw`bg-[#0f0f0f] text-white w-screen h-auto`}`
 
 const Dashboard = () => {
   const [showSearch, setShowSearch] = useState('false')
+  const [id, setId] = useState('null')
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
 
@@ -31,7 +33,8 @@ const Dashboard = () => {
         <Search open={(open) => setShowSearch(open)}/>
         <UserProfile />
       </div>
-      {!showSearch && <Homepage />}
+      {!showSearch && <Homepage playbackID={(id) => setId(id)}/>}
+      <Playback playbackID={id}/>
     </Container>
   )
 }

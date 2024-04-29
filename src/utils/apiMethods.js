@@ -21,7 +21,29 @@ async function homepageData() {
   } catch (error) {
     console.log('error', error)
   }
-
 }
 
-export { homepageData }
+async function playbackSong() {
+  try {
+    const userId = localStorage.getItem('userId')
+    const playbackId = localStorage.getItem('playback')
+    const options = {
+      method: 'GET',
+      url: '/api/songs',
+      params: { id: playbackId },
+      headers: {
+        'userid': `${userId}`,
+        'Content-Type': 'application/json'
+      }
+  }
+
+    const response = await axios.request(options)
+    if (response && response.status === 200) {
+      return response.data
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export { homepageData, playbackSong }
