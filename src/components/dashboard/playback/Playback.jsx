@@ -35,7 +35,6 @@ const Playback = () => {
             <AudioVisualizer show={isPlaying} />
           </div>
           <AudioController audioSrc={data.data[0].downloadUrl[4].link} returnPlaying={(value) => setPlaying(value)} />
-          <div></div>
         </SubContainer>
       }
     </Container>
