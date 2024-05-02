@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, lazy } from 'react'
 const SeekBar = lazy(() => import('./Seekbar'))
 const ControllerButtons = lazy(() => import('./ControllerButtons'))
 
-const AudioController = ({ audioSrc, returnPlaying }) => {
+const AudioController = ({ audioSrc, returnPlaying, returnPlayerRef }) => {
   const audioPlayer = useRef()
   const currentPlayer = audioPlayer?.current
   const [playing, setPlaying] = useState(false)
@@ -17,6 +17,7 @@ const AudioController = ({ audioSrc, returnPlaying }) => {
       }
     }
     returnPlaying(playing)
+    returnPlayerRef(audioPlayer)
   }, [playing])
 
   return (
