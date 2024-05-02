@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { SlVolumeOff, SlVolume1, SlVolume2 } from "react-icons/sl"
+import { FaExpandAlt } from "react-icons/fa"
 
-const Container = styled.div`${tw`flex gap-2`}`
-const TimeLabel = styled.label`${tw`mt-1 text-[12px] opacity-60`}`
-const SeekingBar = styled.input`${tw`mt-3 w-[60vh]`}
+const SeekingBar = styled.input`${tw`mt-3 w-[15vh]`}
   -webkit-appearance: none;
   -moz-appearance: none;
   border: solid 1px #4d4d4d;
@@ -52,46 +52,36 @@ const SeekingBar = styled.input`${tw`mt-3 w-[60vh]`}
   }
 `
 
-const Seekbar = ({ currentPlayer, playing }) => {
-  const [currentTime, setCurrentTime] = useState(null)
-
-  if (currentPlayer && playing) {
-    setInterval(() => {
-      const time = formatTime(currentPlayer.currentTime)
-      setCurrentTime(time)
-    }, 1000)
-  }
-
-  function formatTime(time) {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    const finalFormat = `${minutes}:${seconds.toString().padStart(2, '0')}`
-    return finalFormat === 'NaN:NaN' ? '0:00' : finalFormat
-  }
+const VolumeController = ({ audioPlayer }) => {
+  const [currentVolume, setVolume] = useState(100)
+  const currentPlayer = audioPlayer?.current
 
   return (
-    <Container>
-      <TimeLabel>
-        {currentTime || '0:00'}
-      </TimeLabel>
+    <div className='flex gap-3 mt-5 absolute right-5'>
+      <div className='mt-1 opacity-80'>
+        {
+          currentVolume > 0 && currentVolume < 50 && <SlVolume1 size={18} />
+          || currentVolume >= 50 && <SlVolume2 size={18} />
+          || currentVolume === 0 && <SlVolumeOff size={18} />
+        }
+      </div>
 
       <SeekingBar
         type="range"
         min="0"
-        max={currentPlayer?.duration}
-        value={currentPlayer?.currentTime.toFixed(0) || 0}
+        max="100"
+        value={currentVolume}
         onChange={(e) => {
           if (currentPlayer) {
-            currentPlayer.currentTime = parseFloat(e.target.value)
+            currentPlayer.volume = parseFloat(e.target.value / 100).toFixed(1)
+            const volume = currentPlayer.volume * 100
+            setVolume(volume)
           }
         }}
       />
-
-      <TimeLabel>
-        {formatTime(currentPlayer?.duration)}
-      </TimeLabel>
-    </Container>
+      <FaExpandAlt size={15} style={{ opacity:0.7, marginTop:'7px', marginLeft:'5px' }}/>
+    </div>
   )
 }
 
-export default Seekbar
+export default VolumeController

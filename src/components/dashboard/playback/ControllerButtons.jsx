@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { FaCirclePlay, FaCirclePause, FaRepeat, FaShuffle, FaForwardStep, FaBackwardStep, FaHeart } from "react-icons/fa6"
+import { FaCirclePlay, FaCirclePause, FaRepeat, FaShuffle, FaForwardStep, FaBackwardStep } from "react-icons/fa6"
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const ButtionsContainer = styled.div`${tw`flex justify-center gap-6 my-1`}`
+const ButtonsContainer = styled.div`${tw`flex justify-center gap-6 my-1`}`
 
 const ControllerButtons = ({ playing, setPlaying }) => {
   const [isLooping, setLooping] = useState(null)
   const [isShuffling, setShuffling] = useState(null)
   const [isPrevious, setPrevious] = useState(null)
   const [isNext, setNext] = useState(null)
-  const [isLiked, setLike] = useState(null)
 
   function handleButtons(type) {
     if (type === 'shuffle') {
@@ -25,13 +24,10 @@ const ControllerButtons = ({ playing, setPlaying }) => {
     if (type === 'loop') {
       setLooping(!isLooping)
     }
-    if (type === 'like') {
-      setLike(!isLiked)
-    }
   }
 
   return (
-    <ButtionsContainer>
+    <ButtonsContainer>
       <FaShuffle
         size={20}
         style={
@@ -79,7 +75,7 @@ const ControllerButtons = ({ playing, setPlaying }) => {
         }
         onClick={() => handleButtons('loop')}
       />
-    </ButtionsContainer>
+    </ButtonsContainer>
   )
 }
 
