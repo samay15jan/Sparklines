@@ -23,11 +23,11 @@ const Carousel = ({ CarouselData, playbackID }) => {
   return (
     <Container>
       {CarouselData && CarouselData?.map((data) => (
-        <SubContainer key={data.id} onClick={() => setId(data.id)}>
-          <CarouselImage image={data.image} title={data.name || data.title} />
-          <CarouselTitle title={data.name || data.title} />
-          <CarouselArtists artists={data.primaryArtists} followers={data.subtitle} />
-        </SubContainer>
+          <SubContainer key={data.id} onClick={() => setId(data.id)}>
+            <CarouselImage image={data.image} title={data.name || data.title} />
+            <CarouselTitle title={data.name || data.title} />
+            <CarouselArtists artists={data.primaryArtists} followers={data.subtitle} />
+          </SubContainer>
       ))}
     </Container>
   )
@@ -53,15 +53,15 @@ const CarouselTitle = ({ title }) => {
 
 const CarouselArtists = ({ artists, followers }) => {
   var shortedNames
-  if(artists){
+  if (artists) {
     const arrayOfArtists = []
     artists?.map((artist) => arrayOfArtists.push(artist.name))
     const artistNames = arrayOfArtists.join(', ')
-    shortedNames = artistNames?.length > 15 ? artistNames?.substring(0, 15) + '...' : artistNames?.substring(0, 15)  
+    shortedNames = artistNames?.length > 15 ? artistNames?.substring(0, 15) + '...' : artistNames?.substring(0, 15)
   }
   return (
     <SubHeading>
-      {artists ? 
+      {artists ?
         shortedNames ? shortedNames : 'Unknown Artist'
         : followers
       }
