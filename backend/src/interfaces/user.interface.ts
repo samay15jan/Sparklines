@@ -12,6 +12,13 @@ export interface UserDoc extends Document {
   apiKey: string
   apiKeyCreated: Date
   apiKeyExpiry: string
+  likedMusic: string[]
+  likedPlaylists: string[]
+  likedAlbum: string[]
+  currentPlaying: string[]
+  queue: string[]
+  recentlyPlayed: string[]
+  playlists: string[]
 }
 
 export interface FileRequest extends Request {
@@ -23,10 +30,4 @@ export interface FileRequest extends Request {
   filename: string
   path: string
   size: number
-}
-
-export interface UserData {
-  username: string
-  profilePic: string
-  userId: string
 }

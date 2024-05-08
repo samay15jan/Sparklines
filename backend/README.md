@@ -1,4 +1,4 @@
-# :musical_note: JioSaavn API
+# :musical_note: Sparklines API
 
 An Unofficial JioSaavn API for downloading songs in 320kbps quality for free.
 
@@ -46,6 +46,24 @@ An Unofficial JioSaavn API for downloading songs in 320kbps quality for free.
   ```sh
   npm start
   ```
+
+### Variables:
+
+`MONGODB_URI`, `SECRET_KEY`, `PORT`, `CLOUDINARY_NAME`,`CLOUDINARY_API`, `CLOUDINARY_API_SECRET`
+
+### Backend Endpoints:
+
+| Method | Endpoint             | Description                 | Parameters
+| ------ | -------------------- | --------------------------- |-------------------
+| POST   | /auth/register       | Create a new user           | email, password
+| POST   | /auth/login          | Get auth token              | email, password
+| GET    | /user/profile        | Authentication              | Authorization header (JWT token)
+| POST   | /user/updateData     | Update Username/ProfilePic  | username, profilePic, userId
+| POST   | /user/imageUploader  | Cloudinary Image Uploader   | profilePic
+| POST   | /user/addLanguages   | Add Languages               | languages[], userId
+| POST   | /token/generate      | Generate token for routes   | userId, expiry
+| POST   | /user/addLanguages   | Add Languages               | languages[], userId
+
 
 ## ☁️ Host your own instance
 

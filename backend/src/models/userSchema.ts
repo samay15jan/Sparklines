@@ -29,6 +29,7 @@ const userSchema = new Schema<UserDoc>({
   },
   apiKey: {
     type: String,
+    unique: true,
   },
   apiKeyCreated: {
     type: Date,
@@ -36,6 +37,29 @@ const userSchema = new Schema<UserDoc>({
   apiKeyExpiry: {
     type: String,
   },
+  likedMusic: {
+    type: [String]
+  },
+  likedPlaylists: {
+    type: [String]
+  },
+  likedAlbum: {
+    type: [String]
+  },
+  currentPlaying: {
+    type: [String]
+  },
+  queue: {
+    type: [String]
+  },
+  recentlyPlayed: {
+    type: [String]
+  },
+  playlists: [{
+    id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+    name: String,
+    songs: [String]
+  }]
 })
 
 // Generate a random username before saving the document
