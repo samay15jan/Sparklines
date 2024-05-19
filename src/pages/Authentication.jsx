@@ -15,7 +15,7 @@ const Authentication = () => {
   const [userData, setUserData] = useState('')
 
   return (
-    <div className='lg:grid lg:grid-cols-2 w-screen h-screen overflow-hidden'>
+    <div className='lg:grid lg:grid-cols-2 w-screen h-screen overflow-hidden bg-white text-black'>
       <AutoNavigate location='/dashboard' />
       <Container>
         <SubContainer>

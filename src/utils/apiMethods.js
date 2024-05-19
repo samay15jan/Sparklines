@@ -2,8 +2,8 @@ import axios from "axios"
 
 async function homepageData() {
   try {
-    const userId = localStorage.getItem('userId')
-    const language = localStorage.getItem('languages')
+    const userId = localStorage.getItem('userId') || '65f84dd13e8dfb5930030849'  //TODO: Setup With dotenv 
+    const language = localStorage.getItem('languages') || 'english'
     const options = {
       method: 'GET',
       url: '/api/modules',
