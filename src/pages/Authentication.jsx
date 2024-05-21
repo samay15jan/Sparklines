@@ -1,4 +1,5 @@
 import React, { useState, lazy, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
@@ -16,15 +17,19 @@ const Authentication = () => {
 
   return (
     <div className='lg:grid lg:grid-cols-2 w-screen h-screen overflow-hidden bg-white text-black'>
+      <Helmet>
+        <title>Authentication</title>
+        <meta name='description' content='Sparklines - A Music Streaming Platform' />
+      </Helmet>
       <AutoNavigate location='/dashboard' />
       <Container>
         <SubContainer>
-          {menu != 'languages' 
+          {menu != 'languages'
             ? <>  {userData != ''
-                  ? <Profile data={userData} onNext={() => setMenu('languages')} />
-                  : <Auth data={(data) => setUserData(data)} />
-                }
-              </>
+              ? <Profile data={userData} onNext={() => setMenu('languages')} />
+              : <Auth data={(data) => setUserData(data)} />
+            }
+            </>
             : <Languages />
           }
         </SubContainer>
