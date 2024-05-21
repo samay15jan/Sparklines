@@ -25,7 +25,7 @@ async function homepageData() {
 
 async function playbackSong() {
   try {
-    const userId = localStorage.getItem('userId')
+    const userId = localStorage.getItem('userId') || '65f84dd13e8dfb5930030849'
     const playbackId = localStorage.getItem('playback')
     const options = {
       method: 'GET',
