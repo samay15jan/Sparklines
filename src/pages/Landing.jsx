@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet-async'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
 const Header = lazy(() => import('../components/landing/header/Header'))
 const Hero = lazy(() => import('../components/landing/hero/Hero.jsx'))
-const RightBar = lazy(() => import('../components/landing/rightBar.jsx/RightBar.jsx'))
+const RightBar = lazy(() => import('../components/landing/rightBar/RightBar.jsx'))
+const Features = lazy(() => import('../components/landing/features/Features.jsx'))
+const Footer = lazy(() => import('../components/landing/footer/Footer.jsx'))
 
 const Landing = () => {
   return (
@@ -14,12 +16,14 @@ const Landing = () => {
       </Helmet>
       <div className='w-auto col-span-11'>
         <AutoNavigate location='/dashboard' />
-        <Header />
+        <div className='fixed z-50'>
+          <Header />
+        </div>
         <Hero />
+        <Features />
+        <Footer />
       </div>
-      <div>
-        <RightBar />
-      </div>
+      <RightBar />
     </div>
   )
 }

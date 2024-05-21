@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { FaPause, FaPlay } from "react-icons/fa6"
 
 const Container = styled.div`${tw`mt-[-50px] ml-28 w-96 h-32 rounded-full bg-gray-200 opacity-90 drop-shadow-sm`}`
-const Controller = styled.div`${tw`absolute top-12 left-12 text-white`}`
+const Controller = styled.div`${tw`absolute top-12 left-12 text-gray-100`}`
 const Image = styled.img`${tw`absolute top-4 left-4 w-24 h-24 border-4 border-white rounded-full`}`
 const DetailsContainer = styled.div`${tw`absolute top-8 left-32 grid grid-rows-2`}`
 const Heading = styled.div`${tw`font-extrabold text-2xl`}`
@@ -33,7 +33,7 @@ const Player = () => {
       }
     }
   }, [currentPlayer, play])
-  
+
   async function getData() {
     const homepage = await homepageData()
     const playbackId = homepage && homepage.data.trending.songs[0].id
@@ -64,16 +64,14 @@ const Player = () => {
             <Image
               src={songImage}
               alt=""
-              className={showControls && 'opacity-80'}
+              className={showControls ? 'opacity-60' : 'opacity-80'}
             />
-            {showControls &&
-              <Controller>
-                {play
-                  ? <FaPause size={35} />
-                  : <FaPlay size={35} />
-                }
-              </Controller>
-            }
+            <Controller>
+              {play
+                ? <FaPause size={35} />
+                : <FaPlay size={35} />
+              }
+            </Controller>
           </div>
           <DetailsContainer>
             <Heading>{trim(songName)}</Heading>
