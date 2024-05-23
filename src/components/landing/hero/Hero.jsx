@@ -15,7 +15,7 @@ const Heading = styled.span`${tw`drop-shadow-xl text-8xl font-black opacity-80`}
 const SubHeading = styled.div`${tw`drop-shadow-xl text-lg font-bold opacity-70 max-w-96 my-10`}`
 const Button = styled.button`${tw`flex justify-center gap-1 pt-4 drop-shadow-2xl w-56 h-14 font-bold text-2xl text-black`}`
 
-const Hero = () => {
+const Hero = ({ apiResponse }) => {
   return (
     <div className='ml-5 mt-20 grid grid-cols-2 px-10'>
       <div>
@@ -33,7 +33,7 @@ const Hero = () => {
       </div>
       <div className='relative w-auto h-auto mx-5'>
         <img className='drop-shadow-2xl' src='/icons/hero_person.png' alt="" />
-        <Player />
+        <Player apiResponse={apiResponse}/>
       </div>
     </div>
   )

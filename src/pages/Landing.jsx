@@ -1,13 +1,16 @@
-import React, { lazy } from 'react'
+import React, { lazy, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
 const Header = lazy(() => import('../components/landing/header/Header'))
 const Hero = lazy(() => import('../components/landing/hero/Hero.jsx'))
 const RightBar = lazy(() => import('../components/landing/rightBar/RightBar.jsx'))
 const Features = lazy(() => import('../components/landing/features/Features.jsx'))
+const Connect = lazy(() => import('../components/landing/connect/Connect.jsx'))
 const Footer = lazy(() => import('../components/landing/footer/Footer.jsx'))
 
 const Landing = () => {
+  const [response, setApiResponse] = useState('')
+
   return (
     <div className='h-screen bg-white text-black grid grid-cols-12'>
       <Helmet>
@@ -19,8 +22,12 @@ const Landing = () => {
         <div className='fixed z-50'>
           <Header />
         </div>
-        <Hero />
-        <Features />
+        <Hero apiResponse={(data) => setApiResponse(data)} />
+        <Features response={response}/>
+        <div className='w-screen'>
+        <Connect />
+
+        </div>
         <Footer />
       </div>
       <RightBar />

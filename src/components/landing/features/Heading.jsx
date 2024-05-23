@@ -3,9 +3,9 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 import { RiLoginCircleFill } from "react-icons/ri"
 
-const HeadingText = styled.span`${tw` drop-shadow-xl text-4xl max-w-72 font-black opacity-80`}
+const HeadingText = styled.span`${tw`drop-shadow-xl text-5xl max-w-72 font-black opacity-80`}
   font-family: 'Courier New', monospace;
-  font-weight: 100;
+  font-weight: 1000;
   text-shadow: 2px 2px, 2px 2px, 2px 2px;
   letter-spacing: 1px;
 `
@@ -22,7 +22,7 @@ const Heading = () => {
         Improve your music taste
       </HeadingText>
       <div className='flex jusitfy-center gap-2 w-44 border-2 border-black rounded-full text-md font-bold p-2 my-5'>
-        <div className='mt-1 ml-1'>- START NOW</div>
+        <div className='mt-1 ml-3'>START NOW</div>
         <RiLoginCircleFill size={30} />
       </div>
     </div>

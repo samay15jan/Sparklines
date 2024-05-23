@@ -11,12 +11,12 @@ const DetailsContainer = styled.div`${tw`absolute top-8 left-32 grid grid-rows-2
 const Heading = styled.div`${tw`font-extrabold text-2xl`}`
 const SubHeading = styled.div`${tw`font-medium text-lg`}`
 
-const Player = () => {
+const Player = ({ apiResponse }) => {
   const audioPlayer = useRef()
   const currentPlayer = audioPlayer?.current
 
-  const [data, setData] = useState()
-  const [songDetails, setSongDetails] = useState()
+  const [data, setData] = useState('')
+  const [songDetails, setSongDetails] = useState('')
   const [showControls, setShowControls] = useState(false)
   const [play, setPlay] = useState(false)
 
@@ -24,6 +24,10 @@ const Player = () => {
     getData()
   }, [])
 
+  useEffect(() => {
+    apiResponse(data)
+  }, [data])
+  
   useEffect(() => {
     if (currentPlayer) {
       if (play) {
@@ -79,7 +83,7 @@ const Player = () => {
           </DetailsContainer>
         </>
       }
-      <audio ref={audioPlayer} src={audioSrc}></audio>
+      <audio ref={audioPlayer} loop src={audioSrc}></audio>
     </Container>
   )
 }
