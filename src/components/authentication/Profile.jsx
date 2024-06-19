@@ -17,7 +17,7 @@ const Input = styled.input`${tw`w-full text-lg p-2 my-2 h-12 rounded-md`}
 
 const Profile = ({ data, onNext }) => {
   const [loading, setLoading] = useState('')
-  const imageUrl = 'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png'
+  const imageUrl = 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png'
   const [name, setName] = useState('')
   const [pic, setPic] = useState(imageUrl)
   const userId = data.userId

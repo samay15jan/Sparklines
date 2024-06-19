@@ -14,6 +14,7 @@ const SubHeading = styled.div`${tw`font-medium text-lg`}`
 const Player = ({ apiResponse }) => {
   const audioPlayer = useRef()
   const currentPlayer = audioPlayer?.current
+
   const [data, setData] = useState('')
   const [songDetails, setSongDetails] = useState('')
   const [showControls, setShowControls] = useState(false)
@@ -26,7 +27,7 @@ const Player = ({ apiResponse }) => {
   useEffect(() => {
     apiResponse(data)
   }, [data])
-
+  
   useEffect(() => {
     if (currentPlayer) {
       if (play) {
@@ -46,10 +47,10 @@ const Player = ({ apiResponse }) => {
     setSongDetails(playback)
   }
 
-  const songName = songDetails && songDetails.data[0].name
-  const artistName = songDetails && songDetails.data[0].primaryArtists
-  const songImage = songDetails && songDetails.data[0].image[1].link
-  const audioSrc = songDetails && songDetails.data[0].downloadUrl[4].link
+  const songName = data && data.data.trending.songs[0].name
+  const artistName = data && data.data.trending.songs[0].primaryArtists[0].name
+  const songImage = data && data.data.trending.songs[0].image[1].link
+  const audioSrc = data && songDetails.data[0].downloadUrl[4].link
 
   function trim(details) {
     return details?.length > 15 ? details?.substring(0, 15) + '...' : details?.substring(0, 15)
@@ -82,8 +83,6 @@ const Player = ({ apiResponse }) => {
           </DetailsContainer>
         </>
       }
-
-      
       <audio ref={audioPlayer} loop src={audioSrc}></audio>
     </Container>
   )

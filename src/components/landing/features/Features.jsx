@@ -2,7 +2,7 @@ import React, { lazy } from 'react'
 const Heading = lazy(() => import('./Heading'))
 const MenuCard = lazy(() => import('./MenuCard'))
 const TopArtists = lazy(() => import('./TopArtists'))
-import { FaHeart, FaStar } from "react-icons/fa6"
+import { FaHeart } from "react-icons/fa6"
 import { GoArrowUpRight } from "react-icons/go"
 import { RiCompassDiscoverLine } from "react-icons/ri"
 
@@ -24,23 +24,16 @@ const Features = ({ response }) => {
         <div className='mt-20 w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
         <div className='w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
         <MenuCard
-          response={response && response.data.trending.albums[5].image[2].link}
+          response={response && response.data.albums[0].image[2].link}
           menuName='discovers'
           menuIcon1={<RiCompassDiscoverLine />}
           menuIcon2={<GoArrowUpRight />}
-          heading='New albums & recognition'
+          heading='New names & recognition'
           subHeading='Our database never stop growing, it means endless discovering.'
         />
       </div>
       <div>
-        <TopArtists
-          response={response && response.data.trending.songs[4].image[2].link}
-          menuName='popular'
-          menuIcon1={<FaStar />}
-          menuIcon2={<GoArrowUpRight />}
-          heading='Listen to top artists anywhere'
-          subHeading='Listen to most popular, bright and trending musicians'
-        />
+        <TopArtists />
       </div>
     </div>
   )
