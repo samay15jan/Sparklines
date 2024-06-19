@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { v2 as cloudinary } from 'cloudinary'
+import { v2 } from 'cloudinary'
 import { globalConstants } from '../constants'
 import { logger } from './logger'
 import type { NextFunction, Request, Response } from 'express'
@@ -21,20 +21,9 @@ export class ImageUploader {
     }
 
     try {
-      cloudinary.config(config)
-      // Upload an image
-      const result = await cloudinary.uploader.upload(profilePic.path, { 
-        public_id: profilePic.originalname 
-      })
+      v2.config(config)
+      const result = await v2.uploader.upload(profilePic.path, { public_id: profilePic.originalname })
 
-      // Transform the image: auto-crop to square aspect_ratio
-      const publicID = profilePic.originalname + ".jpg"
-      const autoCropUrl = cloudinary.url(publicID, {
-        crop: 'fill',
-        width: 500,
-        height: 500,
-      })
-      
       fs.unlink(profilePic.path, (err) => {
         if (err) {
           logger.error(`Error deleting image (${profilePic.path}): `, err)
@@ -48,7 +37,7 @@ export class ImageUploader {
         return
       }
 
-      res.json({ status: globalConstants.status.success, message: 'Successfully uploaded', data: autoCropUrl })
+      res.json({ status: globalConstants.status.success, message: 'Successfully uploaded', data: result.secure_url })
     } catch (error) {
       next(error)
     }
