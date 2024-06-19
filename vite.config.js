@@ -1,8 +1,10 @@
+import dotenv from 'dotenv'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import macrosPlugin from 'vite-plugin-babel-macros'
 
 // https://vitejs.dev/config/
+dotenv.config()
 export default defineConfig({
   server: {
     proxy: {
@@ -15,4 +17,7 @@ export default defineConfig({
     },
   },
   plugins: [react(), macrosPlugin()],
+  define: {
+    'process.env': process.env
+  },
 })
