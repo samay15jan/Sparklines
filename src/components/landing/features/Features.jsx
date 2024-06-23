@@ -1,10 +1,10 @@
 import React, { lazy } from 'react'
-const Heading = lazy(() => import('./Heading'))
-const MenuCard = lazy(() => import('./MenuCard'))
-const TopArtists = lazy(() => import('./TopArtists'))
 import { FaHeart, FaStar } from "react-icons/fa6"
 import { GoArrowUpRight } from "react-icons/go"
 import { RiCompassDiscoverLine } from "react-icons/ri"
+const Heading = lazy(() => import('./Heading'))
+const MenuCard = lazy(() => import('./MenuCard'))
+const TopArtists = lazy(() => import('./TopArtists'))
 
 const Features = ({ response }) => {
   return (
@@ -12,11 +12,12 @@ const Features = ({ response }) => {
       <div>
         <Heading />
         <MenuCard
-          response={response && response.data.albums[0].image[2].link}
+          image={response && response.data.albums[0].image[2].link}
           menuName='favourites'
           menuIcon1={<FaHeart />}
           menuIcon2={<GoArrowUpRight />}
           heading='Always your favourites'
+          theme='light'
           subHeading='Craft personalized playlists with your favorite artists on an empty canvas.'
         />
       </div>
@@ -24,17 +25,19 @@ const Features = ({ response }) => {
         <div className='mt-20 w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
         <div className='w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
         <MenuCard
-          response={response && response.data.trending.albums[5].image[2].link}
+          image='/public/icons/bars.png'
           menuName='discovers'
           menuIcon1={<RiCompassDiscoverLine />}
           menuIcon2={<GoArrowUpRight />}
           heading='New albums & recognition'
+          theme='dark'
           subHeading='Our database never stop growing, it means endless discovering.'
         />
       </div>
       <div>
         <TopArtists
-          response={response && response.data.trending.songs[4].image[2].link}
+          response={response}
+          image={response && response.data.trending.songs[4].image[2].link}
           menuName='popular'
           menuIcon1={<FaStar />}
           menuIcon2={<GoArrowUpRight />}

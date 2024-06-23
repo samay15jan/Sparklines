@@ -5,7 +5,6 @@ const Header = lazy(() => import('../components/landing/header/Header'))
 const Hero = lazy(() => import('../components/landing/hero/Hero.jsx'))
 const RightBar = lazy(() => import('../components/landing/rightBar/RightBar.jsx'))
 const Features = lazy(() => import('../components/landing/features/Features.jsx'))
-const Connect = lazy(() => import('../components/landing/connect/Connect.jsx'))
 const Footer = lazy(() => import('../components/landing/footer/Footer.jsx'))
 
 const Landing = () => {
@@ -25,8 +24,6 @@ const Landing = () => {
         <Hero apiResponse={(data) => setApiResponse(data)} />
         <Features response={response}/>
         <div className='w-screen'>
-        <Connect />
-
         </div>
         <Footer />
       </div>
