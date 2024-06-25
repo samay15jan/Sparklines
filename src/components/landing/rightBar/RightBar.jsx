@@ -21,7 +21,7 @@ const Heading = () => {
 }
 
 const RightBar = () => {
-  const headings = Array.from({ length: 10 }, (v, i) => i)
+  const headings = Array.from({ length: 7 }, (v, i) => i)
 
   return (
     <Container>

@@ -46,4 +46,28 @@ async function playbackSong() {
   }
 }
 
-export { homepageData, playbackSong }
+async function searchArtist() {
+  try {
+    const userId = localStorage.getItem('userId') || process.env.USERID_DEFAULT
+    const artistId = localStorage.getItem('artist')
+    const options = {
+      method: 'GET',
+      url: '/api/artists',
+      params: { id: artistId },
+      headers: {
+        'userid': `${userId}`,
+        'Content-Type': 'application/json'
+      }
+  }
+
+    const response = await axios.request(options)
+    if (response && response.status === 200) {
+      return response.data
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+
+export { homepageData, playbackSong, searchArtist }

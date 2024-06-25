@@ -3,6 +3,8 @@ import { FaHeart, FaStar } from "react-icons/fa6"
 import { GoArrowUpRight } from "react-icons/go"
 import { RiCompassDiscoverLine } from "react-icons/ri"
 const Heading = lazy(() => import('./Heading'))
+const Bar1 = lazy(() => import('./Bar1'))
+const Bar2 = lazy(() => import('./Bar2'))
 const MenuCard = lazy(() => import('./MenuCard'))
 const TopArtists = lazy(() => import('./TopArtists'))
 
@@ -22,10 +24,10 @@ const Features = ({ response }) => {
         />
       </div>
       <div>
-        <div className='mt-20 w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
-        <div className='w-96 mb-5 h-16 rounded-full border-2 border-black bg-black' />
+        <Bar1 response={response} />
+        <Bar2 />
         <MenuCard
-          image='/public/icons/bars.png'
+          image='/icons/bars.png'
           menuName='discovers'
           menuIcon1={<RiCompassDiscoverLine />}
           menuIcon2={<GoArrowUpRight />}
@@ -36,13 +38,14 @@ const Features = ({ response }) => {
       </div>
       <div>
         <TopArtists
-          response={response}
-          image={response && response.data.trending.songs[4].image[2].link}
+          image={response && response.data.trending.songs[0].primaryArtists[0].image[2].link}
           menuName='popular'
           menuIcon1={<FaStar />}
           menuIcon2={<GoArrowUpRight />}
           heading='Listen to top artists anywhere'
           subHeading='Listen to most popular, bright and trending musicians'
+          buttonText='EXPLORE'
+          buttonImage='/icons/visualizer.png'
         />
       </div>
     </div>
