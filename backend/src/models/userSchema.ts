@@ -17,8 +17,7 @@ const userSchema = new Schema<UserDoc>({
   },
   profilePic: {
     type: String,
-    default: 'https://res.cloudinary.com/sparklines/image/upload/v1710355835/default/bzcj4ipftbmo48v30din.png',
-  },
+    default: 'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png',  },
   newUser: {
     type: Boolean,
     default: true,
