@@ -15,8 +15,8 @@ const Heading = () => {
     <div>
       <div className='flex mb-5'>
         <div className='mt-3 w-12 h-12 rounded-full bg-black bg-yellow-400' />
-        <div className='w-6 h-12 rounded-r-full mt-3 bg-black bg-gray-200' />
-        <div className='w-6 h-12 rounded-r-full mt-3 bg-black bg-gray-200' />
+        <div className='w-6 h-12 rounded-r-full mt-3 bg-[#dad4f1]' />
+        <div className='w-6 h-12 rounded-r-full mt-3 bg-[#dad4f1]' />
       </div>
       <HeadingText>
         Improve your music taste
