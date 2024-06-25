@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
 import timeout from 'express-timeout-handler'
+import { authenticateUser } from 'middlewares/verifyUser.middleware'
 import { rateLimiterMiddleware } from './middlewares/limiter.middleware'
 import { errorMiddleware } from './middlewares/error.middleware'
 import { logger } from './utils/logger'
@@ -11,7 +12,6 @@ import { connectDB } from './database/db'
 import type { Request, Response } from 'express'
 import type { Config } from './interfaces/config.interface'
 import type { Route } from './interfaces/route.interface'
-import { authenticateUser } from 'middlewares/verifyUser.middleware'
 
 export class App {
   public app: express.Application

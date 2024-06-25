@@ -31,7 +31,7 @@ export class UpdateUserProfile {
         message: 'Successfully Changed',
         data: {
           username: response.username,
-          profilePic: response.profilePic
+          profilePic: response.profilePic,
         },
       })
     }

@@ -17,7 +17,9 @@ const userSchema = new Schema<UserDoc>({
   },
   profilePic: {
     type: String,
-    default: 'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png',  },
+    default:
+      'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png',
+  },
   newUser: {
     type: Boolean,
     default: true,
@@ -37,28 +39,30 @@ const userSchema = new Schema<UserDoc>({
     type: String,
   },
   likedMusic: {
-    type: [String]
+    type: [String],
   },
   likedPlaylists: {
-    type: [String]
+    type: [String],
   },
   likedAlbum: {
-    type: [String]
+    type: [String],
   },
   currentPlaying: {
-    type: [String]
+    type: [String],
   },
   queue: {
-    type: [String]
+    type: [String],
   },
   recentlyPlayed: {
-    type: [String]
+    type: [String],
   },
-  playlists: [{
-    id: { type: mongoose.Schema.Types.ObjectId, auto: true },
-    name: String,
-    songs: [String]
-  }]
+  playlists: [
+    {
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+      name: String,
+      songs: [String],
+    },
+  ],
 })
 
 // Generate a random username before saving the document

@@ -28,7 +28,7 @@ export class Authorization {
       if (!user) {
         return res.status(404).json({ status: globalConstants.status.failed, message: 'User not found', data: null })
       }
-      
+
       const userData = {
         userId: `${user._id}`,
         username: `${user.username}`,

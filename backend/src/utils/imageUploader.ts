@@ -24,11 +24,11 @@ export class ImageUploader {
       cloudinary.config(config)
       // Upload an image
       const result = await cloudinary.uploader.upload(profilePic.path, {
-        public_id: profilePic.originalname
+        public_id: profilePic.originalname,
       })
 
       // Transform the image: auto-crop to square aspect_ratio
-      const publicID = profilePic.originalname + ".jpg"
+      const publicID = `${profilePic.originalname}.jpg`
       const autoCropUrl = cloudinary.url(publicID, {
         crop: 'fill',
         width: 500,

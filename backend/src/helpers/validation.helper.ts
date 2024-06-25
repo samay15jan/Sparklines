@@ -30,7 +30,7 @@ export const songsSchema = celebrate(
           }
         }),
         userId: Joi.string(),
-        apiKey: Joi.string(),  
+        apiKey: Joi.string(),
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),
@@ -56,7 +56,7 @@ export const albumsSchema = celebrate(
           }
         }),
         userId: Joi.string(),
-        apiKey: Joi.string(),  
+        apiKey: Joi.string(),
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),
@@ -82,7 +82,7 @@ export const artistsSchema = celebrate(
           }
         }),
         userId: Joi.string(),
-        apiKey: Joi.string(),  
+        apiKey: Joi.string(),
       })
       .xor('id', 'link')
       .messages({ error: 'id and link are not supported together, pass only one of them' }),

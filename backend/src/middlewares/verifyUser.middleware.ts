@@ -5,10 +5,12 @@ import type { NextFunction, Request, Response } from 'express'
 
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (req.originalUrl === '/token/generate' ||
+    if (
+      req.originalUrl === '/token/generate' ||
       req.originalUrl === '/auth/register' ||
       req.originalUrl === '/auth/login' ||
-      req.originalUrl === '/user/profile') {
+      req.originalUrl === '/user/profile'
+    ) {
       return next()
     }
 
@@ -19,15 +21,19 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
 
     if (apiKey) {
       try {
-        const decodedToken= jwt.verify(apiKey, secretKey) as { userId: string }
+        const decodedToken = jwt.verify(apiKey, secretKey) as { userId: string }
         token = decodedToken.userId
-      } catch (error) {
-        return res.status(401).json({ status: globalConstants.status.failed, message: 'Unauthorized: Invalid or expired API key' })
+      } catch {
+        return res
+          .status(401)
+          .json({ status: globalConstants.status.failed, message: 'Unauthorized: Invalid or expired API key' })
       }
     } else if (userId) {
       token = userId
     } else {
-      return res.status(401).json({ status: globalConstants.status.failed, message: 'Unauthorized: Missing API key or user ID' })
+      return res
+        .status(401)
+        .json({ status: globalConstants.status.failed, message: 'Unauthorized: Missing API key or user ID' })
     }
 
     const user = await User.findById(token)
