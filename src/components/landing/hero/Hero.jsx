@@ -17,7 +17,7 @@ const Button = styled.button`${tw`flex justify-center gap-1 pt-4 drop-shadow-2xl
 
 const Hero = ({ apiResponse }) => {
   return (
-    <div className='ml-5 mt-20 grid grid-cols-2 px-10'>
+    <div className='ml-10 mt-28 grid grid-cols-2 px-10'>
       <div>
         <ArrowDesign />
         <Heading>

@@ -22,7 +22,7 @@ const Connect = () => {
 const Header = () => {
   const navigate = useNavigate()
   return (
-    <div className='w-auto bg-white p-2 bg-opacity-90 grid grid-cols-3 w-auto'>
+    <div className='w-auto ml-5 bg-white p-2 bg-opacity-90 grid grid-cols-3 w-auto'>
       <div className='ml-10 flex gap-4'>
         <LogoContainer text='AION' image='/icons/Logo.png' />
         <LogoContainer text='Menu' whiteBg='true' />
