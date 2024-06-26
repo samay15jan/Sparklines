@@ -14,7 +14,7 @@ const Features = ({ response }) => {
       <div>
         <Heading />
         <MenuCard
-          image={response && response.data.albums[0].image[2].link}
+          image={response && response?.data?.albums[0]?.image[2]?.link}
           menuName='favourites'
           menuIcon1={<FaHeart />}
           menuIcon2={<GoArrowUpRight />}
@@ -38,7 +38,7 @@ const Features = ({ response }) => {
       </div>
       <div>
         <TopArtists
-          image={response && response.data.trending.songs[0].primaryArtists[0].image[2].link}
+          image={response && response?.data?.trending?.songs[0]?.primaryArtists[0]?.image[2]?.link || response?.data?.trending?.songs[1]?.primaryArtists[0]?.image[2]?.link}
           menuName='popular'
           menuIcon1={<FaStar />}
           menuIcon2={<GoArrowUpRight />}

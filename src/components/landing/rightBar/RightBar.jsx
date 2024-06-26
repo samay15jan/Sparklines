@@ -3,7 +3,7 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 import { GoArrowDownRight } from "react-icons/go"
 
-const Container = styled.span`${tw`relative z-50 shadow-xl font-bold text-3xl flex justify-center mt-[-12px] opacity-90 w-20 bg-black h-auto`}
+const Container = styled.span`${tw`relative z-50 shadow-xl font-bold text-3xl flex justify-center mt-[-10px] opacity-90 w-20 bg-black h-auto`}
 writing-mode: vertical-rl; 
 font-family: 'Courier New', monospace;
 `
@@ -12,7 +12,7 @@ const Text = styled.div`${tw`flex`}`
 const Heading = () => {
   return (
     <Text>
-      <p className='h-56'>
+      <p className='h-60'>
         EXPLORE NOW
       </p>
       <GoArrowDownRight size={40} />
@@ -21,7 +21,7 @@ const Heading = () => {
 }
 
 const RightBar = () => {
-  const headings = Array.from({ length: 7 }, (v, i) => i)
+  const headings = Array.from({ length: 8 }, (v, i) => i)
 
   return (
     <Container>
