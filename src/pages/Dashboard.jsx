@@ -7,11 +7,13 @@ import UserProfile from '../components/dashboard/profile/UserProfile'
 const Homepage = lazy(() => import('../components/dashboard/homepage/Homepage'))
 const Search = lazy(() => import('../components/dashboard/searchMenu/Search'))
 const Playback = lazy(() => import('../components/dashboard/playback/Playback'))
+const MenuBar = lazy(() => import('../components/dashboard/menuBar/MenuBar'))
+const ArtistsScreen = lazy(() => import('../components/dashboard/artistsScreen/ArtistsScreen'))
 
-const Container = styled.div`${tw`bg-[#0f0f0f] text-white w-screen h-auto`}`
+const Container = styled.div`${tw`overflow-y-hidden bg-black text-white w-screen h-auto`}`
 
 const Dashboard = () => {
-  const [showSearch, setShowSearch] = useState('false')
+  const [showSearch, setShowSearch] = useState('true')
   const [id, setId] = useState('null')
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
@@ -29,12 +31,20 @@ const Dashboard = () => {
         <title>Dashboard</title>
         <meta name='description' content='A music streaming platform' />
       </Helmet>
-      <div className='flex'>
-        <Search open={(open) => setShowSearch(open)}/>
-        <UserProfile />
+      <div>
+        {showSearch &&
+          <div className='grid grid-rows-8 w-screen h-screen'>
+            <div className='flex row-span-9'>
+              <MenuBar />
+              <div className='grid grid-cols-10'>
+                <Homepage playbackID={(id) => setId(id)} />
+                <ArtistsScreen />
+              </div>
+            </div>
+            <Playback playbackID={id} />
+          </div>
+        }
       </div>
-      {!showSearch && <Homepage playbackID={(id) => setId(id)}/>}
-      <Playback playbackID={id}/>
     </Container>
   )
 }
