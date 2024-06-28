@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import Skeleton from './Skeleton'
 
-const Container = styled.div`${tw`p-10 pb-20`}`
+const Container = styled.div`${tw`bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-7 p-5`}`
 const Heading = styled.div`${tw`mt-5 text-2xl font-bold`}`
 
 const Homepage = ({ playbackID }) => {
@@ -42,25 +42,25 @@ const Homepage = ({ playbackID }) => {
       'carouselData': data?.data?.charts,
     }
   ]
-  
+
   const fallback = [1, 2, 3, 4]
 
   return (
     <Container>
-      {data
-        ? types.map((type) => (
-          <div key={type.id}>
-            <Heading>{type.heading}</Heading>
-            <Carousel CarouselData={type.carouselData} playbackID={(id) => playbackID(id)} />
-          </div>
-        ))
-        : fallback.map((type, index) => (
-          <div key={type}>
-            <Heading className="w-36 h-5 rounded-md bg-white animate-pulse opacity-20"></Heading>
-            <Skeleton/>
-          </div>
-        ))
-      }
+        {data
+          ? types.map((type) => (
+            <div key={type.id}>
+              <Heading>{type.heading}</Heading>
+              <Carousel CarouselData={type.carouselData} playbackID={(id) => playbackID(id)} />
+            </div>
+          ))
+          : fallback.map((type, index) => (
+            <div key={type}>
+              <Heading className="w-36 h-5 rounded-md bg-white animate-pulse opacity-20"></Heading>
+              <Skeleton />
+            </div>
+          ))
+        }
     </Container>
   )
 }

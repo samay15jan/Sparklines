@@ -9,7 +9,7 @@ const AudioController = lazy(() => import('./AudioController'))
 const MenuButtons = lazy(() => import('./MenuButtons'))
 const VolumeController = lazy(() => import('./VolumeController'))
 
-const Container = styled.div`${tw`fixed bottom-0 bg-black w-screen p-2 text-sm font-semibold`}`
+const Container = styled.div`${tw`bg-black w-screen p-1 text-sm font-semibold`}`
 const SubContainer = styled.div`${tw`grid grid-cols-3 justify-between`}`
 
 const Playback = () => {

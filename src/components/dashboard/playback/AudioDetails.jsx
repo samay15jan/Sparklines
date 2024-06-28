@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const Image = styled.img`${tw`w-16 rounded-lg p-1 mr-1`}`
+const Image = styled.img`${tw`w-16 rounded-lg p-1 ml-1 mr-1`}`
 const Heading = styled.div`${tw`px-1 mt-3 opacity-80`}`
 const SubHeading = styled.div`${tw`px-1 text-[12px] opacity-50`}`
 
