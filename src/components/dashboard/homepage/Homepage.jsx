@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import { homepageData } from '../../../utils/apiMethods'
 import Carousel from './Carousel'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import Skeleton from './Skeleton'
+const UserProfile = lazy(() => import('../profile/UserProfile'))
 
 const Container = styled.div`${tw`bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-8 p-5`}`
 const Heading = styled.div`${tw`mt-5 text-2xl font-bold`}`
 
-const Homepage = ({ playbackID }) => {
+const Homepage = () => {
   const [data, setData] = useState()
 
   useEffect(() => {
@@ -47,20 +48,23 @@ const Homepage = ({ playbackID }) => {
 
   return (
     <Container>
-        {data
-          ? types.map((type) => (
-            <div key={type.id}>
-              <Heading>{type.heading}</Heading>
-              <Carousel CarouselData={type.carouselData} playbackID={(id) => playbackID(id)} />
-            </div>
-          ))
-          : fallback.map((type, index) => (
-            <div key={type}>
-              <Heading className="w-36 h-5 rounded-md bg-white animate-pulse opacity-20"></Heading>
-              <Skeleton />
-            </div>
-          ))
-        }
+      <div className='relative'>
+        <UserProfile />
+      </div>
+      {data
+        ? types.map((type) => (
+          <div key={type.id}>
+            <Heading>{type.heading}</Heading>
+            <Carousel CarouselData={type.carouselData}/>
+          </div>
+        ))
+        : fallback.map((type, index) => (
+          <div key={type}>
+            <Heading className="w-36 h-5 rounded-md bg-white animate-pulse opacity-20"></Heading>
+            <Skeleton />
+          </div>
+        ))
+      }
     </Container>
   )
 }

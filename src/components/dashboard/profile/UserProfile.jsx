@@ -6,8 +6,8 @@ import { GrClose } from "react-icons/gr"
 import { useNavigate } from 'react-router-dom'
 const Menu = lazy(() => import('./Menu'))
 
-const Container = styled.div`${tw`absolute right-5 top-5 drop-shadow-xl`}`
-const Image = styled.img`${tw`rounded-full w-11`}`
+const Container = styled.div`${tw`absolute z-50 right-2 drop-shadow-xl`}`
+const Image = styled.img`${tw`rounded-full w-8`}`
 
 const UserProfile = () => {
   const [menu, showMenu] = useState(false)
