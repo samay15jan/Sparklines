@@ -15,6 +15,7 @@ const Container = styled.div`${tw`overflow-y-hidden bg-black text-white w-screen
 const Dashboard = () => {
   const [showSearch, setShowSearch] = useState('true')
   const [id, setId] = useState('null')
+  const [response, setResponse] = useState()
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
 
@@ -36,12 +37,12 @@ const Dashboard = () => {
           <div className='grid grid-rows-8 w-screen h-screen'>
             <div className='flex row-span-9'>
               <MenuBar />
-              <div className='grid grid-cols-10'>
+              <div className='grid grid-cols-12'>
                 <Homepage playbackID={(id) => setId(id)} />
-                <ArtistsScreen />
+                <ArtistsScreen response={response}/>
               </div>
             </div>
-            <Playback playbackID={id} />
+            <Playback playbackID={id} result={(response) => setResponse(response)}/>
           </div>
         }
       </div>
