@@ -12,7 +12,7 @@ const VolumeController = lazy(() => import('./VolumeController'))
 const Container = styled.div`${tw`bg-black w-screen p-1 text-sm font-semibold`}`
 const SubContainer = styled.div`${tw`grid grid-cols-3 justify-between`}`
 
-const Playback = () => {
+const Playback = ({ result }) => {
   const [data, setData] = useState()
   const [isPlaying, setPlaying] = useState(true)
   const [audioPlayer, setAudioPlayer] = useState(true)
@@ -27,6 +27,7 @@ const Playback = () => {
   async function getData() {
     const response = await playbackSong()
     setData(response)
+    result(response)
   }
 
   return (
