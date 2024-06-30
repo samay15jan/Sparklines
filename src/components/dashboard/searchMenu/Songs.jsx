@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -14,10 +14,16 @@ const SubHeading = styled.div`${tw`text-sm font-bold opacity-50`}`
 const Image = styled.img`${tw`rounded-lg w-14 p-1`}`
 
 const Songs = ({ data }) => {
+  const [id, setId] = useState('')
+
+  useEffect(() => {
+    localStorage.setItem('playback', id)
+  }, [id])
+
   return (
     <Container>
       {data && data?.map((song, index) => (
-        <SubContainer id={song?.id} >
+        <SubContainer id={song?.id} onClick={() => setId(song?.id)}>
           <Image 
             src={song?.image[0]?.link || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'} 
             alt={song?.title + "'s Image"}

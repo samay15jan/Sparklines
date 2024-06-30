@@ -7,7 +7,7 @@ const Artists = lazy(() => import('./Artists'))
 const Albums = lazy(() => import('./Albums'))
 const Playlists = lazy(() => import('./Playlists'))
 
-const Container = styled.div`${tw`mt-5 mx-20 w-auto justify-center`}`
+const Container = styled.div`${tw`mt-5 w-auto justify-center`}`
 const Heading = styled.div`${tw`text-2xl my-2 font-extrabold max-w-52`}`
 
 const Response = ({ topResults, songs, albums, artists, playlists }) => {

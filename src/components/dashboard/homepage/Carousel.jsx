@@ -12,11 +12,10 @@ const Image = styled.img`${tw`rounded-xl`}`
 const Heading = styled.div`${tw`px-1 pt-2`}`
 const SubHeading = styled.div`${tw`px-1 opacity-50`}`
 
-const Carousel = ({ CarouselData, playbackID }) => {
+const Carousel = ({ CarouselData }) => {
   const [id, setId] = useState('')
 
   useEffect(() => {
-    playbackID(id)
     localStorage.setItem('playback', id)
   }, [id])
 
