@@ -1,6 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const Homepage = lazy(() => import('../components/dashboard/homepage/Homepage'))
@@ -26,10 +25,6 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <Helmet>
-        <title>Dashboard</title>
-        <meta name='description' content='A music streaming platform' />
-      </Helmet>
       <div>
         <div className='grid grid-rows-8 w-screen h-screen'>
           <div className='flex row-span-9'>
