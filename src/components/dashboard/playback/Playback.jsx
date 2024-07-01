@@ -1,5 +1,5 @@
 import React, { useEffect, useState, lazy } from 'react'
-import { playbackSong } from '../../../utils/apiMethods'
+import { songDetails } from '../../../utils/apiMethods'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Helmet } from 'react-helmet-async'
@@ -17,16 +17,15 @@ const Playback = ({ result }) => {
   const [isPlaying, setPlaying] = useState(true)
   const [audioPlayer, setAudioPlayer] = useState(true)
   var playbackId = localStorage.getItem('playback')
+  
   useEffect(() => {
     if (playbackId) {
       getData()
     }
-    console.log(playbackId)
-
   }, [playbackId])
 
   async function getData() {
-    const response = await playbackSong()
+    const response = await songDetails()
     setData(response)
     result(response)
   }

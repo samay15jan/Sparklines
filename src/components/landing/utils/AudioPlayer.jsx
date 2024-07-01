@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { playbackSong } from '../../../utils/apiMethods'
+import { songDetails } from '../../../utils/apiMethods'
 
 const AudioPlayer = ({ songResponse, playingStatus }) => {
   const audioPlayer = useRef()
@@ -7,7 +7,7 @@ const AudioPlayer = ({ songResponse, playingStatus }) => {
   const [songDetails, setSongDetails] = useState('')
 
   async function getData() {
-    const playback = await playbackSong()
+    const playback = await songDetails()
     setSongDetails(playback)
   }
 

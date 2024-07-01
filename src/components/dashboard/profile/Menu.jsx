@@ -10,7 +10,7 @@ const Heading = styled.div`${tw`text-left px-2 my-1 rounded-md text-sm font-bold
 const SubHeading = styled.div`${tw`text-left cursor-pointer py-1 rounded-md text-sm opacity-50`}`
 const Image = styled.img`${tw`rounded-full w-20 mb-2 p-2`}`
 
-const Menu = ({ userdata, handleLogout }) => { // TODO: integrate theme switcher & updating profile and languages
+const Menu = ({ userdata, handleLogout }) => { // TODO: integrate updating profile and languages
   return (
     <MenuContainer>
       <div className='w-full flex justify-center'>
@@ -19,7 +19,6 @@ const Menu = ({ userdata, handleLogout }) => { // TODO: integrate theme switcher
       <Heading>Username<SubHeading>{userdata.username}</SubHeading></Heading>
       <Heading>Email<SubHeading>{userdata.email}</SubHeading></Heading>
       <Heading>Languages<SubHeading>{userdata.languages}</SubHeading></Heading>
-      <Heading>Theme<SubHeading>Dark</SubHeading></Heading>
       <Heading className='p-2 text-red-500 opacity-90' onClick={handleLogout}>Log out</Heading>
     </MenuContainer>
   )

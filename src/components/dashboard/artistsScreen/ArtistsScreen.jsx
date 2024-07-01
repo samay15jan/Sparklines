@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { LuDownload } from "react-icons/lu"
-import { searchArtist } from '../../../utils/apiMethods'
+import { artistDetails } from '../../../utils/apiMethods'
 
 const ArtistsScreen = ({ response }) => {
   const name = response && response.data[0].name
@@ -8,17 +8,16 @@ const ArtistsScreen = ({ response }) => {
   const [artistsData, setArtistsData] = useState(null)
 
   useEffect(() => {
-    const artistIds = response && response.data[0].primaryArtistsId
-    if (artistIds) {
-      const artistIdsArray = artistIds.split(',').map(id => id.trim())
-      const mainArtistsId = artistIdsArray[0]
-      localStorage.setItem('artist', mainArtistsId)
+    const listId = response && response.data[0].primaryArtistsId
+    if (listId) {
+      const artistIdsArray = listId.split(',').map(id => id.trim())
+      const artistId = artistIdsArray[0]
+      getData(artistId)
     }
-    getData()
   }, [response])
 
-  async function getData() {
-    const data = await searchArtist()
+  async function getData(artistId) {
+    const data = await artistDetails(artistId)
     setArtistsData(data)
   }
 
