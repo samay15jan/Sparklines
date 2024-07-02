@@ -28,10 +28,10 @@ async function searchAll(searchText) {
 
 async function searchSpecific(type, query, page) {
   try {
-    if (!type && !query ) {
+    if (!type && !query) {
       return
     }
-    if(type !== 'songs' || 'albums' || 'artists' || 'playlists'){
+    if (type !== 'songs' || 'albums' || 'artists' || 'playlists') {
       return
     }
     const params = {
@@ -61,6 +61,34 @@ async function songDetails() {
 }
 
 // Albums
+async function albumDetails(albumId) {
+  try {
+    if (!albumId) {
+      return
+    }
+    const params = { id: albumId }
+    return await handleApi(params, '/api/albums')
+  } catch (error) {
+    console.error('Error fetching playlist details:', error)
+    throw error
+  }
+}
+
+// Playlist
+async function playlistDetails(playlistId) {
+  try {
+    if (!playlistId) {
+      return
+    }
+    const params = { id: playlistId }
+    return await handleApi(params, '/api/playlists')
+  } catch (error) {
+    console.error('Error fetching playlist details:', error)
+    throw error
+  }
+}
+
+// Artists
 async function artistDetails(artistId) {
   try {
     if (!artistId) {
@@ -121,20 +149,6 @@ async function artistRecommendations(artistId, songId) {
   }
 }
 
-// Playlist
-async function playlistDetails(playlistId) {
-  try {
-    if (!playlistId) {
-      return
-    }
-    const params = { id: playlistId }
-    return await handleApi(params, '/api/playlists')
-  } catch (error) {
-    console.error('Error fetching playlist details:', error)
-    throw error
-  }
-}
-
 //Lyrics
 async function lyrics(lyricsId) {
   try {
@@ -177,10 +191,11 @@ export {
   searchAll,
   searchSpecific,
   songDetails,
+  albumDetails,
+  playlistDetails,
   artistDetails,
   artistSongs,
   artistAlbums,
   artistRecommendations,
-  playlistDetails,
   lyrics
 }
