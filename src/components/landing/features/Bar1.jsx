@@ -9,7 +9,7 @@ const Bar1 = ({ response }) => {
   const filteredSongs = data && data.filter(song => {
     return song.primaryArtists[0]?.image[2]?.link !== undefined
   })
-  let finalData = filteredSongs.slice(1, 8)
+  let finalData = filteredSongs?.slice(1, 8)
 
   return (
     <div className='flex p-2 mt-20 w-96 justify-center -space-x-4 overflow-hidden mb-5 h-20 rounded-full bg-[#dad4f1]'>
