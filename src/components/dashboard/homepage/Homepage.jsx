@@ -1,9 +1,9 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { homepageData } from '../../../utils/apiMethods'
-import Carousel from './Carousel'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import Skeleton from './Skeleton'
+import { homepageData } from '../../../utils/apiMethods'
+const Carousel = lazy(() => import('./Carousel'))
+const Skeleton = lazy(() => import('./Skeleton'))
 const UserProfile = lazy(() => import('../profile/UserProfile'))
 
 const Container = styled.div`${tw``}`
@@ -55,7 +55,7 @@ const Homepage = () => {
         ? types.map((type) => (
           <div key={type.id}>
             <Heading>{type.heading}</Heading>
-            <Carousel CarouselData={type.carouselData} typeId={type.id} />
+            <Carousel CarouselData={type.carouselData} typeId={type.id}/>
           </div>
         ))
         : fallback.map((type, index) => (

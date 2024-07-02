@@ -15,7 +15,7 @@ const Dashboard = () => {
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
   const location = useLocation()
-  const currentPath = location.pathname
+  let currentPath = location.pathname
   let { query } = useParams()
 
   useEffect(() => {
@@ -24,37 +24,29 @@ const Dashboard = () => {
       navigate('/')
     }
   }, [userId])
-
+  
   useEffect(() => {
-    if (currentPath === '/dashboard') {
-      setShowMenu('home')
+    switch (true) {
+      case currentPath === '/dashboard':
+        setShowMenu('home')
+        break
+      case currentPath === '/dashboard/search' || (query && currentPath.startsWith('/dashboard/search/')):
+        setShowMenu('search')
+        break
+      case currentPath.startsWith('/dashboard/track/') || (query && currentPath.startsWith('/dashboard/track/')):
+        setShowMenu('track')
+        break
+      case currentPath.startsWith('/dashboard/playlist/') || (query && currentPath.startsWith('/dashboard/playlist/')):
+        setShowMenu('playlist')
+        break
+      case currentPath.startsWith('/dashboard/album/') || (query && currentPath.startsWith('/dashboard/album/')):
+        setShowMenu('album')
+        break
+      default:
+        setShowMenu('home')
+        break
     }
-    if (currentPath === '/dashboard/search') {
-      setShowMenu('search')
-    }
-    if (query && currentPath === `/dashboard/search/${query}`) {
-      setShowMenu('search')
-    }
-  }, [currentPath])
-
-  const menuItems = [
-    {
-      path: '/dashboard/playlist',
-      name: 'playlist',
-    },
-    {
-      path: '/dashboard/artist',
-      name: 'artist',
-    },
-    {
-      path: '/dashboard/track',
-      name: 'track',
-    },
-    {
-      path: '/dashboard/album',
-      name: 'album',
-    },
-  ]
+  }, [currentPath, query])
 
   return (
     <Container>

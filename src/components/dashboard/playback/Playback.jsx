@@ -16,8 +16,8 @@ const Playback = ({ result }) => {
   const [data, setData] = useState()
   const [isPlaying, setPlaying] = useState(true)
   const [audioPlayer, setAudioPlayer] = useState(true)
-  var playbackId = localStorage.getItem('playback')
-  
+  let playbackId = localStorage.getItem('playback')
+
   useEffect(() => {
     if (playbackId) {
       getData()
@@ -26,8 +26,10 @@ const Playback = ({ result }) => {
 
   async function getData() {
     const response = await songDetails()
-    setData(response)
-    result(response)
+    if (response) {
+      setData(response)
+      result(response)
+    }
   }
 
   const pageTitle = data ? `${data?.data[0]?.name || 'unknown'} - ${data?.data[0]?.primaryArtists || 'unknown'}` : 'Sparklines - A music streaming platform'
