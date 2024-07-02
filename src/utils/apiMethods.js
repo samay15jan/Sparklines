@@ -109,8 +109,8 @@ async function artistSongs(artistId, page, category, sort) {
     }
     const params = {
       page: page || 1,
-      category: category || null,
-      sort: sort || null
+      category: category || null, // alphabetical or latest
+      sort: sort || null // asc or desc
     }
     return await handleApi(params, `/api/artists/${artistId}/songs`)
   } catch (error) {
@@ -126,8 +126,8 @@ async function artistAlbums(artistId, page, category, sort) {
     }
     const params = {
       page: page || 1,
-      category: category || null,
-      sort: sort || null
+      category: category || null, // alphabetical or latest
+      sort: sort || null // asc or desc
     }
     return await handleApi(params, `/api/artists/${artistId}/albums`)
   } catch (error) {

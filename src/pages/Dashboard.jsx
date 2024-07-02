@@ -24,7 +24,7 @@ const Dashboard = () => {
       navigate('/')
     }
   }, [userId])
-  
+
   useEffect(() => {
     switch (true) {
       case currentPath === '/dashboard':
@@ -41,6 +41,9 @@ const Dashboard = () => {
         break
       case currentPath.startsWith('/dashboard/album/') || (query && currentPath.startsWith('/dashboard/album/')):
         setShowMenu('album')
+        break
+      case currentPath.startsWith('/dashboard/artist/') || (query && currentPath.startsWith('/dashboard/artist/')):
+        setShowMenu('artist')
         break
       default:
         setShowMenu('home')
