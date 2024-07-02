@@ -4,11 +4,11 @@ import { songDetails } from '../../../utils/apiMethods'
 const AudioPlayer = ({ songResponse, playingStatus }) => {
   const audioPlayer = useRef()
   const currentPlayer = audioPlayer?.current
-  const [songDetails, setSongDetails] = useState('')
+  const [songData, setSongData] = useState('')
 
   async function getData() {
     const playback = await songDetails()
-    setSongDetails(playback)
+    setSongData(playback)
   }
 
   useEffect(() => {
@@ -16,8 +16,8 @@ const AudioPlayer = ({ songResponse, playingStatus }) => {
   }, [playingStatus])
 
   useEffect(() => {
-    songResponse(songDetails)
-  }, [songDetails])
+    songResponse(songData)
+  }, [songData])
 
   useEffect(() => {
     if (currentPlayer) {
@@ -33,7 +33,7 @@ const AudioPlayer = ({ songResponse, playingStatus }) => {
     <audio
       ref={audioPlayer}
       loop
-      src={songDetails && songDetails.data[0].downloadUrl[4].link}
+      src={songData && songData.data[0].downloadUrl[4].link}
     >
     </audio>
   )

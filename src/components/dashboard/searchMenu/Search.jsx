@@ -1,15 +1,22 @@
 import React, { lazy, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 import Response from './Response'
 import { searchAll } from '../../../utils/apiMethods'
+import { useLocation, useParams } from 'react-router-dom'
 const Input = lazy(() => import('./Input'))
-
-const Container = styled.div`${tw`bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-8 p-5`}`
+const UserProfile = lazy(() => import('../profile/UserProfile'))
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
   const [apiResponse, setApiResponse] = useState('')
+  const location = useLocation()
+  const currentPath = location.pathname
+  let { query } = useParams()
+  
+  useEffect(() => {
+    if (currentPath === `/dashboard/search/${query}`) {
+      setSearchText(query)
+    }
+  })
 
   useEffect(() => {
     getData()
@@ -17,14 +24,18 @@ const Search = () => {
 
   async function getData() {
     const response = await searchAll(searchText)
-    setApiResponse(response)
+    setApiResponse(response?.data)
   }
 
   return (
-    <Container>
-      <Input
-        SearchText={() => setSearchText(inputText)}
-      />
+    <div>
+      <div className='relative flex'>
+        <Input
+          SearchText={(text) => setSearchText(text)}
+        />
+        <UserProfile />
+      </div>
+
       {searchText != '' && apiResponse &&
         <Response
           topResults={apiResponse?.topQuery?.results}
@@ -34,7 +45,7 @@ const Search = () => {
           playlists={apiResponse?.playlists?.results}
         />
       }
-    </Container>
+    </div>
   )
 }
 
