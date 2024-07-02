@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 import Skeleton from './Skeleton'
 const UserProfile = lazy(() => import('../profile/UserProfile'))
 
-const Container = styled.div`${tw`bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-8 p-5`}`
+const Container = styled.div`${tw``}`
 const Heading = styled.div`${tw`mt-5 text-2xl font-bold`}`
 
 const Homepage = () => {
@@ -55,7 +55,7 @@ const Homepage = () => {
         ? types.map((type) => (
           <div key={type.id}>
             <Heading>{type.heading}</Heading>
-            <Carousel CarouselData={type.carouselData}/>
+            <Carousel CarouselData={type.carouselData} typeId={type.id} />
           </div>
         ))
         : fallback.map((type, index) => (

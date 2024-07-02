@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -12,17 +13,29 @@ const Image = styled.img`${tw`rounded-xl`}`
 const Heading = styled.div`${tw`px-1 pt-2`}`
 const SubHeading = styled.div`${tw`px-1 opacity-50`}`
 
-const Carousel = ({ CarouselData }) => {
+const Carousel = ({ CarouselData, typeId }) => {
   const [id, setId] = useState('')
 
   useEffect(() => {
     localStorage.setItem('playback', id)
   }, [id])
 
+  function handleType() {
+    if(typeId === '1'){
+      setId(data.id)
+    }
+    if(typeId === '2' || typeId === '4' ){
+      
+    }
+    if(typeId === '2'){
+      
+    }
+  }
+
   return (
     <Container>
       {CarouselData && CarouselData?.map((data) => (
-          <SubContainer key={data.id} onClick={() => setId(data.id)}>
+          <SubContainer key={data.id} onClick={handleType}>
             <CarouselImage image={data.image} title={data.name || data.title} />
             <CarouselTitle title={data.name || data.title} />
             <CarouselArtists artists={data.primaryArtists} followers={data.subtitle} />
