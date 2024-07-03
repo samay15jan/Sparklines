@@ -16,7 +16,7 @@ const Search = () => {
     if (currentPath === `/dashboard/search/${query}`) {
       setSearchText(query)
     }
-  })
+  }, [query])
 
   useEffect(() => {
     getData()
@@ -28,7 +28,7 @@ const Search = () => {
   }
 
   return (
-    <div>
+    <div className='p-5'>
       <div className='relative flex'>
         <Input
           SearchText={(text) => setSearchText(text)}

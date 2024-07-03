@@ -6,7 +6,7 @@ const Carousel = lazy(() => import('./Carousel'))
 const Skeleton = lazy(() => import('./Skeleton'))
 const UserProfile = lazy(() => import('../profile/UserProfile'))
 
-const Container = styled.div`${tw``}`
+const Container = styled.div`${tw`p-5`}`
 const Heading = styled.div`${tw`mt-5 text-2xl font-bold`}`
 
 const Homepage = () => {

@@ -55,17 +55,16 @@ const CarouselImage = ({ image, title, id }) => {
       className='relative'
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      onClick={() => setId(id)}
     >
       <Image
         src={image[1]?.link || 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'}
         alt={title + "'s Image"}
       />
-      <div className={show ? '' : 'hidden'}>
+      <div className={show ? '' : 'hidden'} onClick={() => setId(id)}>
         <FaCirclePlay
           size={40}
           color='#1ed760'
-          className='absolute bottom-2 right-3 drop-shadow-3xl bg-black rounded-full transition ease-in-out delay-50 hover:-translate-y-1 duration-300 hover:scale-110'
+          className='absolute bottom-2 right-3 drop-shadow-3xl bg-black rounded-full transition ease-in-out delay-50 hover:-translate-1 duration-300 hover:scale-110'
         />
       </div>
     </div>
