@@ -25,7 +25,7 @@ const Player = ({ apiResponse }) => {
   useEffect(() => {
     if(play){
       const playbackId = data && data.data.trending.songs[0].id
-      localStorage.setItem('playback', playbackId)
+      localStorage.setItem('playback', JSON.stringify([playbackId]))
     }
   }, [play])
 
@@ -36,7 +36,7 @@ const Player = ({ apiResponse }) => {
   async function getData() {
     const homepage = await homepageData()
     const playbackId = homepage && homepage.data.trending.songs[0].id
-    localStorage.setItem('playback', playbackId)
+    localStorage.setItem('playback', JSON.stringify([newId]))
     setData(homepage)
   }
 

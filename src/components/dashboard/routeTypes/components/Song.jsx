@@ -7,7 +7,7 @@ const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
   const [newId, setId] = useState('')
 
   useEffect(() => {
-    localStorage.setItem('playback', newId)
+    localStorage.setItem('playback', JSON.stringify([newId]))
   }, [newId])
 
   function formatTime(time) {

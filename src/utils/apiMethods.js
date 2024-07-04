@@ -49,10 +49,11 @@ async function searchSpecific(type, query, page) {
 async function songDetails() {
   try {
     const playbackId = localStorage.getItem('playback')
-    if (!playbackId) {
+    const parsedId = JSON.parse(playbackId)
+    if (!parsedId[0]) {
       return
     }
-    const params = { id: playbackId }
+    const params = { id: parsedId[0] }
     return await handleApi(params, '/api/songs')
   } catch (error) {
     console.error('Error fetching playback song', error)
