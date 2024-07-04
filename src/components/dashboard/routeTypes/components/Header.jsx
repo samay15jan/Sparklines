@@ -36,7 +36,7 @@ const Header = ({ data, image, type, name, artistName, year, time, songCount, fo
           }
           <div className='relative z-1 ml-6 mt-16'>
             {type && <div className='text-sm font-medium my-1 drop-shadow-md'>{type}</div>}
-            {name && <div className='text-6xl font-extrabold drop-shadow-2xl'>{trimTextToLetters(name, 20)}</div>}
+            {name && <div className='text-6xl font-extrabold drop-shadow-2xl'>{trimTextToLetters(name, 16)}</div>}
             <div className='flex my-5'>
               {artistName && <div className='text-sm font-bold drop-shadow-xl ml-1 cursor-pointer'>{trimTextToLetters(artistName, 40)}</div>}
               {year && <div className='ml-1cd  text-sm font-medium drop-shadow-xl ml-1'> &#128900; {year}</div>}
