@@ -20,7 +20,7 @@ const Input = ({ SearchText }) => {
 
   useEffect(() => {
     if(query){
-      let modifiedText = query.replace('+',' ')
+      let modifiedText = query.replaceAll('+',' ')
       setNewQuery(modifiedText)  
     }
   }, [query])
