@@ -3,6 +3,7 @@ import { songDetails } from '../../../utils/apiMethods'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Helmet } from 'react-helmet-async'
+import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks"
 const AudioDetails = lazy(() => import('./AudioDetails'))
 const AudioVisualizer = lazy(() => import('./AudioVisualizer'))
 const AudioController = lazy(() => import('./AudioController'))
@@ -16,7 +17,8 @@ const Playback = ({ result }) => {
   const [data, setData] = useState()
   const [isPlaying, setPlaying] = useState(true)
   const [audioPlayer, setAudioPlayer] = useState(true)
-  let playbackId = localStorage.getItem('playback')
+  const [playbackId, setPlaybackId] = useLocalStorage('playback', null)
+  const currentPlayer = audioPlayer?.current
 
   useEffect(() => {
     if (playbackId) {
@@ -29,16 +31,18 @@ const Playback = ({ result }) => {
     if (response) {
       setData(response)
       result(response)
+      if (currentPlayer) {
+        currentPlayer.play()
+      }
     }
   }
 
   const pageTitle = data ? `${data?.data[0]?.name || 'unknown'} - ${data?.data[0]?.primaryArtists || 'unknown'}` : 'Sparklines - A music streaming platform'
+  useDocumentTitle(pageTitle)
 
   return (
     <Container>
       <Helmet>
-        <title>{pageTitle}</title>
-        <meta name='description' content='A music streaming platform' />
         <link rel='icon' type='image/png' href='/icons/favicon.png' sizes="16x16" />
       </Helmet>
       <SubContainer>

@@ -24,7 +24,7 @@ const Songs = ({ data }) => {
 
 
   useEffect(() => {
-    localStorage.setItem('playback', id)
+    localStorage.setItem('playback', JSON.stringify([id]))
   }, [id])
 
   return (

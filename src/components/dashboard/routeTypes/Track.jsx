@@ -16,7 +16,7 @@ const Track = () => {
 
   async function getData() {
     if (id) {
-      localStorage.setItem('playback', id)
+      localStorage.setItem('playback', JSON.stringify([id]))
       const response = await songDetails()
       setData(response)
     }

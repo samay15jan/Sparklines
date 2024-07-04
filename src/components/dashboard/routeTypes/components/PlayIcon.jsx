@@ -5,7 +5,7 @@ const PlayIcon = (id) => {
   const [newId, setId] = useState('')
 
   useEffect(() => {
-    localStorage.setItem('playback', newId)
+    localStorage.setItem('playback', JSON.stringify([newId]))
   }, [newId])
 
   return (
