@@ -34,8 +34,7 @@ const AudioPlayer = ({ songResponse, playingStatus }) => {
       ref={audioPlayer}
       loop
       src={songData && songData.data[0].downloadUrl[4].link}
-    >
-    </audio>
+    ></audio>
   )
 }
 

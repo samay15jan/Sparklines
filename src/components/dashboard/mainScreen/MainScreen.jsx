@@ -7,7 +7,6 @@ const Album = lazy(() => import('../routeTypes/Album'))
 const Artist = lazy(() => import('../routeTypes/Artist'))
 
 const MainScreen = ({ showMenu }) => {
-
   return (
     <div className='bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-8'>
       {showMenu === 'search' && <Search />}

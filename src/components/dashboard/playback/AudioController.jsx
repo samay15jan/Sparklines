@@ -23,8 +23,11 @@ const AudioController = ({ audioSrc, returnPlaying, returnPlayerRef }) => {
   return (
     <div className='flex justify-center'>
       <div className='grid grid-cols-1'>
-          <ControllerButtons playing={playing} setPlaying={(e) => setPlaying(e)}/>
-          <SeekBar currentPlayer={currentPlayer} playing={playing}/>
+        <ControllerButtons
+          playing={playing}
+          setPlaying={(e) => setPlaying(e)}
+        />
+        <SeekBar currentPlayer={currentPlayer} playing={playing} />
       </div>
       <audio ref={audioPlayer} src={audioSrc}></audio>
     </div>

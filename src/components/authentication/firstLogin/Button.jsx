@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const ButtonUI = styled.div`${tw`text-center p-5 text-xl font-medium m-2 hover:cursor-pointer rounded-lg border-2 shadow-md`}
-border-color: ${({ border }) => border ? '#db916a' : 'white'};
+const ButtonUI = styled.div`
+  ${tw`text-center p-5 text-xl font-medium m-2 hover:cursor-pointer rounded-lg border-2 shadow-md`}
+  border-color: ${({ border }) => (border ? '#db916a' : 'white')};
 `
 
 const Button = ({ lang, onClick }) => {
@@ -12,13 +13,14 @@ const Button = ({ lang, onClick }) => {
   return (
     <ButtonUI
       border={border}
-      onClick={() => {onClick(lang); setBorder(!border);}}
+      onClick={() => {
+        onClick(lang)
+        setBorder(!border)
+      }}
     >
-      <div className='select-none'>
-        {lang}
-      </div>
+      <div className='select-none'>{lang}</div>
     </ButtonUI>
-)
+  )
 }
 
 export default Button

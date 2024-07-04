@@ -1,15 +1,20 @@
 import React from 'react'
 
-const TopArtists = ({ image, menuName, menuIcon1, menuIcon2, heading, subHeading, buttonText, buttonImage }) => {
+const TopArtists = ({
+  image,
+  menuName,
+  menuIcon1,
+  menuIcon2,
+  heading,
+  subHeading,
+  buttonText,
+  buttonImage,
+}) => {
   return (
-    <div
-      className='relative w-96 h-[572px] mt-20 bg-[#020f14] rounded-[50px]'
-    >
+    <div className='relative w-96 h-[572px] mt-20 bg-[#020f14] rounded-[50px]'>
       <div>
         <div className='text-white opacity-80 text-sm font-bold absolute top-10 left-10 z-50 flex'>
-          <button className='rounded-3xl border-2 py-1 px-2'>
-            {menuName}
-          </button>
+          <button className='rounded-3xl border-2 py-1 px-2'>{menuName}</button>
           <button className='rounded-full border-2 py-1 px-2'>
             {menuIcon1}
           </button>
@@ -18,7 +23,10 @@ const TopArtists = ({ image, menuName, menuIcon1, menuIcon2, heading, subHeading
           <button className='rounded-3xl text-sm border-2 px-8'>
             {buttonText}
           </button>
-          <img src={buttonImage} className='w-44 h-12 rounded-full border-2 px-4' />
+          <img
+            src={buttonImage}
+            className='w-44 h-12 rounded-full border-2 px-4'
+          />
         </div>
         <button className='text-white opacity-80 text-4xl border-2 border-white absolute right-5 top-5 z-50 p-4 rounded-full'>
           {menuIcon2}

@@ -4,7 +4,7 @@ export default function userData() {
   const username = localStorage.getItem('username')
   const profilePic = localStorage.getItem('profilePic')
   const languages = localStorage.getItem('languages')
-  
+
   return {
     userId: userId,
     email: email,

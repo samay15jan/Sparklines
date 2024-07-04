@@ -12,12 +12,12 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: true,
-        rewrite: path => path.replace('/api', ''),
+        rewrite: (path) => path.replace('/api', ''),
       },
     },
   },
   plugins: [react(), macrosPlugin()],
   define: {
-    'process.env': process.env
+    'process.env': process.env,
   },
 })

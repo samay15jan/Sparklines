@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Loading from './utils/Loading'
 import Playlist from './components/dashboard/routeTypes/Playlist'
@@ -24,21 +24,21 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Router>
             <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/auth" element={<Authentication />} />
-              <Route path="/dashboard" element={<Dashboard />}>
-                <Route path="playlist/:id" element={<Playlist />} />
-                <Route path="artist/:id" element={<Artist />} />
-                <Route path="track/:id" element={<Track />} />
-                <Route path="album/:id" element={<Album />} />
-                <Route path="search" element={<Search />} />
-                <Route path="search/:query" element={<Search />} />
+              <Route path='/' element={<Landing />} />
+              <Route path='/auth' element={<Authentication />} />
+              <Route path='/dashboard' element={<Dashboard />}>
+                <Route path='playlist/:id' element={<Playlist />} />
+                <Route path='artist/:id' element={<Artist />} />
+                <Route path='track/:id' element={<Track />} />
+                <Route path='album/:id' element={<Album />} />
+                <Route path='search' element={<Search />} />
+                <Route path='search/:query' element={<Search />} />
               </Route>
-              <Route path="/developer" element={<Developer />}>
-                <Route path="api" element={<API />} />
-                <Route path="playground" element={<Playground />} />
-                <Route path="docs" element={<Docs />} />
-                <Route path="settings" element={<Settings />} />
+              <Route path='/developer' element={<Developer />}>
+                <Route path='api' element={<API />} />
+                <Route path='playground' element={<Playground />} />
+                <Route path='docs' element={<Docs />} />
+                <Route path='settings' element={<Settings />} />
               </Route>
             </Routes>
           </Router>

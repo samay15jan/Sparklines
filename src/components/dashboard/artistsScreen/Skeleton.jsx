@@ -2,16 +2,29 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const Container = styled.div`${tw`bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold`}`
-const SubContainer = styled.div`${tw`grid grid-cols-1 p-2 rounded-lg opacity-20`}`
-const ImageSkeleton = styled.div`${tw`h-96 rounded-lg bg-white animate-pulse`}`
-const HeadingSkeleton = styled.div`${tw`mb-4 w-32 h-6 bg-white rounded-lg animate-pulse`}`
-const TitleSkeleton = styled.div`${tw`ml-2 mb-2 mt-4 w-32 h-8 bg-white rounded-lg animate-pulse`}`
-const SubHeadingSkeleton = styled.div`${tw`ml-2 mb-4 w-60 h-4 bg-white rounded-lg animate-pulse`}`
-const IconSkeleton = styled.div`${tw`mr-2 mt-4 w-8 h-8 bg-white rounded-lg animate-pulse`}`
+const Container = styled.div`
+  ${tw`bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold`}
+`
+const SubContainer = styled.div`
+  ${tw`grid grid-cols-1 p-2 rounded-lg opacity-20`}
+`
+const ImageSkeleton = styled.div`
+  ${tw`h-96 rounded-lg bg-white animate-pulse`}
+`
+const HeadingSkeleton = styled.div`
+  ${tw`mb-4 w-32 h-6 bg-white rounded-lg animate-pulse`}
+`
+const TitleSkeleton = styled.div`
+  ${tw`ml-2 mb-2 mt-4 w-32 h-8 bg-white rounded-lg animate-pulse`}
+`
+const SubHeadingSkeleton = styled.div`
+  ${tw`ml-2 mb-4 w-60 h-4 bg-white rounded-lg animate-pulse`}
+`
+const IconSkeleton = styled.div`
+  ${tw`mr-2 mt-4 w-8 h-8 bg-white rounded-lg animate-pulse`}
+`
 
 const Skeleton = () => {
-
   return (
     <Container>
       <SubContainer>
@@ -49,7 +62,6 @@ const Skeleton = () => {
         </div>
       </SubContainer>
     </Container>
-
   )
 }
 

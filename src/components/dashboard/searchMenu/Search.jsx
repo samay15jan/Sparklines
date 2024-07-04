@@ -11,7 +11,7 @@ const Search = () => {
   const location = useLocation()
   const currentPath = location.pathname
   let { query } = useParams()
-  
+
   useEffect(() => {
     if (currentPath === `/dashboard/search/${query}`) {
       setSearchText(query)
@@ -30,13 +30,11 @@ const Search = () => {
   return (
     <div className='p-5'>
       <div className='relative flex'>
-        <Input
-          SearchText={(text) => setSearchText(text)}
-        />
+        <Input SearchText={(text) => setSearchText(text)} />
         <UserProfile />
       </div>
 
-      {searchText != '' && apiResponse &&
+      {searchText != '' && apiResponse && (
         <Response
           topResults={apiResponse?.topQuery?.results}
           songs={apiResponse?.songs?.results}
@@ -44,7 +42,7 @@ const Search = () => {
           artists={apiResponse?.artists?.results}
           playlists={apiResponse?.playlists?.results}
         />
-      }
+      )}
     </div>
   )
 }

@@ -12,6 +12,7 @@
 - **Fullscreen Mode**: Canvas, Details, Player, Queue, Lyrics, Close
 
 #### Additional Features:
+
 - Auto-play next song
 - Keyboard shortcuts
 - Responsiveness
