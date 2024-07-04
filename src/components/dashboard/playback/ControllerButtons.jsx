@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
-import { FaCirclePlay, FaCirclePause, FaRepeat, FaShuffle, FaForwardStep, FaBackwardStep } from "react-icons/fa6"
+import {
+  FaCirclePlay,
+  FaCirclePause,
+  FaRepeat,
+  FaShuffle,
+  FaForwardStep,
+  FaBackwardStep,
+} from 'react-icons/fa6'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const ButtonsContainer = styled.div`${tw`flex justify-center gap-6 my-1`}`
+const ButtonsContainer = styled.div`
+  ${tw`flex justify-center gap-6 my-1`}
+`
 
 const ControllerButtons = ({ playing, setPlaying }) => {
   const [isLooping, setLooping] = useState(null)
@@ -49,11 +58,7 @@ const ControllerButtons = ({ playing, setPlaying }) => {
       />
 
       <button onClick={() => setPlaying(!playing)}>
-        {
-          playing
-            ? <FaCirclePause size={35} />
-            : <FaCirclePlay size={35} />
-        }
+        {playing ? <FaCirclePause size={35} /> : <FaCirclePlay size={35} />}
       </button>
 
       <FaForwardStep

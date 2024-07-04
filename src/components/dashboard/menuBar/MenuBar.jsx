@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineHome, MdHome } from 'react-icons/md'
-import { RiSearchFill, RiSearchLine } from "react-icons/ri"
-import { LuLibrary } from "react-icons/lu"
+import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
+import { LuLibrary } from 'react-icons/lu'
 import { useLocation, Link, useParams } from 'react-router-dom'
 
 const MenuBar = () => {
@@ -18,7 +18,7 @@ const MenuBar = () => {
     if (currentPath === '/dashboard/search') {
       changeMenu('search')
     }
-    if (query && currentPath === `/dashboard/search/${query}`){
+    if (query && currentPath === `/dashboard/search/${query}`) {
       changeMenu('search')
     }
   }, [currentPath])
@@ -45,14 +45,22 @@ const MenuBar = () => {
               <MdHome size={30} onClick={handleMenu2} />
             </Link>
             <Link to='/dashboard/search'>
-              <RiSearchLine size={28} className='opacity-70 mt-5' onClick={handleMenu1} />
+              <RiSearchLine
+                size={28}
+                className='opacity-70 mt-5'
+                onClick={handleMenu1}
+              />
             </Link>
           </div>
         )}
         {menu === 'search' && (
           <div>
             <Link to='/dashboard'>
-              <MdOutlineHome size={30} className='opacity-70 mb-5' onClick={handleMenu2} />
+              <MdOutlineHome
+                size={30}
+                className='opacity-70 mb-5'
+                onClick={handleMenu2}
+              />
             </Link>
             <Link to='/dashboard/search'>
               <RiSearchFill size={28} onClick={handleMenu1} />

@@ -23,8 +23,15 @@ const Playlist = () => {
 
   return (
     <div>
-      <div style={dominantColor && { backgroundColor: `rgba(${dominantColor}, 0.7)`, boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)` }}>
-        {data &&
+      <div
+        style={
+          dominantColor && {
+            backgroundColor: `rgba(${dominantColor}, 0.7)`,
+            boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
+          }
+        }
+      >
+        {data && (
           <div className='relative pt-24 ml-5'>
             <Header
               data={data}
@@ -36,13 +43,11 @@ const Playlist = () => {
               songCount={data.data?.songCount}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon/>
+            <PlayIcon />
           </div>
-        }
+        )}
       </div>
-      {data &&
-        <SongList songs={data.data?.songs}/>
-      }
+      {data && <SongList songs={data.data?.songs} />}
     </div>
   )
 }

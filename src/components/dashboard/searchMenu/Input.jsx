@@ -3,14 +3,17 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useParams, useNavigate } from 'react-router-dom'
 
-const Container = styled.div`${tw`flex`}`
-const SearchInput = styled.input`${tw`bg-[#242424] text-white text-sm px-5 py-2 rounded-full drop-shadow-md`}
-&:hover {
-  background: #2a2a2a;
-}
-&:focus {
-  outline: 2px solid white;
-}
+const Container = styled.div`
+  ${tw`flex`}
+`
+const SearchInput = styled.input`
+  ${tw`bg-[#242424] text-white text-sm px-5 py-2 rounded-full drop-shadow-md`}
+  &:hover {
+    background: #2a2a2a;
+  }
+  &:focus {
+    outline: 2px solid white;
+  }
 `
 
 const Input = ({ SearchText }) => {
@@ -19,12 +22,12 @@ const Input = ({ SearchText }) => {
   let { query } = useParams()
 
   useEffect(() => {
-    if(query){
-      let modifiedText = query.replaceAll('+',' ')
-      setNewQuery(modifiedText)  
+    if (query) {
+      let modifiedText = query.replaceAll('+', ' ')
+      setNewQuery(modifiedText)
     }
   }, [query])
-  
+
   useEffect(() => {
     SearchText(newQuery)
   }, [newQuery])
@@ -39,7 +42,7 @@ const Input = ({ SearchText }) => {
     <Container>
       <SearchInput
         accessKey='s'
-        type="text"
+        type='text'
         placeholder='What do you want to play?'
         onChange={(event) => handleInputChange(event)}
         value={newQuery}

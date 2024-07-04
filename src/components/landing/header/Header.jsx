@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaGithub } from "react-icons/fa6"
-import { MdEmail } from "react-icons/md"
+import { FaGithub } from 'react-icons/fa6'
+import { MdEmail } from 'react-icons/md'
 const LogoContainer = lazy(() => import('./LogoContainer'))
 const MainLogo = lazy(() => import('./MainLogo'))
 
@@ -10,10 +10,10 @@ const Connect = () => {
     <div className='w-58 px-4 p-2 rounded-full text-sm border-2 border-black flex gap-2 font-extrabold justify-center'>
       <div className='mt-2 mr-2'>LETS CONNECT</div>
       <div className='bg-black text-white p-1 bg-opacity-80 rounded-full'>
-        <FaGithub size={25}/>
+        <FaGithub size={25} />
       </div>
       <div className='bg-black text-white p-1 bg-opacity-80 rounded-full'>
-        <MdEmail size={25}/>
+        <MdEmail size={25} />
       </div>
     </div>
   )
@@ -30,7 +30,11 @@ const Header = () => {
       <MainLogo text='Sparklines' />
       <div className='ml-5 flex justify-center gap-4'>
         <Connect />
-        <LogoContainer text='Login' whiteBg='true' navigation={(location) => navigate(location)} />
+        <LogoContainer
+          text='Login'
+          whiteBg='true'
+          navigation={(location) => navigate(location)}
+        />
       </div>
     </div>
   )

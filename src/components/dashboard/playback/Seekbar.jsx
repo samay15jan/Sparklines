@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const Container = styled.div`${tw`flex gap-2`}`
-const TimeLabel = styled.label`${tw`mt-1 text-[12px] opacity-60`}`
-const SeekingBar = styled.input`${tw`mt-3 w-[60vh]`}
+const Container = styled.div`
+  ${tw`flex gap-2`}
+`
+const TimeLabel = styled.label`
+  ${tw`mt-1 text-[12px] opacity-60`}
+`
+const SeekingBar = styled.input`
+  ${tw`mt-3 w-[60vh]`}
   -webkit-appearance: none;
   -moz-appearance: none;
   border: solid 1px #4d4d4d;
@@ -17,35 +22,35 @@ const SeekingBar = styled.input`${tw`mt-3 w-[60vh]`}
   /* For Chrome/Safari */
   &::-webkit-slider-runnable-track {
     background-color: #121212;
-    border: solid 1px #FFFFFF;
+    border: solid 1px #ffffff;
   }
   &:hover::-webkit-slider-runnable-track {
     background-color: #1db954;
     border: solid 1px #1db954;
   }
-  &::-webkit-slider-thumb{
+  &::-webkit-slider-thumb {
     opacity: 0;
   }
-  &:hover::-webkit-slider-thumb{
-      opacity: 1;
-      width: 10px;
-      height: 10px;
+  &:hover::-webkit-slider-thumb {
+    opacity: 1;
+    width: 10px;
+    height: 10px;
   }
 
   /* For Firefox */
   &::-moz-range-progress {
-    background-color: #FFFFFF;
-    border: solid 1px #FFFFFF;
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
   }
   &:hover::-moz-range-progress {
     background-color: #1db954;
     border: solid 1px #1db954;
   }
 
-  &::-moz-range-thumb{
+  &::-moz-range-thumb {
     opacity: 0;
   }
-  &:hover::-moz-range-thumb{
+  &:hover::-moz-range-thumb {
     opacity: 1;
     width: 10px;
     height: 10px;
@@ -71,13 +76,11 @@ const Seekbar = ({ currentPlayer, playing }) => {
 
   return (
     <Container>
-      <TimeLabel>
-        {currentTime || '0:00'}
-      </TimeLabel>
+      <TimeLabel>{currentTime || '0:00'}</TimeLabel>
 
       <SeekingBar
-        type="range"
-        min="0"
+        type='range'
+        min='0'
         max={currentPlayer?.duration}
         value={currentPlayer?.currentTime.toFixed(0) || 0}
         onChange={(e) => {
@@ -87,9 +90,7 @@ const Seekbar = ({ currentPlayer, playing }) => {
         }}
       />
 
-      <TimeLabel>
-        {formatTime(currentPlayer?.duration)}
-      </TimeLabel>
+      <TimeLabel>{formatTime(currentPlayer?.duration)}</TimeLabel>
     </Container>
   )
 }

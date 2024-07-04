@@ -2,12 +2,18 @@ import React, { lazy, useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-const MainScreen = lazy(() => import('../components/dashboard/mainScreen/MainScreen'))
+const MainScreen = lazy(
+  () => import('../components/dashboard/mainScreen/MainScreen')
+)
 const Playback = lazy(() => import('../components/dashboard/playback/Playback'))
 const MenuBar = lazy(() => import('../components/dashboard/menuBar/MenuBar'))
-const ArtistsScreen = lazy(() => import('../components/dashboard/artistsScreen/ArtistsScreen'))
+const ArtistsScreen = lazy(
+  () => import('../components/dashboard/artistsScreen/ArtistsScreen')
+)
 
-const Container = styled.div`${tw`overflow-y-hidden bg-black text-white w-screen h-auto`}`
+const Container = styled.div`
+  ${tw`overflow-y-hidden bg-black text-white w-screen h-auto`}
+`
 
 const Dashboard = () => {
   const [showMenu, setShowMenu] = useState('home')
@@ -30,19 +36,24 @@ const Dashboard = () => {
       case currentPath === '/dashboard':
         setShowMenu('home')
         break
-      case currentPath === '/dashboard/search' || (query && currentPath.startsWith('/dashboard/search/')):
+      case currentPath === '/dashboard/search' ||
+        (query && currentPath.startsWith('/dashboard/search/')):
         setShowMenu('search')
         break
-      case currentPath.startsWith('/dashboard/track/') || (query && currentPath.startsWith('/dashboard/track/')):
+      case currentPath.startsWith('/dashboard/track/') ||
+        (query && currentPath.startsWith('/dashboard/track/')):
         setShowMenu('track')
         break
-      case currentPath.startsWith('/dashboard/playlist/') || (query && currentPath.startsWith('/dashboard/playlist/')):
+      case currentPath.startsWith('/dashboard/playlist/') ||
+        (query && currentPath.startsWith('/dashboard/playlist/')):
         setShowMenu('playlist')
         break
-      case currentPath.startsWith('/dashboard/album/') || (query && currentPath.startsWith('/dashboard/album/')):
+      case currentPath.startsWith('/dashboard/album/') ||
+        (query && currentPath.startsWith('/dashboard/album/')):
         setShowMenu('album')
         break
-      case currentPath.startsWith('/dashboard/artist/') || (query && currentPath.startsWith('/dashboard/artist/')):
+      case currentPath.startsWith('/dashboard/artist/') ||
+        (query && currentPath.startsWith('/dashboard/artist/')):
         setShowMenu('artist')
         break
       default:

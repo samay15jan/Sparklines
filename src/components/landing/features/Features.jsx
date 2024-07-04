@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
-import { FaHeart, FaStar } from "react-icons/fa6"
-import { GoArrowUpRight } from "react-icons/go"
-import { RiCompassDiscoverLine } from "react-icons/ri"
+import { FaHeart, FaStar } from 'react-icons/fa6'
+import { GoArrowUpRight } from 'react-icons/go'
+import { RiCompassDiscoverLine } from 'react-icons/ri'
 const Heading = lazy(() => import('./Heading'))
 const Bar1 = lazy(() => import('./Bar1'))
 const Bar2 = lazy(() => import('./Bar2'))
@@ -38,7 +38,13 @@ const Features = ({ response }) => {
       </div>
       <div>
         <TopArtists
-          image={response && response?.data?.trending?.songs[0]?.primaryArtists[0]?.image[2]?.link || response?.data?.trending?.songs[1]?.primaryArtists[0]?.image[2]?.link}
+          image={
+            (response &&
+              response?.data?.trending?.songs[0]?.primaryArtists[0]?.image[2]
+                ?.link) ||
+            response?.data?.trending?.songs[1]?.primaryArtists[0]?.image[2]
+              ?.link
+          }
           menuName='popular'
           menuIcon1={<FaStar />}
           menuIcon2={<GoArrowUpRight />}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FaCirclePlay } from "react-icons/fa6"
+import { FaCirclePlay } from 'react-icons/fa6'
 
 const PlayIcon = (id) => {
   const [newId, setId] = useState('')

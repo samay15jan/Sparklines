@@ -6,7 +6,9 @@ import Target from '../components/developer/Target'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const Container = styled.div`${tw`grid grid-cols-5`}`
+const Container = styled.div`
+  ${tw`grid grid-cols-5`}
+`
 
 const Developer = () => {
   const [path, setPath] = useState('')

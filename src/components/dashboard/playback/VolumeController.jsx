@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { SlVolumeOff, SlVolume1, SlVolume2 } from "react-icons/sl"
-import { FaExpandAlt } from "react-icons/fa"
+import { SlVolumeOff, SlVolume1, SlVolume2 } from 'react-icons/sl'
+import { FaExpandAlt } from 'react-icons/fa'
 
-const SeekingBar = styled.input`${tw`mt-3 w-[15vh]`}
+const SeekingBar = styled.input`
+  ${tw`mt-3 w-[15vh]`}
   -webkit-appearance: none;
   -moz-appearance: none;
   border: solid 1px #4d4d4d;
@@ -17,35 +18,35 @@ const SeekingBar = styled.input`${tw`mt-3 w-[15vh]`}
   /* For Chrome/Safari */
   &::-webkit-slider-runnable-track {
     background-color: #121212;
-    border: solid 1px #FFFFFF;
+    border: solid 1px #ffffff;
   }
   &:hover::-webkit-slider-runnable-track {
     background-color: #1db954;
     border: solid 1px #1db954;
   }
-  &::-webkit-slider-thumb{
+  &::-webkit-slider-thumb {
     opacity: 0;
   }
-  &:hover::-webkit-slider-thumb{
-      opacity: 1;
-      width: 10px;
-      height: 10px;
+  &:hover::-webkit-slider-thumb {
+    opacity: 1;
+    width: 10px;
+    height: 10px;
   }
 
   /* For Firefox */
   &::-moz-range-progress {
-    background-color: #FFFFFF;
-    border: solid 1px #FFFFFF;
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
   }
   &:hover::-moz-range-progress {
     background-color: #1db954;
     border: solid 1px #1db954;
   }
 
-  &::-moz-range-thumb{
+  &::-moz-range-thumb {
     opacity: 0;
   }
-  &:hover::-moz-range-thumb{
+  &:hover::-moz-range-thumb {
     opacity: 1;
     width: 10px;
     height: 10px;
@@ -59,17 +60,15 @@ const VolumeController = ({ audioPlayer }) => {
   return (
     <div className='flex gap-3 mt-5 absolute right-5'>
       <div className='mt-1 opacity-80'>
-        {
-          currentVolume > 0 && currentVolume < 50 && <SlVolume1 size={18} />
-          || currentVolume >= 50 && <SlVolume2 size={18} />
-          || currentVolume === 0 && <SlVolumeOff size={18} />
-        }
+        {(currentVolume > 0 && currentVolume < 50 && <SlVolume1 size={18} />) ||
+          (currentVolume >= 50 && <SlVolume2 size={18} />) ||
+          (currentVolume === 0 && <SlVolumeOff size={18} />)}
       </div>
 
       <SeekingBar
-        type="range"
-        min="0"
-        max="100"
+        type='range'
+        min='0'
+        max='100'
         value={currentVolume}
         onChange={(e) => {
           if (currentPlayer) {
@@ -79,7 +78,10 @@ const VolumeController = ({ audioPlayer }) => {
           }
         }}
       />
-      <FaExpandAlt size={15} style={{ opacity:0.7, marginTop:'7px', marginLeft:'5px' }}/>
+      <FaExpandAlt
+        size={15}
+        style={{ opacity: 0.7, marginTop: '7px', marginLeft: '5px' }}
+      />
     </div>
   )
 }

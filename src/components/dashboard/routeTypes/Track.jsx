@@ -16,8 +16,7 @@ const Track = () => {
 
   async function getData() {
     if (id) {
-      localStorage.setItem('playback', JSON.stringify([id]))
-      const response = await songDetails()
+      const response = await songDetails(id)
       setData(response)
     }
   }
@@ -37,7 +36,7 @@ const Track = () => {
     return new Date(date).toLocaleString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -47,8 +46,15 @@ const Track = () => {
 
   return (
     <div>
-      <div style={dominantColor && { backgroundColor: `rgba(${dominantColor}, 0.7)`, boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)` }}>
-        {data &&
+      <div
+        style={
+          dominantColor && {
+            backgroundColor: `rgba(${dominantColor}, 0.7)`,
+            boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
+          }
+        }
+      >
+        {data && (
           <div className='relative pt-24 ml-5'>
             <Header
               data={data}
@@ -60,11 +66,11 @@ const Track = () => {
               time={formatTime(data.data[0]?.duration, 1)}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon id={data.data[0]?.id}/>
+            <PlayIcon id={data.data[0]?.id} />
           </div>
-        }
+        )}
       </div>
-      {data &&
+      {data && (
         <SongList
           name={data.data[0]?.name}
           artistName={data.data[0]?.primaryArtists}
@@ -74,7 +80,7 @@ const Track = () => {
           explicit={data.data[0]?.explicitContent}
           id={data.data[0]?.id}
         />
-      }
+      )}
     </div>
   )
 }

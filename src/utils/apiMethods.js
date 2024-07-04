@@ -1,6 +1,6 @@
-import axios from "axios"
+import axios from 'axios'
 
-// Homepage 
+// Homepage
 async function homepageData() {
   try {
     const language = localStorage.getItem('languages') || 'english'
@@ -46,15 +46,19 @@ async function searchSpecific(type, query, page) {
 }
 
 // Songs
-async function songDetails() {
+async function songDetails(id) {
   try {
-    const playbackId = localStorage.getItem('playback')
-    const parsedId = JSON.parse(playbackId)
-    if (!parsedId[0]) {
-      return
+    if (id) {
+      return await handleApi({id: id}, '/api/songs')
+    } else {
+      const playbackId = localStorage.getItem('playback')
+      const parsedId = JSON.parse(playbackId)
+      if (!parsedId[0]) {
+        return
+      }
+      const params = { id: parsedId[0] }
+      return await handleApi(params, '/api/songs')
     }
-    const params = { id: parsedId[0] }
-    return await handleApi(params, '/api/songs')
   } catch (error) {
     console.error('Error fetching playback song', error)
     throw error
@@ -111,7 +115,7 @@ async function artistSongs(artistId, page, category, sort) {
     const params = {
       page: page || 1,
       category: category || null, // alphabetical or latest
-      sort: sort || null // asc or desc
+      sort: sort || null, // asc or desc
     }
     return await handleApi(params, `/api/artists/${artistId}/songs`)
   } catch (error) {
@@ -128,7 +132,7 @@ async function artistAlbums(artistId, page, category, sort) {
     const params = {
       page: page || 1,
       category: category || null, // alphabetical or latest
-      sort: sort || null // asc or desc
+      sort: sort || null, // asc or desc
     }
     return await handleApi(params, `/api/artists/${artistId}/albums`)
   } catch (error) {
@@ -143,7 +147,10 @@ async function artistRecommendations(artistId, songId) {
       return
     }
     const params = null
-    return await handleApi(params, `/api/artists/${artistId}/recommendations/${songId}`)
+    return await handleApi(
+      params,
+      `/api/artists/${artistId}/recommendations/${songId}`
+    )
   } catch (error) {
     console.error('Error searching artist:', error)
     throw error
@@ -173,9 +180,9 @@ async function handleApi(params, url) {
       url: url,
       params: params,
       headers: {
-        'userid': `${userId}`,
-        'Content-Type': 'application/json'
-      }
+        userid: `${userId}`,
+        'Content-Type': 'application/json',
+      },
     }
     const response = await axios.request(options)
     if (response && response.status === 200) {
@@ -183,8 +190,7 @@ async function handleApi(params, url) {
     } else {
       throw new Error('Failed to fetch data from API')
     }
-  } catch (error) {
-  }
+  } catch (error) { }
 }
 
 export {
@@ -198,5 +204,5 @@ export {
   artistSongs,
   artistAlbums,
   artistRecommendations,
-  lyrics
+  lyrics,
 }

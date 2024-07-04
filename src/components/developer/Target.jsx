@@ -19,12 +19,8 @@ const Target = ({ path }) => {
         return null
     }
   }
-  
-  return (
-    <div className='grid col-span-4'>
-      {renderComponent()}
-    </div>
-  )
+
+  return <div className='grid col-span-4'>{renderComponent()}</div>
 }
 
 export default Target

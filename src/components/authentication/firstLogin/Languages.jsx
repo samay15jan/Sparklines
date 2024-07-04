@@ -7,15 +7,31 @@ import { useNavigate } from 'react-router-dom'
 const SendButton = lazy(() => import('../SendButton'))
 const Button = lazy(() => import('./Button'))
 
-const Heading = styled.h1`${tw`text-2xl font-bold text-center mb-5`}`
-const SubContainer = styled.div`${tw`grid grid-cols-3`}`
-const Error = styled.div`${tw`flex justify-center text-lg font-medium`}`
+const Heading = styled.h1`
+  ${tw`text-2xl font-bold text-center mb-5`}
+`
+const SubContainer = styled.div`
+  ${tw`grid grid-cols-3`}
+`
+const Error = styled.div`
+  ${tw`flex justify-center text-lg font-medium`}
+`
 
 const Languages = () => {
   const [selectedLang, setSelectedLang] = useState([])
   const [response, setResponse] = useState('')
   const navigate = useNavigate()
-  const values = ['English', 'Hindi', 'Punjabi', 'Haryanvi', 'Telugu', 'Marathi', 'Gujarati', 'Bengali', 'Rajasthani']
+  const values = [
+    'English',
+    'Hindi',
+    'Punjabi',
+    'Haryanvi',
+    'Telugu',
+    'Marathi',
+    'Gujarati',
+    'Bengali',
+    'Rajasthani',
+  ]
   const handleSelection = (lang) => {
     const isSelected = selectedLang.includes(lang)
     if (!isSelected) {
@@ -29,14 +45,14 @@ const Languages = () => {
   const handleClick = async () => {
     try {
       const userId = localStorage.getItem('userId')
-      if(selectedLang.length < 0){
+      if (selectedLang.length < 0) {
         setResponse('Select atleast one language')
       }
-      const data = {languages: selectedLang, userId: userId}
+      const data = { languages: selectedLang, userId: userId }
       const language = await addLanguages(data)
-      if(language){
+      if (language) {
         localStorage.setItem('languages', language)
-      } else{
+      } else {
         setResponse('Failed!')
       }
       navigate('/dashboard')
@@ -44,7 +60,7 @@ const Languages = () => {
       console.log(error)
     }
   }
-  
+
   return (
     <div>
       <Helmet>
@@ -61,8 +77,7 @@ const Languages = () => {
         ))}
       </SubContainer>
       <Error>{response}</Error>
-      <SendButton value='Finish' onclick={handleClick}/>
-    
+      <SendButton value='Finish' onclick={handleClick} />
     </div>
   )
 }

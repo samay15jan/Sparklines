@@ -3,8 +3,12 @@ import { Helmet } from 'react-helmet-async'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
 const Header = lazy(() => import('../components/landing/header/Header'))
 const Hero = lazy(() => import('../components/landing/hero/Hero.jsx'))
-const RightBar = lazy(() => import('../components/landing/rightBar/RightBar.jsx'))
-const Features = lazy(() => import('../components/landing/features/Features.jsx'))
+const RightBar = lazy(
+  () => import('../components/landing/rightBar/RightBar.jsx')
+)
+const Features = lazy(
+  () => import('../components/landing/features/Features.jsx')
+)
 const Bottom = lazy(() => import('../components/landing/bottom/Bottom.jsx'))
 const Footer = lazy(() => import('../components/landing/footer/Footer.jsx'))
 
