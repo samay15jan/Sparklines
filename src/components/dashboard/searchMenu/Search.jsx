@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from 'react'
 import Response from './Response'
-import { searchAll } from '../../../utils/apiMethods'
+import { searchAll } from '../../../api/apiMethods'
 import { useLocation, useParams } from 'react-router-dom'
 const Input = lazy(() => import('./Input'))
 const UserProfile = lazy(() => import('../profile/UserProfile'))

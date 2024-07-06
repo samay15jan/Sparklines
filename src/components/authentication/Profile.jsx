@@ -1,8 +1,8 @@
 import React, { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { updateData, imageUploader } from '../../utils/authMethods'
 import { RotatingLines } from 'react-loader-spinner'
+import { updateUsername, imageUploader } from '../../api/user.js'
 const SendButton = lazy(() => import('./SendButton'))
 
 const Container = styled.div`
@@ -46,7 +46,7 @@ const Profile = ({ data, onNext }) => {
     try {
       if (name && pic) {
         const data = { username: name, profilePic: pic, userId: userId }
-        const response = await updateData(data)
+        const response = await updateUsername(data)
         if (response) {
           setDataLocally(response)
           onNext()

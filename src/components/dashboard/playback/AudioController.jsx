@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, lazy } from 'react'
-
 const SeekBar = lazy(() => import('./Seekbar'))
 const ControllerButtons = lazy(() => import('./ControllerButtons'))
 

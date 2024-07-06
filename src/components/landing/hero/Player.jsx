@@ -1,5 +1,5 @@
 import React, { lazy, useState, useEffect } from 'react'
-import { homepageData } from '../../../utils/apiMethods'
+import { homepageData } from '../../../api/apiMethods'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 import { FaPause, FaPlay } from 'react-icons/fa6'
@@ -48,7 +48,7 @@ const Player = ({ apiResponse }) => {
   async function getData() {
     const homepage = await homepageData()
     const playbackId = homepage && homepage.data.trending.songs[0].id
-    localStorage.setItem('playback', JSON.stringify([newId]))
+    localStorage.setItem('playback', JSON.stringify([playbackId]))
     setData(homepage)
   }
 

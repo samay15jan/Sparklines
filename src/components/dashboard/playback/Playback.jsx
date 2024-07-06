@@ -1,5 +1,5 @@
 import React, { useEffect, useState, lazy } from 'react'
-import { songDetails } from '../../../utils/apiMethods'
+import { songDetails } from '../../../api/apiMethods'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Helmet } from 'react-helmet-async'

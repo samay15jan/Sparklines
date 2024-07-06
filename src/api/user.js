@@ -35,7 +35,7 @@ const login = async (userData) => {
 }
 
 // Update Username
-const updateData = async (data) => {
+const updateUsername = async (data) => {
   try {
     const headers = {
       userid: `${data.userId}`,
@@ -96,4 +96,4 @@ const addLanguages = async (data) => {
   }
 }
 
-export { register, login, updateData, imageUploader, addLanguages }
+export { register, login, updateUsername, imageUploader, addLanguages }

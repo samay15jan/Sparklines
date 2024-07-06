@@ -1,7 +1,7 @@
 import React, { lazy, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { homepageData } from '../../../utils/apiMethods'
+import { homepageData } from '../../../api/apiMethods'
 const Carousel = lazy(() => import('./Carousel'))
 const Skeleton = lazy(() => import('./Skeleton'))
 const UserProfile = lazy(() => import('../profile/UserProfile'))
