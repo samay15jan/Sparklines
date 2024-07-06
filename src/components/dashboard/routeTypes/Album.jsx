@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { albumDetails } from '../../../utils/apiMethods'
+import { albumDetails } from '../../../api/apiMethods'
 const Header = lazy(() => import('./components/Header'))
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))

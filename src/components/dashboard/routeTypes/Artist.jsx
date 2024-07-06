@@ -5,7 +5,7 @@ import {
   artistSongs,
   artistAlbums,
   artistRecommendations,
-} from '../../../utils/apiMethods'
+} from '../../../api/apiMethods'
 import PlayIcon from './components/PlayIcon'
 const Header = lazy(() => import('./components/Header'))
 

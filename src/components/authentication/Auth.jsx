@@ -2,7 +2,7 @@ import React, { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
-import { register, login } from '../../utils/authMethods'
+import { register, login } from '../../api/user.js'
 const SendButton = lazy(() => import('./SendButton'))
 
 const Heading = styled.div`

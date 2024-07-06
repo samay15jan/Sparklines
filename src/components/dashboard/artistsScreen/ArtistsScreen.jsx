@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
-import { artistDetails } from '../../../utils/apiMethods'
+import { artistDetails } from '../../../api/apiMethods'
 const Skeleton = lazy(() => import('./Skeleton'))
 
 const ArtistsScreen = ({ response }) => {

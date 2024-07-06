@@ -2,8 +2,8 @@ import React, { lazy, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Helmet } from 'react-helmet-async'
-import { addLanguages } from '../../../utils/authMethods'
 import { useNavigate } from 'react-router-dom'
+import { addLanguages } from '../../../api/user'
 const SendButton = lazy(() => import('../SendButton'))
 const Button = lazy(() => import('./Button'))
 

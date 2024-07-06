@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { songDetails } from '../../../utils/apiMethods'
+import { songDetails } from '../../../api/apiMethods'
 
 const AudioPlayer = ({ songResponse, playingStatus }) => {
   const audioPlayer = useRef()
