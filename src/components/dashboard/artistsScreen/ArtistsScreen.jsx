@@ -4,12 +4,12 @@ import { artistDetails } from '../../../api/apiMethods'
 const Skeleton = lazy(() => import('./Skeleton'))
 
 const ArtistsScreen = ({ response }) => {
-  const name = response && response.data[0].name
-  const fileUrl = response && response.data[0].downloadUrl[4].link
+  const name = response && response?.data[0]?.name
+  const fileUrl = response && response?.data[0]?.downloadUrl[4].link
   const [artistsData, setArtistsData] = useState(null)
 
   useEffect(() => {
-    const listId = response && response.data[0].primaryArtistsId
+    const listId = response && response?.data[0]?.primaryArtistsId
     if (listId) {
       const artistIdsArray = listId.split(',').map((id) => id.trim())
       const artistId = artistIdsArray[0]

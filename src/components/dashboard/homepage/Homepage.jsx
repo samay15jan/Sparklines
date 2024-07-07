@@ -2,6 +2,7 @@ import React, { lazy, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { homepageData } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Carousel = lazy(() => import('./Carousel'))
 const Skeleton = lazy(() => import('./Skeleton'))
 const UserProfile = lazy(() => import('../profile/UserProfile'))
@@ -14,22 +15,22 @@ const Heading = styled.div`
 `
 
 const Homepage = () => {
-  const [data, setData] = useState()
+  const [data, setData] = useRQGlobalState('homepageData', null)
+
+  async function getData() {
+    const { data } = await homepageData()
+    setData(data)
+  }
 
   useEffect(() => {
     getData()
   }, [])
 
-  async function getData() {
-    const response = await homepageData()
-    setData(response)
-  }
-
   const types = [
     {
       id: 1,
       heading: 'Trending Songs',
-      carouselData: data?.data?.trending.songs,
+      carouselData: data?.data?.trending?.songs,
     },
     {
       id: 2,
@@ -57,17 +58,17 @@ const Homepage = () => {
       </div>
       {data
         ? types.map((type) => (
-            <div key={type.id}>
-              <Heading>{type.heading}</Heading>
-              <Carousel CarouselData={type.carouselData} typeId={type.id} />
-            </div>
-          ))
+          <div key={type.id}>
+            <Heading>{type.heading}</Heading>
+            <Carousel CarouselData={type.carouselData} typeId={type.id} />
+          </div>
+        ))
         : fallback.map((type, index) => (
-            <div key={type}>
-              <Heading className='w-36 h-5 rounded-md bg-white animate-pulse opacity-20'></Heading>
-              <Skeleton />
-            </div>
-          ))}
+          <div key={type}>
+            <Heading className='w-36 h-5 rounded-md bg-white animate-pulse opacity-20'></Heading>
+            <Skeleton />
+          </div>
+        ))}
     </Container>
   )
 }

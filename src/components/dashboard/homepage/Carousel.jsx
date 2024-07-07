@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { FaCirclePlay } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
+import { songDetails } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const Container = styled.div`
   ${tw`p-2 cursor-pointer grid grid-flow-col overflow-x-auto text-sm font-bold`}
@@ -62,11 +64,12 @@ const Carousel = ({ CarouselData, typeId }) => {
 
 const CarouselImage = ({ image, title, id }) => {
   const [show, setShow] = useState(false)
-  const [newId, setId] = useState('')
+  const [data, setData] = useRQGlobalState('playbackId', null)
 
-  useEffect(() => {
-    localStorage.setItem('playback', JSON.stringify([newId]))
-  }, [newId])
+  const handleClick = async (newId) => {
+    const { data } = await songDetails(newId)
+    setData(data)
+  }
 
   return (
     <div
@@ -81,7 +84,7 @@ const CarouselImage = ({ image, title, id }) => {
         }
         alt={title + "'s Image"}
       />
-      <div className={show ? '' : 'hidden'} onClick={(e) => {e.stopPropagation(); setId(id)}}>
+      <div className={show ? '' : 'hidden'} onClick={(e) => { e.stopPropagation(); handleClick(id) }}>
         <FaCirclePlay
           size={40}
           color='#1ed760'

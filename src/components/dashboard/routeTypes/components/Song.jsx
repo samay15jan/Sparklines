@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import useRQGlobalState from '../../../../utils/useRQGlobalState'
+import { songDetails } from '../../../../api/apiMethods'
 import { FaPlay } from 'react-icons/fa6'
 import { MdExplicit } from 'react-icons/md'
 
 const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
   const [hover, setHover] = useState(false)
-  const [newId, setId] = useState('')
+  const [data, setData] = useRQGlobalState('playbackId', null)
 
-  useEffect(() => {
-    localStorage.setItem('playback', JSON.stringify([newId]))
-  }, [newId])
+  const handleClick = async (id) => {
+    const { data } = await songDetails(id)
+    setData(data)
+  }
 
   function formatTime(time) {
     if (time) {
@@ -24,7 +27,7 @@ const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
         className='hover:bg-[#353535] rounded-md py-2 px-5 pr-8 ml-7 mr-9 flex justify-between'
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        onClick={() => setId(songData?.id || id)}
+        onClick={() => handleClick(songData?.id || id)}
       >
         <div className='flex gap-4'>
           <h1

@@ -16,6 +16,7 @@ const AudioController = ({ audioSrc, returnPlaying, returnPlayerRef }) => {
       }
     }
     returnPlaying(playing)
+    setPlaying(playing)
     returnPlayerRef(audioPlayer)
   }, [playing])
 
@@ -23,6 +24,7 @@ const AudioController = ({ audioSrc, returnPlaying, returnPlayerRef }) => {
     <div className='flex justify-center'>
       <div className='grid grid-cols-1'>
         <ControllerButtons
+          currentPlayer={currentPlayer}
           playing={playing}
           setPlaying={(e) => setPlaying(e)}
         />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, lazy } from 'react'
-import { songDetails } from '../../../api/apiMethods'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Helmet } from 'react-helmet-async'
-import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks'
+import { useDocumentTitle } from '@uidotdev/usehooks'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const AudioDetails = lazy(() => import('./AudioDetails'))
 const AudioVisualizer = lazy(() => import('./AudioVisualizer'))
 const AudioController = lazy(() => import('./AudioController'))
@@ -18,35 +18,24 @@ const SubContainer = styled.div`
 `
 
 const Playback = ({ result }) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState(null)
   const [isPlaying, setPlaying] = useState(true)
   const [audioPlayer, setAudioPlayer] = useState(true)
-  const [playbackId, setPlaybackId] = useLocalStorage('playback')
-  const [lastId, setLastId] = useState(null)
   const currentPlayer = audioPlayer?.current
 
+  const response = useRQGlobalState('playbackId', null)
+
   useEffect(() => {
-    if (playbackId[0] != lastId ) {
-      getData()
-      setLastId(playbackId[0])
+    if (!response[0]?.isPending && response[0]?.data != null) {
+      setData(response[0])
+      result(response[0])
     }
-  }, [playbackId[0]])
+  }, [response[0]?.pending, response[0]?.data])
 
-  async function getData() {
-    const response = await songDetails()
-    if (response) {
-      setData(response)
-      result(response)
-      if (currentPlayer) {
-        currentPlayer.play()
-      }
-    }
-  }
-
-  const pageTitle = data
+  useDocumentTitle(data
     ? `${data?.data[0]?.name || 'unknown'} - ${data?.data[0]?.primaryArtists || 'unknown'}`
     : 'Sparklines - A music streaming platform'
-  useDocumentTitle(pageTitle)
+  )
 
   return (
     <Container>
