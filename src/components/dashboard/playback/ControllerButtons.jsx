@@ -14,7 +14,7 @@ const ButtonsContainer = styled.div`
   ${tw`flex justify-center gap-6 my-1`}
 `
 
-const ControllerButtons = ({ playing, setPlaying }) => {
+const ControllerButtons = ({ playing, setPlaying, currentPlayer }) => {
   const [isLooping, setLooping] = useState(null)
   const [isShuffling, setShuffling] = useState(null)
   const [isPrevious, setPrevious] = useState(null)

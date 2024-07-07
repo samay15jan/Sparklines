@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.50.1",
+    "@tanstack/react-query-devtools": "^5.50.1",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.6.7",
     "colorthief": "^2.4.0",
