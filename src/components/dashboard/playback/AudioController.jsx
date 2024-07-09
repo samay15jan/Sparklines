@@ -1,36 +1,19 @@
-import React, { useRef, useEffect, useState, lazy } from 'react'
+import React, { lazy } from 'react'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const SeekBar = lazy(() => import('./Seekbar'))
 const ControllerButtons = lazy(() => import('./ControllerButtons'))
 
-const AudioController = ({ audioSrc, returnPlaying, returnPlayerRef }) => {
-  const audioPlayer = useRef()
-  const currentPlayer = audioPlayer?.current
-  const [playing, setPlaying] = useState(false)
-
-  useEffect(() => {
-    if (currentPlayer) {
-      if (playing) {
-        currentPlayer.play()
-      } else {
-        currentPlayer.pause()
-      }
-    }
-    returnPlaying(playing)
-    setPlaying(playing)
-    returnPlayerRef(audioPlayer)
-  }, [playing])
+const AudioController = () => {
+  const [playerRef] = useRQGlobalState('playerRef')
 
   return (
     <div className='flex justify-center'>
-      <div className='grid grid-cols-1'>
-        <ControllerButtons
-          currentPlayer={currentPlayer}
-          playing={playing}
-          setPlaying={(e) => setPlaying(e)}
-        />
-        <SeekBar currentPlayer={currentPlayer} playing={playing} />
-      </div>
-      <audio ref={audioPlayer} src={audioSrc}></audio>
+      {playerRef?.data &&
+        <div className='grid grid-cols-1'>
+          <ControllerButtons playerRef={playerRef?.data} />
+          <SeekBar playerRef={playerRef?.data} />
+        </div>
+      }
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { MdExplicit } from 'react-icons/md'
 
 const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
   const [hover, setHover] = useState(false)
-  const [data, setData] = useRQGlobalState('playbackId', null)
+  const [data, setData] = useRQGlobalState('playbackQueue', null)
 
   const handleClick = async (id) => {
     const { data } = await songDetails(id)

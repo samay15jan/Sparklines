@@ -64,7 +64,7 @@ const Carousel = ({ CarouselData, typeId }) => {
 
 const CarouselImage = ({ image, title, id }) => {
   const [show, setShow] = useState(false)
-  const [data, setData] = useRQGlobalState('playbackId', null)
+  const [data, setData] = useRQGlobalState('playbackQueue', null)
 
   const handleClick = async (newId) => {
     const { data } = await songDetails(newId)
