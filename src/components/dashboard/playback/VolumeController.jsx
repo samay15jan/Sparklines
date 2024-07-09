@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { SlVolumeOff, SlVolume1, SlVolume2 } from 'react-icons/sl'
 import { FaExpandAlt } from 'react-icons/fa'
 
@@ -53,9 +54,9 @@ const SeekingBar = styled.input`
   }
 `
 
-const VolumeController = ({ audioPlayer }) => {
+const VolumeController = () => {
+  const playerRef = useRQGlobalState('playerRef', null)
   const [currentVolume, setVolume] = useState(100)
-  const currentPlayer = audioPlayer?.current
 
   return (
     <div className='flex gap-3 mt-5 absolute right-5'>
@@ -71,9 +72,9 @@ const VolumeController = ({ audioPlayer }) => {
         max='100'
         value={currentVolume}
         onChange={(e) => {
-          if (currentPlayer) {
-            currentPlayer.volume = parseFloat(e.target.value / 100).toFixed(1)
-            const volume = currentPlayer.volume * 100
+          if (playerRef) {
+            playerRef.data.volume = parseFloat(e.target.value / 100).toFixed(1)
+            const volume = playerRef.data.volume * 100
             setVolume(volume)
           }
         }}

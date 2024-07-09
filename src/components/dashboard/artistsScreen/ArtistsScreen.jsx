@@ -1,21 +1,24 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
 import { artistDetails } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Skeleton = lazy(() => import('./Skeleton'))
 
-const ArtistsScreen = ({ response }) => {
-  const name = response && response?.data[0]?.name
-  const fileUrl = response && response?.data[0]?.downloadUrl[4].link
+const ArtistsScreen = () => {
+  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
   const [artistsData, setArtistsData] = useState(null)
+  const data = currentSong?.data
+  const name = data && data?.name
+  const fileUrl = data && data?.downloadUrl[4]?.link
 
   useEffect(() => {
-    const listId = response && response?.data[0]?.primaryArtistsId
+    const listId = data && data?.primaryArtistsId
     if (listId) {
       const artistIdsArray = listId.split(',').map((id) => id.trim())
       const artistId = artistIdsArray[0]
       getData(artistId)
     }
-  }, [response])
+  }, [data])
 
   async function getData(artistId) {
     const data = await artistDetails(artistId)
@@ -27,8 +30,8 @@ const ArtistsScreen = ({ response }) => {
       if (!fileUrl && !name) {
         return
       }
-      const response = await fetch(fileUrl)
-      const blob = await response.blob()
+      const data = await fetch(fileUrl)
+      const blob = await data.blob()
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.style.display = 'none'
@@ -44,21 +47,21 @@ const ArtistsScreen = ({ response }) => {
 
   return (
     <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4'>
-      {response ? (
+      {data ? (
         <div className='p-4'>
           <h1 className='text-lg font-bold mb-4'>
-            {response.data[0]?.album?.name}
+            {data?.album?.name}
           </h1>
           <img
             className='rounded-lg'
-            src={response.data[0]?.image[2]?.link}
+            src={data?.image[2]?.link}
             alt=''
           />
           <div className='flex justify-between'>
             <div>
               <h1 className='text-3xl font-bold mt-4'>{name}</h1>
               <h1 className='text-sm font-medium opacity-80 mt-1'>
-                {response.data[0]?.primaryArtists}
+                {data?.primaryArtists}
               </h1>
             </div>
             <button onClick={handleDownload}>
@@ -79,7 +82,7 @@ const ArtistsScreen = ({ response }) => {
                 {artistsData.data?.name}
               </h1>
               <h1 className='text-sm font-medium opacity-80 mt-1 pl-4'>
-                {response.data[0]?.playCount} monthly listeners
+                {data?.playCount} monthly listeners
               </h1>
               <h1 className='text-sm font-medium opacity-80 mt-1 pl-4 pb-4'>
                 {artistsData.data?.followerCount} followers
@@ -91,7 +94,7 @@ const ArtistsScreen = ({ response }) => {
             <h1 className='p-4 pt-1'>
               <div className='text-md font-semibold'>Performed by</div>
               <div className='text-sm font-medium opacity-80'>
-                {response.data[0]?.primaryArtists}
+                {data?.primaryArtists}
               </div>
             </h1>
             <h1 className='p-4 pt-1'>
@@ -99,13 +102,13 @@ const ArtistsScreen = ({ response }) => {
                 Release Date
               </div>
               <div className='text-sm font-medium opacity-80'>
-                {response.data[0]?.releaseDate}
+                {data?.releaseDate}
               </div>
             </h1>
             <h1 className='p-4 pt-1'>
               <div className='text-md font-semibold opacity-100'>Copyright</div>
               <div className='text-sm font-medium opacity-80'>
-                {response.data[0]?.copyright}
+                {data?.copyright}
               </div>
             </h1>
           </div>

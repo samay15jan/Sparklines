@@ -57,12 +57,12 @@ const SeekingBar = styled.input`
   }
 `
 
-const Seekbar = ({ currentPlayer, playing }) => {
+const Seekbar = ({ playerRef }) => {
   const [currentTime, setCurrentTime] = useState(null)
 
-  if (currentPlayer && playing) {
+  if (playerRef) {
     setInterval(() => {
-      const time = formatTime(currentPlayer.currentTime)
+      const time = formatTime(playerRef.currentTime)
       setCurrentTime(time)
     }, 1000)
   }
@@ -81,16 +81,16 @@ const Seekbar = ({ currentPlayer, playing }) => {
       <SeekingBar
         type='range'
         min='0'
-        max={currentPlayer?.duration}
-        value={currentPlayer?.currentTime.toFixed(0) || 0}
+        max={playerRef?.duration}
+        value={playerRef?.currentTime?.toFixed(0) || 0}
         onChange={(e) => {
-          if (currentPlayer) {
-            currentPlayer.currentTime = parseFloat(e.target.value)
+          if (playerRef) {
+            playerRef.currentTime = parseFloat(e.target.value)
           }
         }}
       />
 
-      <TimeLabel>{formatTime(currentPlayer?.duration)}</TimeLabel>
+      <TimeLabel>{formatTime(playerRef?.duration)}</TimeLabel>
     </Container>
   )
 }

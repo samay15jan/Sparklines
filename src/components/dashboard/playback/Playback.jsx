@@ -1,7 +1,6 @@
-import React, { useEffect, useState, lazy } from 'react'
+import React, { useEffect, lazy, useRef } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { Helmet } from 'react-helmet-async'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 const AudioDetails = lazy(() => import('./AudioDetails'))
@@ -17,51 +16,70 @@ const SubContainer = styled.div`
   ${tw`grid grid-cols-3 justify-between`}
 `
 
-const Playback = ({ result }) => {
-  const [data, setData] = useState(null)
-  const [isPlaying, setPlaying] = useState(true)
-  const [audioPlayer, setAudioPlayer] = useState(true)
-  const currentPlayer = audioPlayer?.current
-
-  const response = useRQGlobalState('playbackId', null)
+const Player = () => {
+  const audioRef = useRef()
+  const [playerRef, setPlayerRef] = useRQGlobalState('playerRef', null)
+  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue', null)
+  const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
 
   useEffect(() => {
-    if (!response[0]?.isPending && response[0]?.data != null) {
-      setData(response[0])
-      result(response[0])
-    }
-  }, [response[0]?.pending, response[0]?.data])
+    setPlayerRef(audioRef?.current)
+  }, [audioRef])
 
-  useDocumentTitle(data
-    ? `${data?.data[0]?.name || 'unknown'} - ${data?.data[0]?.primaryArtists || 'unknown'}`
+  useEffect(() => {
+    if (!playbackDetails?.isPending && playbackDetails?.data != null) {
+      setPlaybackDetails(playbackDetails?.data)
+      setCurrentSong(playbackDetails?.data[0])
+    }
+  }, [playbackDetails?.pending, playbackDetails?.data])
+
+  // TODO = FIX AUTO QUEUE PLAYBACK
+
+  // useEffect(() => {
+  //   if (!audioRef?.current) return
+  //   const audioElement = audioRef.current
+
+  //   const handleSongEnd = () => {
+  //     if (!playbackDetails && !currentSong) return
+  //     const newData = playbackDetails?.data?.filter((song) => song?.id != currentSong?.data?.id)
+  //     setPlaybackDetails(newData)
+  //     setCurrentSong(newData[0])
+  //   }
+  //   audioElement.addEventListener('ended', handleSongEnd)
+  // }, [audioRef])
+
+  return (
+    <>
+      {currentSong &&
+        <audio ref={audioRef} autoPlay src={currentSong?.data?.downloadUrl[4]?.link} ></audio>
+      }
+    </>
+  )
+}
+
+const Playback = () => {
+  const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
+
+  // Set Webpage Title
+  useDocumentTitle(currentSong
+    ? `${currentSong?.data?.name || 'unknown'} - ${currentSong?.data?.primaryArtists || 'unknown'}`
     : 'Sparklines - A music streaming platform'
   )
 
   return (
     <Container>
-      <Helmet>
-        <link
-          rel='icon'
-          type='image/png'
-          href='/icons/favicon.png'
-          sizes='16x16'
-        />
-      </Helmet>
       <SubContainer>
         <div className='flex'>
-          <AudioDetails details={data?.data[0]} />
-          <AudioVisualizer show={isPlaying} />
+          <AudioDetails />
+          <AudioVisualizer show={false} /> {/* fix it */}
         </div>
-        <AudioController
-          audioSrc={data?.data[0]?.downloadUrl[4].link}
-          returnPlaying={(value) => setPlaying(value)}
-          returnPlayerRef={(e) => setAudioPlayer(e)}
-        />
+        <AudioController />
         <div className='flex'>
           <MenuButtons />
-          <VolumeController audioPlayer={audioPlayer} />
+          <VolumeController />
         </div>
       </SubContainer>
+      <Player />
     </Container>
   )
 }

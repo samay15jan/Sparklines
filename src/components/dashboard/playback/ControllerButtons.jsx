@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   FaCirclePlay,
   FaCirclePause,
@@ -9,16 +9,19 @@ import {
 } from 'react-icons/fa6'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const ButtonsContainer = styled.div`
   ${tw`flex justify-center gap-6 my-1`}
 `
 
-const ControllerButtons = ({ playing, setPlaying, currentPlayer }) => {
-  const [isLooping, setLooping] = useState(null)
-  const [isShuffling, setShuffling] = useState(null)
-  const [isPrevious, setPrevious] = useState(null)
-  const [isNext, setNext] = useState(null)
+const ControllerButtons = ({ playerRef }) => {
+  const [playing, setPlaying] = useState('')
+  const [audioURL, setaudioURL] = useState('')
+  const [isLooping, setLooping] = useState(false)
+  const [isShuffling, setShuffling] = useState(false)
+  const [isPrevious, setPrevious] = useState(false)
+  const [isNext, setNext] = useState(false)
 
   function handleButtons(type) {
     if (type === 'shuffle') {
@@ -34,6 +37,35 @@ const ControllerButtons = ({ playing, setPlaying, currentPlayer }) => {
       setLooping(!isLooping)
     }
   }
+
+  useEffect(() => {
+    if(!playerRef.paused){
+      setPlaying(true)
+    }
+  })
+  // handle playback Controls
+  useEffect(() => {
+    if (!playerRef) return
+    if (playing) {
+      playerRef?.play()
+    } else {
+      playerRef?.pause()
+    }
+
+    if(playerRef?.currentSrc != audioURL){
+      setaudioURL(playerRef?.currentSrc)
+    }
+  }, [playing, playerRef, audioURL])
+
+  // handle Looping
+  // useEffect(() => {
+  //   if (isLooping) {
+  //     playerRef?.loop = true
+  //   }
+  //   if (!isLooping && playerRef?.loop) {
+  //     playerRef?.loop = false
+  //   }
+  // }, [isLooping])
 
   return (
     <ButtonsContainer>

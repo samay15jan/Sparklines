@@ -43,7 +43,7 @@ const Album = () => {
               songCount={data.data?.songCount}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon />
+            <PlayIcon songs={data.data?.songs}/>
           </div>
         )}
       </div>

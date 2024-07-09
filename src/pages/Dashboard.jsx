@@ -13,7 +13,6 @@ const Container = styled.div`
 
 const Dashboard = () => {
   const [showMenu, setShowMenu] = useState('home')
-  const [response, setResponse] = useState()
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
   const location = useLocation()
@@ -66,10 +65,10 @@ const Dashboard = () => {
             <MenuBar />
             <div className='grid grid-cols-12'>
               <MainScreen showMenu={showMenu} />
-              <ArtistsScreen response={response} />
+              <ArtistsScreen />
             </div>
           </div>
-          <Playback result={(response) => setResponse(response)} />
+          <Playback />
         </div>
       </div>
     </Container>

@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import useRQGlobalState from '../../../utils/useRQGlobalState'
+
 const Image = styled.img`
   ${tw`w-16 rounded-lg p-1 ml-1 mr-1`}
 `
@@ -12,15 +14,18 @@ const SubHeading = styled.div`
   ${tw`px-1 text-[12px] opacity-50`}
 `
 
-const AudioDetails = ({ details }) => {
+const AudioData = () => {
+  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
+  const data = currentSong?.data
+
   return (
     <>
-      {details ? (
+      {data ? (
         <>
-          <Image src={details?.image[0]?.link} alt='' />
+          <Image src={data?.image[0]?.link} alt='' />
           <div className='grid grid-rows-2'>
-            <Heading>{details?.name}</Heading>
-            <SubHeading>{details?.primaryArtists}</SubHeading>
+            <Heading>{data?.name}</Heading>
+            <SubHeading>{data?.primaryArtists}</SubHeading>
           </div>
         </>
       ) : (
@@ -36,4 +41,4 @@ const AudioDetails = ({ details }) => {
   )
 }
 
-export default AudioDetails
+export default AudioData

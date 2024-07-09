@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { FaCirclePlay } from 'react-icons/fa6'
+import useRQGlobalState from '../../../../utils/useRQGlobalState'
 
-const PlayIcon = (id) => {
-  const [newId, setId] = useState('')
+const PlayIcon = ({ songs }) => {
+  const [data, setData] = useRQGlobalState('playbackQueue', null)
 
-  useEffect(() => {
-    localStorage.setItem('playback', JSON.stringify([newId]))
-  }, [newId])
+  const handleClick = async () => {
+    setData(songs)
+  }
 
   return (
     <div>
       <FaCirclePlay
         size={55}
         color='#1ed760'
-        onClick={() => setId(id.id)}
+        onClick={handleClick}
         className='absolute ml-1 bottom-[-80px] drop-shadow-3xl bg-black rounded-full transition ease-in-out delay-50 hover:-translate-1 duration-100 hover:scale-110'
       />
     </div>
