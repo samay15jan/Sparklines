@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, useRef } from 'react'
+import React, { useEffect, lazy, useRef, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDocumentTitle } from '@uidotdev/usehooks'
@@ -19,8 +19,17 @@ const SubContainer = styled.div`
 const Player = () => {
   const audioRef = useRef()
   const [playerRef, setPlayerRef] = useRQGlobalState('playerRef', null)
-  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue', null)
+  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue')
   const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
+  const [id, setId] = useRQGlobalState('currentId', currentSong?.data?.id)
+
+  useEffect(() => {
+    if (!currentSong?.data) return
+    setId(currentSong?.data?.id)
+    if(!id){
+      setId(currentSong?.data?.id)
+    }
+  }, [currentSong, id])
 
   useEffect(() => {
     setPlayerRef(audioRef?.current)
@@ -31,22 +40,21 @@ const Player = () => {
       setPlaybackDetails(playbackDetails?.data)
       setCurrentSong(playbackDetails?.data[0])
     }
-  }, [playbackDetails?.pending, playbackDetails?.data])
+  }, [playbackDetails?.isPending, playbackDetails?.data])
 
-  // TODO = FIX AUTO QUEUE PLAYBACK
+  // Handle Queue
+  useEffect(() => {
+    if (!audioRef?.current) return
+    const audioElement = audioRef.current
 
-  // useEffect(() => {
-  //   if (!audioRef?.current) return
-  //   const audioElement = audioRef.current
-
-  //   const handleSongEnd = () => {
-  //     if (!playbackDetails && !currentSong) return
-  //     const newData = playbackDetails?.data?.filter((song) => song?.id != currentSong?.data?.id)
-  //     setPlaybackDetails(newData)
-  //     setCurrentSong(newData[0])
-  //   }
-  //   audioElement.addEventListener('ended', handleSongEnd)
-  // }, [audioRef])
+    const handleSongEnd = () => {
+      if (!playbackDetails?.data) return
+      const newData = playbackDetails?.data?.filter((song) => song?.id != id?.data)
+      setPlaybackDetails(newData)
+      setCurrentSong(newData[0])
+    }
+    audioElement.addEventListener('ended', handleSongEnd)
+  }, [audioRef?.current?.currentTime, playbackDetails?.data])
 
   return (
     <>
