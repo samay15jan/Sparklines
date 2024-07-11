@@ -7,12 +7,16 @@ import {
   artistRecommendations,
 } from '../../../api/apiMethods'
 import PlayIcon from './components/PlayIcon'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Header = lazy(() => import('./components/Header'))
+const RelatedContent = lazy(() => import('./components/RelatedContent'))
 
 const artist = () => {
-  const [data, setData] = useState()
-  const { id } = useParams()
+  const [newArtistData, setArtistData] = useRQGlobalState('artistData', null)
+  const [relatedSongs, setRelatedSongs] = useRQGlobalState('artistSongs', null)
+  const [newArtistAlbums, setArtistAlbums] = useRQGlobalState('artistAlbums', null)
   const [dominantColor, setDominantColor] = useState()
+  const { id } = useParams()
 
   useEffect(() => {
     getData()
@@ -20,11 +24,20 @@ const artist = () => {
 
   async function getData() {
     if (id) {
-      const response = await artistDetails(id)
-      setData(response)
+      const detailsResponse = await artistDetails(id)
+      setArtistData(detailsResponse?.data)
+      if (newArtistData?.data) {
+        const albumsResponse = await artistSongs(newArtistData?.data?.id, 1, 'latest')
+        setRelatedSongs(albumsResponse?.data)
+        console.log(albumsResponse?.data)
+      }
+      if (newArtistData.data) {
+        const albumsResponse = await artistAlbums(newArtistData?.data?.id, 1)
+        setArtistAlbums(albumsResponse?.data)
+      }
     }
   }
-
+console.log(newArtistAlbums?.data?.results)
   return (
     <div>
       <div
@@ -35,19 +48,33 @@ const artist = () => {
           }
         }
       >
-        {data && (
+        {newArtistData && (
           <div className='relative pt-24 ml-5'>
             <Header
-              data={data}
-              image={data.data?.image[2].link}
-              name={data.data?.name}
-              followerCount={data.data?.followerCount}
+              data={newArtistData}
+              image={newArtistData.data?.image[2].link}
+              name={newArtistData.data?.name}
+              followerCount={newArtistData.data?.followerCount}
               dominantColor={(color) => setDominantColor(color)}
             />
             <PlayIcon />
           </div>
         )}
       </div>
+      <div className='pt-20'>
+        {newArtistAlbums &&
+          <RelatedContent
+            relatedSongs={newArtistAlbums?.data?.results}
+            artistName='Appears On'
+          />
+        }
+      </div>
+      {relatedSongs &&
+        <RelatedContent
+          relatedSongs={relatedSongs.data?.results}
+          artistName='songs'
+        />
+      }
     </div>
   )
 }
