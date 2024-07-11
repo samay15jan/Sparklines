@@ -1,12 +1,15 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { albumDetails } from '../../../api/apiMethods'
+import { albumDetails, artistAlbums } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Header = lazy(() => import('./components/Header'))
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
+const RelatedContent = lazy(() => import('./components/RelatedContent'))
 
 const Album = () => {
-  const [data, setData] = useState()
+  const [newAlbumDetails, setAlbumsDetails] = useRQGlobalState('albumDetails', null)
+  const [newArtistAlbums, setArtistAlbums] = useRQGlobalState('artistAlbums', null)
   const [dominantColor, setDominantColor] = useState()
   const { id } = useParams()
 
@@ -16,9 +19,21 @@ const Album = () => {
 
   async function getData() {
     if (id) {
-      const response = await albumDetails(id)
-      setData(response)
+      const detailsResponse = await albumDetails(id)
+      setAlbumsDetails(detailsResponse?.data)
+      if (newAlbumDetails.data) {
+        const albumsResponse = await artistAlbums(newAlbumDetails?.data?.primaryArtistsId, 1, 'alphabetical')
+        setArtistAlbums(albumsResponse?.data)
+      }
     }
+  }
+
+  function handleDate(date) {
+    return new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
   }
 
   return (
@@ -31,23 +46,34 @@ const Album = () => {
           }
         }
       >
-        {data && (
+        {newAlbumDetails && (
           <div className='relative pt-24 ml-5'>
             <Header
-              data={data}
-              image={data.data?.image[2].link}
+              data={newAlbumDetails}
+              image={newAlbumDetails.data?.image[2].link}
               type='Album'
-              name={data.data?.name}
-              artistName={data.data?.primaryArtists}
-              year={data.data?.year}
-              songCount={data.data?.songCount}
+              name={newAlbumDetails.data?.name}
+              artistName={newAlbumDetails.data?.primaryArtists}
+              year={newAlbumDetails.data?.year}
+              songCount={newAlbumDetails.data?.songCount}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon songs={data.data?.songs}/>
+            <PlayIcon songs={newAlbumDetails.data?.songs} />
           </div>
         )}
       </div>
-      {data && <SongList songs={data.data?.songs} />}
+      {newAlbumDetails &&
+        <SongList
+          songs={newAlbumDetails.data?.songs}
+          releaseDate={handleDate(newAlbumDetails.data?.songs[0]?.releaseDate)}
+          copyright={newAlbumDetails.data?.songs[0]?.copyright}
+        />}
+      {newArtistAlbums &&
+        <RelatedContent
+          relatedSongs={newArtistAlbums?.data?.results}
+          artistName={newAlbumDetails.data?.primaryArtists}
+        />
+      }
     </div>
   )
 }

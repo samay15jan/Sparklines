@@ -36,7 +36,7 @@ const Header = ({
   return (
     <div>
       {data && (
-        <div className='flex'>
+        <div className='flex pb-2 '>
           {image && (
             <img
               className={

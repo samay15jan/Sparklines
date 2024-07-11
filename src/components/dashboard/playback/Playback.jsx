@@ -26,7 +26,7 @@ const Player = () => {
   useEffect(() => {
     if (!currentSong?.data) return
     setId(currentSong?.data?.id)
-    if(!id){
+    if (!id) {
       setId(currentSong?.data?.id)
     }
   }, [currentSong, id])
@@ -58,7 +58,7 @@ const Player = () => {
 
   return (
     <>
-      {currentSong &&
+      {currentSong?.data?.downloadUrl &&
         <audio ref={audioRef} autoPlay src={currentSong?.data?.downloadUrl[4]?.link} ></audio>
       }
     </>

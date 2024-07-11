@@ -32,6 +32,17 @@ const SongList = ({
                 <Song songData={songData} index={index} />
               </div>
             ))}
+          <div className='mt-10 ml-5'>
+            <div className='text-sm font-medium opacity-80'>
+              {releaseDate || ''}
+            </div>
+            <div className='text-[10px] font-medium opacity-80'>
+              {copyright || ''}
+            </div>
+            <div className='text-[10px] font-medium opacity-80'>
+              {copyright || ''}
+            </div>
+          </div>
         </div>
       ) : (
         <div>

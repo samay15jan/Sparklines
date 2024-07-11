@@ -50,11 +50,14 @@ const Carousel = ({ CarouselData, typeId }) => {
               image={data.image}
               title={data.name || data.title}
               id={data.id}
+              typeId={typeId}
+              CarouselData={CarouselData}
             />
             <CarouselTitle title={data.name || data.title} />
             <CarouselArtists
               artists={data.primaryArtists}
               followers={data.subtitle}
+              typeId={typeId}
             />
           </SubContainer>
         ))}
@@ -62,13 +65,18 @@ const Carousel = ({ CarouselData, typeId }) => {
   )
 }
 
-const CarouselImage = ({ image, title, id }) => {
+const CarouselImage = ({ image, title, id, typeId, CarouselData }) => {
   const [show, setShow] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 
   const handleClick = async (newId) => {
-    const { data } = await songDetails(newId)
-    setData(data)
+    if (typeId == 1) {
+      const { data } = await songDetails(newId)
+      setData(data)
+    }
+    if (typeId == 2 || typeId == 4 || typeId == 3) {
+      setData(CarouselData)
+    }
   }
 
   return (
@@ -103,17 +111,24 @@ const CarouselTitle = ({ title }) => {
   return <Heading>{shortedTitle ? shortedTitle : 'Unknown Albumn'}</Heading>
 }
 
-const CarouselArtists = ({ artists, followers }) => {
+const CarouselArtists = ({ artists, followers, typeId }) => {
   var shortedNames
-  if (artists) {
-    const arrayOfArtists = []
-    artists?.map((artist) => arrayOfArtists.push(artist.name))
-    const artistNames = arrayOfArtists.join(', ')
-    shortedNames =
-      artistNames?.length > 15
-        ? artistNames?.substring(0, 15) + '...'
-        : artistNames?.substring(0, 15)
+
+  if (typeId == 1) {
+    if (artists) {
+      const arrayOfArtists = []
+      artists?.map((artist) => arrayOfArtists.push(artist.name))
+      const artistNames = arrayOfArtists.join(', ')
+      shortedNames =
+        artistNames?.length > 15
+          ? artistNames?.substring(0, 15) + '...'
+          : artistNames?.substring(0, 15)
+    }
+    if (typeId == 3) {
+      shortedNames = artists
+    }
   }
+  
   return (
     <SubHeading>
       {artists ? (shortedNames ? shortedNames : 'Unknown Artist') : followers}

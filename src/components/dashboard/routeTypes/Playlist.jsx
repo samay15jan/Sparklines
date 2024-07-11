@@ -21,6 +21,14 @@ const Playlist = () => {
     }
   }
 
+  function handleDate(date) {
+    return new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
   return (
     <div>
       <div
@@ -47,7 +55,13 @@ const Playlist = () => {
           </div>
         )}
       </div>
-      {data && <SongList songs={data.data?.songs} />}
+      {data &&
+        <SongList
+          songs={data.data?.songs}
+          releaseDate={handleDate(data.data?.songs[0]?.releaseDate)}
+          copyright={data.data?.songs[0]?.copyright}
+        />
+      }
     </div>
   )
 }

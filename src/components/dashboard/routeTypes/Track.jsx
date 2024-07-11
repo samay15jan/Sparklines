@@ -1,23 +1,31 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { songDetails } from '../../../api/apiMethods'
+import { songDetails, artistSongs } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Header = lazy(() => import('./components/Header'))
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
+const RelatedContent = lazy(() => import('./components/RelatedContent'))
 
 const Track = () => {
-  const [data, setData] = useState()
+  const [songData, setSongData] = useRQGlobalState('songDetails', null)
+  const [relatedSongs, setRelatedSongs] = useRQGlobalState('artistSongs', null)
   const { id } = useParams()
   const [dominantColor, setDominantColor] = useState()
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [id])
 
   async function getData() {
     if (id) {
       const response = await songDetails(id)
-      setData(response)
+      setSongData(response?.data)
+      if (songData?.data) {
+        const artistsId = songData?.data[0]?.primaryArtistsId?.split(',')
+        const albumsResponse = await artistSongs(artistsId[0], 1, 'alphabetical')
+        setRelatedSongs(albumsResponse?.data)
+      }
     }
   }
 
@@ -54,33 +62,39 @@ const Track = () => {
           }
         }
       >
-        {data && (
+        {songData?.data && (
           <div className='relative pt-24 ml-5'>
             <Header
-              data={data}
-              image={data.data[0]?.image[2].link}
+              data={songData}
+              image={songData.data[0]?.image[2].link}
               type='Single'
-              name={data.data[0]?.name}
-              artistName={artistNames(data.data[0]?.primaryArtists)}
-              year={data.data[0]?.year}
-              time={formatTime(data.data[0]?.duration, 1)}
+              name={songData.data[0]?.name}
+              artistName={artistNames(songData.data[0]?.primaryArtists)}
+              year={songData.data[0]?.year}
+              time={formatTime(songData.data[0]?.duration, 1)}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon id={data.data[0]?.id} />
+            <PlayIcon id={songData.data[0]?.id} />
           </div>
         )}
       </div>
-      {data && (
+      {songData?.data && (
         <SongList
-          name={data.data[0]?.name}
-          artistName={data.data[0]?.primaryArtists}
-          time={formatTime(data.data[0]?.duration, 2)}
-          releaseDate={handleDate(data.data[0]?.releaseDate)}
-          copyright={data.data[0]?.copyright}
-          explicit={data.data[0]?.explicitContent}
-          id={data.data[0]?.id}
+          name={songData.data[0]?.name}
+          artistName={songData.data[0]?.primaryArtists}
+          time={formatTime(songData.data[0]?.duration, 2)}
+          releaseDate={handleDate(songData.data[0]?.releaseDate)}
+          copyright={songData.data[0]?.copyright}
+          explicit={songData.data[0]?.explicitContent}
+          id={songData.data[0]?.id}
         />
       )}
+      {relatedSongs &&
+        <RelatedContent
+          relatedSongs={relatedSongs.data?.results}
+          artistName={relatedSongs.data?.primaryArtists}
+        />
+      }
     </div>
   )
 }
