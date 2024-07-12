@@ -23,7 +23,7 @@ const Track = () => {
       setSongData(response?.data)
       if (songData?.data) {
         const artistsId = songData?.data[0]?.primaryArtistsId?.split(',')
-        const albumsResponse = await artistSongs(artistsId[0], 1, 'alphabetical')
+        const albumsResponse = await artistSongs(artistsId[0], 1, 'latest')
         setRelatedSongs(albumsResponse?.data)
       }
     }

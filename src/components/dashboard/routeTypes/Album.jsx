@@ -22,7 +22,7 @@ const Album = () => {
       const detailsResponse = await albumDetails(id)
       setAlbumsDetails(detailsResponse?.data)
       if (newAlbumDetails.data) {
-        const albumsResponse = await artistAlbums(newAlbumDetails?.data?.primaryArtistsId, 1, 'alphabetical')
+        const albumsResponse = await artistAlbums(newAlbumDetails?.data?.primaryArtistsId, 1, 'latest')
         setArtistAlbums(albumsResponse?.data)
       }
     }

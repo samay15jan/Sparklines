@@ -11,25 +11,33 @@ const SongList = ({
   releaseDate,
   copyright,
   explicit,
+  type
 }) => {
   return (
     <div className='mt-28'>
-      <div className='ml-12 mr-20 opacity-80 text-sm flex justify-between'>
-        <div className='flex gap-6'>
-          <i>#</i>
-          <h1>Title</h1>
-        </div>
-        <h1>
-          <FaRegClock size={15} />
-        </h1>
-      </div>
-      <hr className='ml-8 mr-16 opacity-20 my-2' />
+      {!type === 'artist' &&
+        <>
+          <div className='ml-12 mr-20 opacity-80 text-sm flex justify-between'>
+            <div className='flex gap-6'>
+              <i>#</i>
+              <h1>Title</h1>
+            </div>
+            <h1>
+              <FaRegClock size={15} />
+            </h1>
+          </div>
+          <hr className='ml-8 mr-16 opacity-20 my-2' />
+        </>
+      }
       {songs ? (
         <div>
+          {type === 'artist' &&
+            <h1 className='ml-5 mb-5 font-bold text-2xl'>Popular</h1>
+          }
           {songs &&
             songs.map((songData, index) => (
               <div>
-                <Song songData={songData} index={index} />
+                <Song songData={songData} index={index} type={type} />
               </div>
             ))}
           <div className='mt-10 ml-5'>
