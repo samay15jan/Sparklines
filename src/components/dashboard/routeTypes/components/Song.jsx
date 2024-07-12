@@ -4,7 +4,7 @@ import { songDetails } from '../../../../api/apiMethods'
 import { FaPlay } from 'react-icons/fa6'
 import { MdExplicit } from 'react-icons/md'
 
-const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
+const Song = ({ id, songData, index, name, artistName, time, explicit, type }) => {
   const [hover, setHover] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 
@@ -20,7 +20,6 @@ const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
       return `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
   }
-
   return (
     <div>
       <div
@@ -44,14 +43,20 @@ const Song = ({ id, songData, index, name, artistName, time, explicit }) => {
             )}
           </h1>
           <div className='flex text-sm'>
+            {type &&
+              <img className='w-10 mr-3 rounded-sm' src={songData?.image[2]?.link} />
+            }
             <div>
-              <h1 className='font-bold'>
+              <h1 className={type ? 'text-[16px] font-medium' : 'font-bold'}>
                 {songData?.name || name || 'Unknown'}
               </h1>
               <h1 className='flex opacity-80'>
-                {songData?.explicitContent == 1 ||
-                  (explicit && <MdExplicit size={20} className='opacity-80' />)}
-                {songData?.primaryArtists || artistName || 'Unknown'}
+                {songData?.explicitContent == 1 || (explicit && <MdExplicit size={20} className='opacity-80' />)}
+                {!type &&
+                  <>
+                    {songData?.primaryArtists || artistName || 'Unknown'}
+                  </>
+                }
               </h1>
             </div>
           </div>

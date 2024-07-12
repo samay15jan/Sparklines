@@ -1,12 +1,13 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { playlistDetails } from '../../../api/apiMethods'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 const Header = lazy(() => import('./components/Header'))
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
 
 const Playlist = () => {
-  const [data, setData] = useState()
+  const [newPlaylistDetails, setPlaylistDetails] = useRQGlobalState('playlistDetail', null)
   const [dominantColor, setDominantColor] = useState()
   const { id } = useParams()
 
@@ -16,8 +17,8 @@ const Playlist = () => {
 
   async function getData() {
     if (id) {
-      const response = await playlistDetails(id)
-      setData(response)
+      const detailsResponse = await playlistDetails(id)
+      setPlaylistDetails(detailsResponse?.data)
     }
   }
 
@@ -39,27 +40,27 @@ const Playlist = () => {
           }
         }
       >
-        {data && (
+        {newPlaylistDetails && (
           <div className='relative pt-24 ml-5'>
             <Header
-              data={data}
-              image={data.data?.image[2].link}
+              data={newPlaylistDetails}
+              image={newPlaylistDetails.data?.image[2].link}
               type='Playlist'
-              name={data.data?.name}
-              artistName={data.data?.firstname || 'Sparklines'}
-              year={data.data?.year || '2024'}
-              songCount={data.data?.songCount}
+              name={newPlaylistDetails.data?.name}
+              artistName={newPlaylistDetails.data?.firstname || 'Sparklines'}
+              year={newPlaylistDetails.data?.year || '2024'}
+              songCount={newPlaylistDetails.data?.songCount}
               dominantColor={(color) => setDominantColor(color)}
             />
-            <PlayIcon />
+            <PlayIcon songs={newPlaylistDetails.data?.songs} />
           </div>
         )}
       </div>
       {data &&
         <SongList
-          songs={data.data?.songs}
-          releaseDate={handleDate(data.data?.songs[0]?.releaseDate)}
-          copyright={data.data?.songs[0]?.copyright}
+          songs={newPlaylistDetails.data?.songs}
+          releaseDate={handleDate(newPlaylistDetails.data?.songs[0]?.releaseDate)}
+          copyright={newPlaylistDetails.data?.songs[0]?.copyright}
         />
       }
     </div>
