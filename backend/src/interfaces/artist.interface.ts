@@ -15,8 +15,8 @@ export interface ArtistSearchResponse {
 }
 
 export interface ArtistSongResponse {
-  total: number
-  lastPage: boolean
+  total: any
+  lastPage: any
   results: SongResponse[]
 }
 

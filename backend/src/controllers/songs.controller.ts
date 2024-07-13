@@ -32,4 +32,19 @@ export class SongsController {
       next(error)
     }
   }
+
+  public recommendedSongs: RequestHandler = async (
+    req: Request,
+    res: Response<CustomResponse<SongResponse[]>>,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.query
+      const result = await this.songsService.recommendedSongs(id as string)
+
+      res.json({ status: globalConstants.status.success, message: null, data: result })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

@@ -14,5 +14,6 @@ export class SongsRoute implements Route {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, songsSchema, this.songsController.songDetails)
+    this.router.get(`${this.path}/recommendations`, songsSchema, this.songsController.recommendedSongs)
   }
 }

@@ -60,6 +60,13 @@ export interface Endpoint {
      * @isVersion4 false
      */
     link: string
+    /**
+     * Get artist top songs by artist id.
+     * @endpoint
+     * `search.artistOtherTopSongs`
+     * @isVersion4 false
+     */
+    recommendedSongs: string
   }
   albums: {
     /**
@@ -108,13 +115,6 @@ export interface Endpoint {
      * @isVersion4 false
      */
     songs: string
-    /**
-     * Get artist top songs by artist id.
-     * @endpoint
-     * `search.artistOtherTopSongs`
-     * @isVersion4 false
-     */
-    topSongs: string
     /**
      * Get artist albums by artist id.
      * @endpoint

@@ -366,11 +366,10 @@ export class PayloadService extends ApiService {
 
   protected artistSongPayload = (songs: ArtistSongRequest) => {
     const payload: ArtistSongResponse = {
-      total: songs.total,
-      lastPage: songs.last_page,
+      total: songs?.total,
+      lastPage: songs?.last_page,
       results: songs?.songs?.map((song: SongRequest) => this.songPayload(song)),
     }
-
     return payload
   }
 

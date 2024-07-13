@@ -31,6 +31,7 @@ export const productionConfig: Config = {
     songs: {
       id: 'song.getDetails',
       link: 'webapi.get',
+      recommendedSongs: 'reco.getreco',
     },
     albums: {
       id: 'content.getAlbumDetails',
@@ -44,7 +45,6 @@ export const productionConfig: Config = {
       link: 'webapi.get',
       songs: 'artist.getArtistMoreSong',
       albums: 'artist.getArtistMoreAlbum',
-      topSongs: 'search.artistOtherTopSongs',
     },
     lyrics: 'lyrics.getLyrics',
   },

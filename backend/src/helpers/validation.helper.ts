@@ -105,18 +105,6 @@ export const artistSongsAndAlbumsSchema = celebrate(
   { mode: Modes.FULL }
 )
 
-export const artistRecommendedSongsSchema = celebrate(
-  {
-    [Segments.QUERY]: Joi.object().keys({
-      language: Joi.string().default('english'),
-      userId: Joi.string(),
-      apiKey: Joi.string(),
-    }),
-  },
-  { abortEarly: false },
-  { mode: Modes.FULL }
-)
-
 export const idSchema = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
