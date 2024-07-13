@@ -15,9 +15,9 @@ const ButtonsContainer = styled.div`
   ${tw`flex justify-center gap-6 my-1`}
 `
 
-const ControllerButtons = ({ playerRef }) => {
+const ControllerButtons = () => {
+  const [playerRef] = useRQGlobalState('playerRef', null)
   const [playing, setPlaying] = useState('')
-  const [audioURL, setaudioURL] = useState('')
   const [isLooping, setLooping] = useState(false)
   const [isShuffling, setShuffling] = useState(false)
   const [isPrevious, setPrevious] = useState(false)
@@ -39,31 +39,28 @@ const ControllerButtons = ({ playerRef }) => {
   }
 
   useEffect(() => {
-    if(!playerRef.paused){
+    if(!playerRef?.data?.paused){
       setPlaying(true)
     }
   })
+
   // handle playback Controls
   useEffect(() => {
-    if (!playerRef) return
+    if (!playerRef?.data) return
     if (playing) {
-      playerRef?.play()
+      playerRef?.data?.play()
     } else {
-      playerRef?.pause()
+      playerRef?.data?.pause()
     }
-
-    if(playerRef?.currentSrc != audioURL){
-      setaudioURL(playerRef?.currentSrc)
-    }
-  }, [playing, playerRef, audioURL])
+  }, [playing, playerRef?.data])
 
   // handle Looping
   // useEffect(() => {
   //   if (isLooping) {
-  //     playerRef?.loop = true
+  //     playerRef?.data?.loop = true
   //   }
-  //   if (!isLooping && playerRef?.loop) {
-  //     playerRef?.loop = false
+  //   if (!isLooping && playerRef?.data?.loop) {
+  //     playerRef?.data?loop = false
   //   }
   // }, [isLooping])
 
