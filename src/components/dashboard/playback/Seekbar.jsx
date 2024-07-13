@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const Container = styled.div`
   ${tw`flex gap-2`}
@@ -57,12 +58,13 @@ const SeekingBar = styled.input`
   }
 `
 
-const Seekbar = ({ playerRef }) => {
+const Seekbar = () => {
   const [currentTime, setCurrentTime] = useState(null)
+  const [playerRef] = useRQGlobalState('playerRef', null)
 
-  if (playerRef) {
+  if (playerRef?.data) {
     setInterval(() => {
-      const time = formatTime(playerRef.currentTime)
+      const time = formatTime(playerRef.data.currentTime)
       setCurrentTime(time)
     }, 1000)
   }
@@ -76,21 +78,25 @@ const Seekbar = ({ playerRef }) => {
 
   return (
     <Container>
-      <TimeLabel>{currentTime || '0:00'}</TimeLabel>
+      {playerRef &&
+        <>
+          <TimeLabel>{currentTime || '0:00'}</TimeLabel>
 
-      <SeekingBar
-        type='range'
-        min='0'
-        max={playerRef?.duration}
-        value={playerRef?.currentTime?.toFixed(0) || 0}
-        onChange={(e) => {
-          if (playerRef) {
-            playerRef.currentTime = parseFloat(e.target.value)
-          }
-        }}
-      />
+          <SeekingBar
+            type='range'
+            min='0'
+            max={playerRef?.data?.duration}
+            value={playerRef?.data?.currentTime?.toFixed(0) || 0}
+            onChange={(e) => {
+              if (playerRef?.data) {
+                playerRef.data.currentTime = parseFloat(e.target.value)
+              }
+            }}
+          />
 
-      <TimeLabel>{formatTime(playerRef?.duration)}</TimeLabel>
+          <TimeLabel>{formatTime(playerRef?.data?.duration)}</TimeLabel>
+        </>
+      }
     </Container>
   )
 }

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
+import { recommendedSongs } from '../../../api/apiMethods'
 const AudioDetails = lazy(() => import('./AudioDetails'))
 const AudioVisualizer = lazy(() => import('./AudioVisualizer'))
 const AudioController = lazy(() => import('./AudioController'))
@@ -47,7 +48,7 @@ const Player = () => {
     if (!audioRef?.current) return
     const audioElement = audioRef.current
 
-    const handleSongEnd = () => {
+    const handleSongEnd = async () => {
       if (!playbackDetails?.data) return
       const newData = playbackDetails?.data?.filter((song) => song?.id != id?.data)
       setPlaybackDetails(newData)
@@ -55,6 +56,26 @@ const Player = () => {
     }
     audioElement.addEventListener('ended', handleSongEnd)
   }, [audioRef?.current?.currentTime, playbackDetails?.data])
+
+  // fetch new data for queue
+  useEffect(() => {
+    if (playbackDetails?.data?.length == 1) {
+      fetchNewData()
+    }
+  }, [playbackDetails?.data])
+
+  async function fetchNewData() {
+    const songId = playbackDetails?.data[0]?.id
+    const albumsResponse = await recommendedSongs(songId)
+    if (albumsResponse?.data) {
+      const updatedData = [
+        playbackDetails?.data[0],
+        ...albumsResponse.data
+      ];
+
+      setPlaybackDetails(updatedData)
+    }
+  }
 
   return (
     <>
