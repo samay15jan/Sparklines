@@ -35,12 +35,11 @@ export class SongsService extends PayloadService {
     // api v4 does not contain media_preview_url
     const response = await this.http<SongRequest[]>(this.endpoints.songs.recommendedSongs, false, {
       pid: id,
+      ctx: 'android',
     })
 
-    // Flatten the response by extracting all song arrays from the keys
     const recommendedSongs = Object.values(response).flat()
 
-    // Map the song data to the required format
     const formattedRecommendedSongs = recommendedSongs.map((song) => this.songPayload(song))
     return formattedRecommendedSongs
   }

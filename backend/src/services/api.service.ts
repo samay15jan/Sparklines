@@ -18,7 +18,7 @@ export class ApiService {
       searchParams: new URLSearchParams([
         ['_format', 'json'],
         ['_marker', '0'],
-        ['ctx', 'android'],
+        ['ctx', 'web6dot0'],
       ]),
       responseType: 'json',
       headers: {
