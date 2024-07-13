@@ -139,15 +139,15 @@ async function artistAlbums(artistId, page, category, sort) {
   }
 }
 
-async function artistRecommendations(artistId, songId) {
+async function recommendedSongs(songId) {
   try {
-    if (!artistId && !songId) {
+    if (!songId) {
       return
     }
-    const params = null
+    const params = {id :songId}
     return await handleApi(
       params,
-      `/api/artists/${artistId}/recommendations/${songId}`
+      `/api/songs/recommendations/`
     )
   } catch (error) {
     console.error('Error searching artist:', error)
@@ -201,6 +201,6 @@ export {
   artistDetails,
   artistSongs,
   artistAlbums,
-  artistRecommendations,
+  recommendedSongs,
   lyrics,
 }
