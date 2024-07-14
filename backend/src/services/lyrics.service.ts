@@ -1,14 +1,21 @@
+import { Client } from 'genius-lyrics'
 import { HttpExceptionError } from '../exceptions/http.exception'
 import { PayloadService } from '../services/payload.service'
-import type { LyricsRequest } from '../interfaces/lyrics.interface'
 
 export class LyricsService extends PayloadService {
-  public songLyrics = async (songId: string) => {
-    const response = await this.http<LyricsRequest>(this.endpoints.lyrics, true, { lyrics_id: songId })
+  public songLyrics = async (songName: string) => {
+    // as LyricsRequest
+    const client = new Client()
+    const response = await client.songs.search(`${decodeURIComponent(songName as string)}`)
 
-    if (!response.lyrics) throw new HttpExceptionError(404, 'lyrics not found')
+    if (!response) throw new HttpExceptionError(404, 'Song not found')
 
-    const lyrics = this.lyricsPayload(response)
+    const getLyrics = await response[0]?.lyrics()
+
+    if (!getLyrics) throw new HttpExceptionError(404, 'lyrics not found')
+
+    const lyrics = this.lyricsPayload(getLyrics)
+
     return lyrics
   }
 }

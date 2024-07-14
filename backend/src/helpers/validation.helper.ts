@@ -116,3 +116,15 @@ export const idSchema = celebrate(
   { abortEarly: false },
   { mode: Modes.FULL }
 )
+
+export const lyricsSchema = celebrate(
+  {
+    [Segments.QUERY]: Joi.object().keys({
+      songName: Joi.string().required(),
+      userId: Joi.string(),
+      apiKey: Joi.string(),
+    }),
+  },
+  { abortEarly: false },
+  { mode: Modes.FULL }
+)

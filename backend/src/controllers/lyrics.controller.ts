@@ -17,9 +17,9 @@ export class LyricsController {
     next: NextFunction
   ) => {
     try {
-      const { id } = req.query
+      const { songName } = req.query
 
-      const result = await this.lyricsService.songLyrics(id as string)
+      const result = await this.lyricsService.songLyrics(songName as string)
 
       res.json({ status: globalConstants.status.success, message: null, data: result })
     } catch (error) {

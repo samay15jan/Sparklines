@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { LyricsController } from '../controllers/lyrics.controller'
-import { idSchema } from '../helpers/validation.helper'
+import { lyricsSchema } from '../helpers/validation.helper'
 import type { Route } from '../interfaces/route.interface'
 
 export class LyricsRoute implements Route {
@@ -13,6 +13,6 @@ export class LyricsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, idSchema, this.lyricsController.lyricsDetails)
+    this.router.get(`${this.path}`, lyricsSchema, this.lyricsController.lyricsDetails)
   }
 }

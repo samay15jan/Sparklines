@@ -1,7 +1,7 @@
-import { createDownloadLinks, createImageLinks, sanitizeLyrics } from '../utils/link'
+import { createDownloadLinks, createImageLinks } from '../utils/link'
 import { ApiService } from '../services/api.service'
 import type { ModulesRequest, ModulesResponse } from '../interfaces/modules.interface'
-import type { LyricsRequest, LyricsResponse } from '../interfaces/lyrics.interface'
+import type { LyricsResponse } from '../interfaces/lyrics.interface'
 import type { AllSearchRequest, AllSearchResponse } from '../interfaces/search.interface'
 import type {
   Artist,
@@ -383,11 +383,9 @@ export class PayloadService extends ApiService {
     return payload
   }
 
-  protected lyricsPayload = (lyrics: LyricsRequest) => {
+  protected lyricsPayload = (lyrics: string) => {
     const payload: LyricsResponse = {
-      lyrics: sanitizeLyrics(lyrics.lyrics),
-      snippet: lyrics.snippet,
-      copyright: lyrics.lyrics_copyright,
+      lyric: lyrics,
     }
 
     return payload

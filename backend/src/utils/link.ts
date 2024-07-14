@@ -46,15 +46,3 @@ export const createImageLinks = (link?: string) => {
     })) || false
   )
 }
-
-// sanitize lyrics using sentence case
-export const sanitizeLyrics = (lyrics: string) =>
-  lyrics
-    .replace(/"/gi, "'")
-    .replace(/ {2}/gi, ' ')
-    .split('<br>')
-    .map((text) => {
-      const firstLetter = text.slice(0, 1)
-      return firstLetter.toUpperCase() + text.slice(1)
-    })
-    .join(' ')
