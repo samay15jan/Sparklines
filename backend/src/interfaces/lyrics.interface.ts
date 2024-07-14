@@ -1,3 +1,3 @@
 export interface LyricsResponse {
-  lyric: string
+  lyrics: string
 }

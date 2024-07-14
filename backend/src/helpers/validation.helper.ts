@@ -121,6 +121,7 @@ export const lyricsSchema = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
       songName: Joi.string().required(),
+      artistName: Joi.string().required(),
       userId: Joi.string(),
       apiKey: Joi.string(),
     }),

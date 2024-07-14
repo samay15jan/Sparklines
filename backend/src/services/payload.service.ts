@@ -383,9 +383,9 @@ export class PayloadService extends ApiService {
     return payload
   }
 
-  protected lyricsPayload = (lyrics: string) => {
+  protected lyricsPayload = (lyric: string) => {
     const payload: LyricsResponse = {
-      lyric: lyrics,
+      lyrics: lyric,
     }
 
     return payload
