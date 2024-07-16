@@ -1,10 +1,11 @@
-import dotenv from 'dotenv'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import macrosPlugin from 'vite-plugin-babel-macros'
+import dotenv from 'dotenv';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import macrosPlugin from 'vite-plugin-babel-macros';
 
 // https://vitejs.dev/config/
-dotenv.config()
+dotenv.config();
+
 export default defineConfig({
   server: {
     proxy: {
@@ -12,7 +13,7 @@ export default defineConfig({
         target: 'https://sparklines-backend.vercel.app/',
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace('/api', ''),
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
     },
   },
@@ -20,4 +21,5 @@ export default defineConfig({
   define: {
     'process.env': process.env,
   },
-})
+});
+
