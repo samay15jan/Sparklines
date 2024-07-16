@@ -4,7 +4,7 @@ import {
   artistDetails,
   artistSongs,
   artistAlbums,
-  artistRecommendations,
+  recommendedSongs,
   searchSpecific,
 } from '../../../api/apiMethods'
 import PlayIcon from './components/PlayIcon'
@@ -30,39 +30,38 @@ const artist = () => {
   }
 
   async function getData() {
+    var songId
     if (id) {
       const artistResponse = await artistDetails(id)
       const artistId = artistResponse?.data?.id
       const artistName = artistResponse?.data?.name.replace(' ', '+')
-      let songId
       addArtistData('artistDetails', artistResponse?.data)
       if (artistId) {
         const songsResponse = await artistSongs(artistId)
         addArtistData('artistSongs', songsResponse?.data)
-        songId = songsResponse?.data?.results[0]
+        songId = songsResponse?.data?.results[4]?.id
       }
       if (artistId) {
         const albumsResponse = await artistAlbums(artistId)
         addArtistData('artistAlbums', albumsResponse?.data)
       }
-      // TODO FIX 
-      // if (artistName) {
-      //   const songs = await searchSpecific('songs', artistName)
-      //   const albums = await searchSpecific('albums', artistName)
-      //   const artists = await searchSpecific('artists', artistName)
-      //   const playlists = await searchSpecific('playlists', artistName)
-      //   const searchResponse = {
-      //     'songs': songs || null,
-      //     'albums': albums || null,
-      //     'artists': artists || null,
-      //     'playlists': playlists|| null,
-      // }
-      // addArtistData('artistSearches', searchResponse)
-      // }
-      // if (artistId && songId) {
-      //   const albumsResponse = await artistRecommendations(artistId, songId)
-      //   addArtistData('artistRecommendations', albumsResponse?.data)
-      // }
+      if (artistName) {
+        const songs = await searchSpecific('songs', artistName)
+        const albums = await searchSpecific('albums', artistName)
+        const artists = await searchSpecific('artists', artistName)
+        const playlists = await searchSpecific('playlists', artistName)
+        const searchResponse = {
+          'songs': songs,
+          'albums': albums,
+          'artists': artists,
+          'playlists': playlists,
+        }
+        addArtistData('artistSearches', searchResponse)
+      }
+      if (songId) {
+        const albumsResponse = await recommendedSongs(songId)
+        addArtistData('artistRecommendations', albumsResponse?.data)
+      }
     }
   }
 

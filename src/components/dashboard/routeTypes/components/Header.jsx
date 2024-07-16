@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import ColorThief from 'colorthief'
+import { MdVerified } from "react-icons/md"
 
 const Header = ({
   data,
@@ -12,6 +13,7 @@ const Header = ({
   songCount,
   followerCount,
   dominantColor,
+  verfied,
 }) => {
   useEffect(() => {
     const newImage = new Image()
@@ -36,7 +38,7 @@ const Header = ({
   return (
     <div>
       {data && (
-        <div className='flex pb-2 '>
+        <div className='flex pb-2'>
           {image && (
             <img
               className={
@@ -48,14 +50,25 @@ const Header = ({
               style={{ boxShadow: `0 0 50px 10px rgba(0,0,0, 0.4)` }}
             />
           )}
-          <div className='relative z-1 ml-6 mt-16'>
+
+          <div className='relative z-1 ml-6 mt-12'>
             {type && (
               <div className='text-sm font-medium my-1 drop-shadow-md'>
                 {type}
               </div>
             )}
+            {verfied &&
+              <div className='mb-2 flex'>
+                <div className='absolute mt-2 ml-1 bg-white w-5 h-3' />
+                <div className='relative'>
+                  <MdVerified size={30} color='#3d91f4' />
+                </div>
+                <h1 className='ml-2 text-sm mt-[5px]'>Verified Artist</h1>
+              </div>
+            }
+
             {name && (
-              <div className='text-6xl font-extrabold drop-shadow-2xl'>
+              <div className='flex text-6xl font-extrabold drop-shadow-2xl gap-4'>
                 {trimTextToLetters(name, 16)}
               </div>
             )}

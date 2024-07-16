@@ -34,7 +34,7 @@ const Player = () => {
 
   useEffect(() => {
     setPlayerRef(audioRef?.current)
-  }, [audioRef])
+  }, [audioRef?.current])
 
   useEffect(() => {
     if (!playbackDetails?.isPending && playbackDetails?.data != null) {
