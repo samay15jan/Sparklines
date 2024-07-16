@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Loading from './utils/Loading'
 import Playlist from './components/dashboard/routeTypes/Playlist'
 import Artist from './components/dashboard/routeTypes/Artist'
@@ -90,7 +89,6 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
-            <ReactQueryDevtools />
           </QueryClientProvider>
         </Suspense>
       </HelmetProvider>
