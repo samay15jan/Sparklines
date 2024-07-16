@@ -8,8 +8,8 @@ const Song = ({ id, songData, index, name, artistName, time, explicit, type }) =
   const [hover, setHover] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 
-  const handleClick = async (id) => {
-    const { data } = await songDetails(id)
+  const handleClick = async (newId) => {
+    const { data } = await songDetails(newId)
     setData(data)
   }
 

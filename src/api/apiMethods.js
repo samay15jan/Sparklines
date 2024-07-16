@@ -144,7 +144,7 @@ async function recommendedSongs(songId) {
     if (!songId) {
       return
     }
-    const params = {id :songId}
+    const params = { id: songId }
     return await handleApi(
       params,
       `/api/songs/recommendations/`
@@ -156,12 +156,12 @@ async function recommendedSongs(songId) {
 }
 
 //Lyrics
-async function lyrics(lyricsId) {
+async function lyrics(songName, artistName) {
   try {
-    if (!lyricsId) {
+    if (!songName && !artistName) {
       return
     }
-    const params = { id: lyricsId }
+    const params = { songName: songName, artistName: artistName }
     return await handleApi(params, '/api/lyrics')
   } catch (error) {
     console.error('Error fetching playlist details:', error)
