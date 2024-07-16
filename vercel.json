@@ -1,9 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api",
-      "destination": "https://sparklines-backend.vercel.app/api"
+      "source": "/api/:path*",
+      "destination": "https://sparklines-backend.vercel.app/api/:path*"
     }
   ]
 }
-
