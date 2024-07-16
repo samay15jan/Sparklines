@@ -9,7 +9,8 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       req.originalUrl === '/token/generate' ||
       req.originalUrl === '/auth/register' ||
       req.originalUrl === '/auth/login' ||
-      req.originalUrl === '/user/profile'
+      req.originalUrl === '/user/profile' ||
+      req.originalUrl === '/'
     ) {
       return next()
     }
