@@ -2,6 +2,7 @@ import React, { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { songDetails, artistSongs } from '../../../api/apiMethods'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
+import { AnimatePresence, motion } from 'framer-motion'
 const Header = lazy(() => import('./components/Header'))
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
@@ -53,49 +54,56 @@ const Track = () => {
   }
 
   return (
-    <div>
-      <div
-        style={
-          dominantColor && {
-            backgroundColor: `rgba(${dominantColor}, 0.7)`,
-            boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
-          }
-        }
+    <AnimatePresence>
+      <motion.div
+        key="track"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}
       >
+        <div
+          style={
+            dominantColor && {
+              backgroundColor: `rgba(${dominantColor}, 0.7)`,
+              boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
+            }
+          }
+        >
+          {songData?.data && (
+            <div className='relative pt-24 ml-5'>
+              <Header
+                data={songData}
+                image={songData.data[0]?.image[2].link}
+                type='Single'
+                name={songData.data[0]?.name}
+                artistName={artistNames(songData.data[0]?.primaryArtists)}
+                year={songData.data[0]?.year}
+                time={formatTime(songData.data[0]?.duration, 1)}
+                dominantColor={(color) => setDominantColor(color)}
+              />
+              <PlayIcon id={songData.data[0]?.id} />
+            </div>
+          )}
+        </div>
         {songData?.data && (
-          <div className='relative pt-24 ml-5'>
-            <Header
-              data={songData}
-              image={songData.data[0]?.image[2].link}
-              type='Single'
-              name={songData.data[0]?.name}
-              artistName={artistNames(songData.data[0]?.primaryArtists)}
-              year={songData.data[0]?.year}
-              time={formatTime(songData.data[0]?.duration, 1)}
-              dominantColor={(color) => setDominantColor(color)}
-            />
-            <PlayIcon id={songData.data[0]?.id} />
-          </div>
+          <SongList
+            name={songData.data[0]?.name}
+            artistName={songData.data[0]?.primaryArtists}
+            time={formatTime(songData.data[0]?.duration, 2)}
+            releaseDate={handleDate(songData.data[0]?.releaseDate)}
+            copyright={songData.data[0]?.copyright}
+            explicit={songData.data[0]?.explicitContent}
+            id={songData.data[0]?.id}
+          />
         )}
-      </div>
-      {songData?.data && (
-        <SongList
-          name={songData.data[0]?.name}
-          artistName={songData.data[0]?.primaryArtists}
-          time={formatTime(songData.data[0]?.duration, 2)}
-          releaseDate={handleDate(songData.data[0]?.releaseDate)}
-          copyright={songData.data[0]?.copyright}
-          explicit={songData.data[0]?.explicitContent}
-          id={songData.data[0]?.id}
-        />
-      )}
-      {relatedSongs &&
-        <RelatedContent
-          relatedSongs={relatedSongs.data?.results}
-          artistName={relatedSongs.data?.primaryArtists}
-        />
-      }
-    </div>
+        {relatedSongs &&
+          <RelatedContent
+            relatedSongs={relatedSongs.data?.results}
+            artistName={relatedSongs.data?.primaryArtists}
+          />
+        }
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
