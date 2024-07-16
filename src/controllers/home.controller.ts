@@ -8,17 +8,17 @@ export class HomeController {
         <head>
           <meta name="viewport" content="width=device-width" />
           <meta charset="utf-8" />
-          <title>JioSaavn API</title>
-          <meta name="title" content="JioSaavn API" />
-          <meta name="description" content="JioSaavn API by Samay Kumar" />
+          <title>Sparklines API</title>
+          <meta name="title" content="Sparklines API" />
+          <meta name="description" content="Sparklines API by Samay Kumar" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://saavn.me/" />
-          <meta property="og:title" content="JioSaavn API" />
-          <meta property="og:description" content="JioSaavn API by Samay Kumar" />
+          <meta property="og:title" content="Sparklines API" />
+          <meta property="og:description" content="Sparklines API by Samay Kumar" />
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://saavn.me/" />
-          <meta property="twitter:title" content="JioSaavn API by Samay Kumar" />
-          <meta property="twitter:description" content="JioSaavn API by Samay Kumar" />
+          <meta property="twitter:title" content="Sparklines API by Samay Kumar" />
+          <meta property="twitter:description" content="Sparklines API by Samay Kumar" />
         </head>
         <head>
           <meta charset="UTF-8" />
