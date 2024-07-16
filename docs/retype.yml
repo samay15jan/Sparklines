@@ -2,14 +2,14 @@ input: .
 output: ./public
 url: https://docs.saavn.me
 branding:
-  title: JioSaavn
+  title: Sparklines
   label: Docs
 links:
   - text: API
     link: https://saavn.me
   - text: Github
-    link: https://github.com/sumitkolhe/jiosaavn-api
+    link: https://github.com/samay15jan/sparklines
   - text: Author
-    link: https://sumit.co
+    link: https://codedbysamay.onrender.com
 footer:
   copyright: '&copy; Copyright {{ year }}. All rights reserved.'

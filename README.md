@@ -1,10 +1,9 @@
-# :musical_note: Sparklines API
+# :musical_note: Sparklines Backend
 
-An Unofficial JioSaavn API for downloading songs in 320kbps quality for free.
+An unofficial JioSaavn API
 
-> NOTE: <https://saavn.me> is only meant to demo the API and has rate-limiting enabled to minimise bandwidth consumption. It is recommended to deploy your own instance on vercel for personal use.
-
-## :sparkles: Features
+Build features on top of  [JioSaavn API](https://github.com/sumitkolhe/jiosaavn-api)
+## :sparkles:Features
 
 - :rocket: Blazing fast
 - :notes: Download High Quality Songs (320kbps).
@@ -30,9 +29,9 @@ An Unofficial JioSaavn API for downloading songs in 320kbps quality for free.
 - Clone the Repo
 
   ```sh
-  git clone https://github.com/sumitkolhe/jiosaavn-api
+  git clone https://github.com/samay15jan/sparklines-backend
 
-  cd jiosaavn-api
+  cd sparklines-backend
   ```
 
 - Install the dependencies
@@ -64,7 +63,3 @@ An Unofficial JioSaavn API for downloading songs in 320kbps quality for free.
 | POST   | /token/generate      | Generate token for routes   | userId, expiry
 | POST   | /user/addLanguages   | Add Languages               | languages[], userId
 
-
-## ☁️ Host your own instance
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sumitkolhe/jiosaavn-api)
