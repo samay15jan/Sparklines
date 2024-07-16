@@ -10,15 +10,15 @@ export class HomeController {
           <meta charset="utf-8" />
           <title>JioSaavn API</title>
           <meta name="title" content="JioSaavn API" />
-          <meta name="description" content="JioSaavn API by Sumit Kolhe" />
+          <meta name="description" content="JioSaavn API by Samay Kumar" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://saavn.me/" />
           <meta property="og:title" content="JioSaavn API" />
-          <meta property="og:description" content="JioSaavn API by Sumit Kolhe" />
+          <meta property="og:description" content="JioSaavn API by Samay Kumar" />
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://saavn.me/" />
-          <meta property="twitter:title" content="JioSaavn API by Sumit Kolhe" />
-          <meta property="twitter:description" content="JioSaavn API by Sumit Kolhe" />
+          <meta property="twitter:title" content="JioSaavn API by Samay Kumar" />
+          <meta property="twitter:description" content="JioSaavn API by Samay Kumar" />
         </head>
         <head>
           <meta charset="UTF-8" />
@@ -49,7 +49,7 @@ export class HomeController {
                     <p
                       class="md:text-4xl text-2xl text-transparent font-bold leading-none -ml-px bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
                     >
-                     JioSaavn API
+                     Sparklines Backend
                     </p>
       
                     <p
@@ -97,7 +97,7 @@ export class HomeController {
                   <a
                     target="_blank"
                     class="bg-white bg-opacity-0 border-b border-white border-opacity-5 relative -ml-px p-8 hover:bg-opacity-[3%] duration-100 group sm:col-span-4"
-                    href="https://github.com/sumitkolhe/jiosaavn-api"
+                    href="https://github.com/samay15jan/sparklines-backend"
                   >
                     <div class="flex flex-col">
                       <span
@@ -117,7 +117,7 @@ export class HomeController {
                   <a
                     target="_blank"
                     class="bg-white bg-opacity-0 border-b border-white border-opacity-5 relative -ml-px p-8 hover:bg-opacity-[3%] duration-100 group sm:col-span-4"
-                    href="https://github.com/sumitkolhe/jiosaavn-api/issues"
+                    href="https://github.com/samay15jan/sparklines-backend/issues"
                   >
                     <div class="flex flex-col">
                       <span
@@ -138,7 +138,7 @@ export class HomeController {
                   <a
                   target="_blank"
                   class="bg-white bg-opacity-0 border-b border-white border-opacity-5 relative -ml-px p-8 hover:bg-opacity-[3%] duration-100 group sm:col-span-4"
-                  href="https://github.com/sumitkolhe"
+                  href="https://github.com/samay15jan"
                 >
                   <div class="flex flex-col">
                     <span
@@ -146,9 +146,9 @@ export class HomeController {
                     >
                       Author
                     </span>
-                    <span class="text-neutral-200 font-bold text-2xl mt-2">Sumit Kolhe</span>
+                    <span class="text-neutral-200 font-bold text-2xl mt-2">Samay Kumar</span>
                     <p class="text-neutral-500 mt-2">
-                    Saavn unofficial API is created by Sumit Kolhe. Check out other projects at
+                    Saavn unofficial API is created by Samay Kumar. Check out other projects at
                       github.
                     </p>
                   </div>

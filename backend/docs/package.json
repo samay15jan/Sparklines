@@ -1,10 +1,10 @@
 {
-  "name": "jiosaavn-api-docs",
+  "name": "sparklines-docs",
   "version": "1.0.0",
-  "description": "An Unofficial API for JioSaavn that allows downloading songs in 320kbps quality for free.",
+  "description": "An Unofficial API for JioSaavn.",
   "keywords": [],
   "license": "ISC",
-  "author": "",
+  "author": "Samay Kumar",
   "main": "index.js",
   "scripts": {
     "dev": "retype watch",
