@@ -27,7 +27,7 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-timeout-handler": "^2.2.2",
     "genius-lyrics": "^4.4.7",
     "got-cjs": "^12.5.4",
