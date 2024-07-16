@@ -175,6 +175,8 @@ const DownloadURL = ({ songData }) => {
 }
 
 const ArtistDetails = ({ handleMenu, artistData, songData }) => {
+  const artist = songData?.primaryArtists?.split(',')
+  const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
     <>
       <div className='relative my-5 bg-[#242424] rounded-lg'>
@@ -188,7 +190,7 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
         />
         <h1
           className='text-lg font-bold pt-4 pl-4 hover:underline cursor-pointer'
-          onClick={() => handleMenu('artist', songData?.primaryArtistsId)}
+          onClick={() => handleMenu('artist', artistData?.id)}
         >
           {artistData?.name}
         </h1>

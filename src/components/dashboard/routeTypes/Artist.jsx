@@ -10,6 +10,7 @@ import {
 import PlayIcon from './components/PlayIcon'
 import SongList from './components/SongList'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
+import { AnimatePresence, motion } from 'framer-motion'
 const Header = lazy(() => import('./components/Header'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
 
@@ -66,44 +67,51 @@ const artist = () => {
   }
 
   return (
-    <div>
-      <div
-        style={
-          dominantColor && {
-            backgroundColor: `rgba(${dominantColor}, 0.7)`,
-            boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
-          }
-        }
+    <AnimatePresence>
+      <motion.div
+        key="artist"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}
       >
-        {artistData?.data?.artistDetails && (
-          <div className='relative pt-20 ml-5'>
-            <Header
-              data={artistData?.data?.artistDetails}
-              image={artistData?.data?.artistDetails?.image[2].link}
-              name={artistData?.data?.artistDetails?.name}
-              followerCount={artistData?.data?.artistDetails?.followerCount}
-              dominantColor={(color) => setDominantColor(color)}
-              verfied={artistData?.data?.artistDetails?.isVerified}
-            />
-            <PlayIcon />
-          </div>
-        )}
-      </div>
-      {artistData?.data?.artistSongs &&
-        <SongList
-          songs={artistData?.data?.artistSongs?.results?.slice(0, 5)}
-          type='artist'
-        />
-      }
-      <div>
-        {artistData?.data?.artistAlbums &&
-          <RelatedContent
-            relatedSongs={artistData?.data?.artistAlbums?.results.slice(0, 4)}
-            heading='Appears On'
+        <div
+          style={
+            dominantColor && {
+              backgroundColor: `rgba(${dominantColor}, 0.7)`,
+              boxShadow: `0 50px 200px 150px rgba(${dominantColor}, 0.5)`,
+            }
+          }
+        >
+          {artistData?.data?.artistDetails && (
+            <div className='relative pt-20 ml-5'>
+              <Header
+                data={artistData?.data?.artistDetails}
+                image={artistData?.data?.artistDetails?.image[2].link}
+                name={artistData?.data?.artistDetails?.name}
+                followerCount={artistData?.data?.artistDetails?.followerCount}
+                dominantColor={(color) => setDominantColor(color)}
+                verfied={artistData?.data?.artistDetails?.isVerified}
+              />
+              <PlayIcon />
+            </div>
+          )}
+        </div>
+        {artistData?.data?.artistSongs &&
+          <SongList
+            songs={artistData?.data?.artistSongs?.results?.slice(0, 5)}
+            type='artist'
           />
         }
-      </div>
-    </div>
+        <div>
+          {artistData?.data?.artistAlbums &&
+            <RelatedContent
+              relatedSongs={artistData?.data?.artistAlbums?.results.slice(0, 4)}
+              heading='Appears On'
+            />
+          }
+        </div>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
