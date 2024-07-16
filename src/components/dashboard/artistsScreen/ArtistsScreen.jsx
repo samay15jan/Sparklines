@@ -44,7 +44,7 @@ const ArtistsScreen = () => {
 
   return (
     <AnimatePresence>
-      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto w-full col-span-4'>
+      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4'>
         {isLyrics
           ? <motion.div
             key="lyrics"
@@ -242,7 +242,16 @@ const Credits = ({ handleMenu, songData }) => {
 }
 
 const Lyrics = ({ lyricsData, songData, isLyrics, showLyrics }) => {
-  if (!lyricsData?.data?.lyrics) return
+  if (!lyricsData?.data?.lyrics) {
+    return (
+      <>
+        <button className='relative top-0 opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={30} /></button>
+        <div className='text-xl mt-80 text-center w-auto'>
+          Lyrics Not found !
+        </div>
+      </>
+    )
+  }
 
   const formatLyrics = (lyrics) => {
     const formattedLyrics = []
