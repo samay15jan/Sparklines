@@ -12,7 +12,8 @@ export class UserRoute implements Route {
   public authMiddleware = new Authorization()
   public imageUploader = new ImageUploader()
   public userData = new UpdateUserProfile()
-  public upload = multer()
+  public storage = multer.memoryStorage()
+  public upload = multer({ storage: this.storage })
 
   constructor() {
     this.upload = multer({ dest: 'public/avatar' })
