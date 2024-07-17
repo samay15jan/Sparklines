@@ -16,7 +16,6 @@ export class UserRoute implements Route {
   public upload = multer({ storage: this.storage })
 
   constructor() {
-    this.upload = multer({ dest: 'public/avatar' })
     this.initializeRoutes()
   }
 
