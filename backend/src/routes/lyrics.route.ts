@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { LyricsController } from '../controllers/lyrics.controller'
 import { lyricsSchema } from '../helpers/validation.helper'
+import { authenticateUser } from '../middlewares/verifyUser.middleware'
 import type { Route } from '../interfaces/route.interface'
 
 export class LyricsRoute implements Route {
@@ -13,6 +14,6 @@ export class LyricsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, lyricsSchema, this.lyricsController.lyricsDetails)
+    this.router.get(`${this.path}`, lyricsSchema, authenticateUser, this.lyricsController.lyricsDetails)
   }
 }

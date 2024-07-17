@@ -1,4 +1,4 @@
-import User from 'models/userSchema'
+import User from '../models/userSchema'
 import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
 

@@ -12,7 +12,7 @@ export class AuthController {
       await user.save()
       res.json({ status: globalConstants.status.success, message: 'User Registered', data: null })
     } catch (error) {
-      res.status(500).json({ message: 'Internal Server Error' })
+      res.status(500).json({ status: globalConstants.status.failed, message: 'Internal Server Error', data: null })
       next(error)
     }
   }

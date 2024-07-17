@@ -3,7 +3,6 @@ import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
 import timeout from 'express-timeout-handler'
-import { authenticateUser } from './middlewares/verifyUser.middleware'
 import { rateLimiterMiddleware } from './middlewares/limiter.middleware'
 import { errorMiddleware } from './middlewares/error.middleware'
 import { logger } from './utils/logger'
@@ -41,7 +40,6 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(rateLimiterMiddleware)
     // vercel has timeout limit of 10sec on hobby plan, this allows to throw an error before vercel times out
-    this.app.use(authenticateUser)
     this.app.use(
       timeout.handler({
         timeout: 9500,

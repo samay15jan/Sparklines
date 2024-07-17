@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import { globalConstants } from '../constants'
 import { logger } from './logger'
 import type { NextFunction, Request, Response } from 'express'
-import type { FileRequest } from 'interfaces/user.interface'
+import type { FileRequest } from '../interfaces/user.interface'
 
 export class ImageUploader {
   public upload = async (req: Request, res: Response, next: NextFunction) => {
