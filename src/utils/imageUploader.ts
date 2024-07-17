@@ -1,7 +1,5 @@
-import fs from 'fs'
 import { v2 as cloudinary } from 'cloudinary'
 import { globalConstants } from '../constants'
-import { logger } from './logger'
 import type { NextFunction, Request, Response } from 'express'
 import type { FileRequest } from '../interfaces/user.interface'
 
@@ -33,14 +31,6 @@ export class ImageUploader {
         crop: 'fill',
         width: 500,
         height: 500,
-      })
-
-      fs.unlink(profilePic.path, (err) => {
-        if (err) {
-          logger.error(`Error deleting image (${profilePic.path}): `, err)
-          return
-        }
-        logger.debug('Temp: Cleared')
       })
 
       if (!result) {
