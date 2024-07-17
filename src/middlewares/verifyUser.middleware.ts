@@ -5,16 +5,6 @@ import type { NextFunction, Request, Response } from 'express'
 
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (
-      req.originalUrl === '/token/generate' ||
-      req.originalUrl === '/auth/register' ||
-      req.originalUrl === '/auth/login' ||
-      req.originalUrl === '/user/profile' ||
-      req.originalUrl === '/'
-    ) {
-      return next()
-    }
-
     const apiKey: string = req.headers.authorization?.split(' ')[1] as string
     const userId: string = req.headers.userid as string
     const secretKey: string = process.env.SECRET_KEY || ''

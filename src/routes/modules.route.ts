@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { ModulesController } from '../controllers/modules.controller'
-
+import { authenticateUser } from '../middlewares/verifyUser.middleware'
 import type { Route } from '../interfaces/route.interface'
 
 export class ModulesRoute implements Route {
@@ -13,6 +13,6 @@ export class ModulesRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.modulesController.browseModules)
+    this.router.get(`${this.path}`, authenticateUser, this.modulesController.browseModules)
   }
 }

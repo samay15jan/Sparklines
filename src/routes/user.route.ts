@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { Authorization } from 'middlewares/authorization.middleware'
-import { ImageUploader } from 'utils/imageUploader'
-import { UpdateUserProfile } from 'controllers/userData.controller'
 import multer from 'multer'
+import { Authorization } from '../middlewares/authorization.middleware'
+import { ImageUploader } from '../utils/imageUploader'
+import { UpdateUserProfile } from '../controllers/userData.controller'
+import { authenticateUser } from '../middlewares/verifyUser.middleware'
 import type { Route } from '../interfaces/route.interface'
 
 export class UserRoute implements Route {
@@ -20,9 +21,14 @@ export class UserRoute implements Route {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/profile`, this.authMiddleware.authenticate)
-    this.router.post(`${this.path}/imageUploader`, this.upload.single('profilePic'), this.imageUploader.upload)
-    this.router.post(`${this.path}/updateData`, this.userData.basicData)
-    this.router.post(`${this.path}/addLanguages`, this.userData.updateLanguages)
-    this.router.post(`${this.path}/likedMusic`, this.userData.likedMusic)
+    this.router.post(
+      `${this.path}/imageUploader`,
+      authenticateUser,
+      this.upload.single('profilePic'),
+      this.imageUploader.upload
+    )
+    this.router.post(`${this.path}/updateData`, authenticateUser, this.userData.basicData)
+    this.router.post(`${this.path}/addLanguages`, authenticateUser, this.userData.updateLanguages)
+    this.router.post(`${this.path}/likedMusic`, authenticateUser, this.userData.likedMusic)
   }
 }

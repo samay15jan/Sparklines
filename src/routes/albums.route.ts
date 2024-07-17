@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { AlbumsController } from '../controllers/albums.controller'
 import { albumsSchema } from '../helpers/validation.helper'
+import { authenticateUser } from '../middlewares/verifyUser.middleware'
 import type { Route } from '../interfaces/route.interface'
 
 export class AlbumsRoute implements Route {
@@ -13,6 +14,6 @@ export class AlbumsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, albumsSchema, this.albumsController.albumDetails)
+    this.router.get(`${this.path}`, albumsSchema, authenticateUser, this.albumsController.albumDetails)
   }
 }
