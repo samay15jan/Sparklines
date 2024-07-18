@@ -6,7 +6,7 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { AnimatePresence, motion } from 'framer-motion'
 const Carousel = lazy(() => import('./Carousel'))
 const Skeleton = lazy(() => import('./Skeleton'))
-const UserProfile = lazy(() => import('../profile/UserProfile'))
+const Header = lazy(() => import('../header/Header'))
 
 const Heading = styled.div`
   ${tw`mt-5 text-2xl font-bold`}
@@ -52,15 +52,12 @@ const Homepage = () => {
   return (
     <AnimatePresence>
       <motion.div
-        className='p-5'
+        className='p-5 mt-10'
         key="homepage"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
       >
-        <div className='relative'>
-          <UserProfile />
-        </div>
         {data
           ? types.map((type) => (
             <div key={type.id}>

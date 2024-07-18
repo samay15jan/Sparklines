@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { RotatingLines } from 'react-loader-spinner'
 import { updateUsername, imageUploader } from '../../api/user.js'
+import { motion } from 'framer-motion'
 const SendButton = lazy(() => import('./SendButton'))
 
 const Container = styled.div`
@@ -12,10 +13,7 @@ const Heading = styled.div`
   ${tw`text-2xl mb-2 font-bold text-center`}
 `
 const Image = styled.img`
-  ${tw`h-full object-cover w-1/3 rounded-full`}
-`
-const Upload = styled.label`
-  ${tw`w-full flex justify-center hover:ring-gray-500 hover:ring-2 mb-2`}
+  ${tw`h-full object-cover cursor-pointer w-1/3 rounded-full`}
 `
 const Input = styled.input`
   ${tw`w-full text-lg p-2 my-2 h-12 rounded-md`}
@@ -25,9 +23,9 @@ const Input = styled.input`
   }
 `
 
-const Profile = ({ data, onNext }) => {
+const Profile = ({ data, onNext, alreadyLoggedIn }) => {
   const [loading, setLoading] = useState('')
-  const imageUrl =
+  const imageUrl = data.profilePic ||
     'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png'
   const [name, setName] = useState('')
   const [pic, setPic] = useState(imageUrl)
@@ -44,9 +42,14 @@ const Profile = ({ data, onNext }) => {
 
   const handleNext = async () => {
     try {
-      if (name && pic) {
-        const data = { username: name, profilePic: pic, userId: userId }
-        const response = await updateUsername(data)
+      if (name || data.username && pic) {
+        let params
+        if (alreadyLoggedIn) {
+          params = { username: data.username, profilePic: pic, userId: data.userId }
+        } else (
+          params = { username: name, profilePic: pic, userId: userId }
+        )
+        const response = await updateUsername(params)
         if (response) {
           setDataLocally(response)
           onNext()
@@ -97,16 +100,28 @@ const Profile = ({ data, onNext }) => {
   )
 
   return (
-    <div>
-      <Heading>{'Complete your Profile'}</Heading>
+    <motion.div
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 0.9 }}
+    >
+      {alreadyLoggedIn
+        ? <h1 className='mb-5 font-bold text-center'>Update Profile Pic</h1>
+        : <Heading>{'Complete your Profile'}</Heading>
+      }
       <Container>
         <>
-          <Upload autoFocus={true} htmlFor='file-upload'>
+          <motion.label
+            autoFocus={true}
+            htmlFor='file-upload'
+            initial={{ rotate: 280 }}
+            animate={{ rotate: 360 }}
+            className='w-full flex justify-center mb-2'
+          >
             <Image src={pic} alt='Upload Image' />
-            <div className='absolute mt-14 flex justify-center pointer-events-none'>
+            <div className={alreadyLoggedIn ? 'absolute mt-3 flex justify-center pointer-events-none' : 'absolute mt-14 flex justify-center pointer-events-none'}>
               {loading ? loadingComponent : ''}
             </div>
-          </Upload>
+          </motion.label>
           <input
             className='hidden'
             id='file-upload'
@@ -115,18 +130,24 @@ const Profile = ({ data, onNext }) => {
           />
         </>
       </Container>
-      <Input
-        placeholder='Name'
-        type='name'
-        value={name}
-        onChange={handleName}
-        autoComplete='off'
-      />
-      <div className='grid grid-cols-2 space-x-1'>
-        <SendButton value='Skip' onclick={handleSkip} />
-        <SendButton value='Next' onclick={handleNext} />
-      </div>
-    </div>
+      {alreadyLoggedIn
+        ? ''
+        : <Input
+          placeholder='Name'
+          type='name'
+          value={name}
+          onChange={handleName}
+          autoComplete='off'
+        />
+      }
+      {alreadyLoggedIn
+        ? <button className='flex justify-center items-center w-full mt-1 text-white text-lg border mt-5 mb-2 rounded-md bg-[#23233f]' onClick={handleNext}>Save</button>
+        : <div className='grid grid-cols-2 space-x-1'>
+          <SendButton value='Skip' onclick={handleSkip} />
+          <SendButton value='Next' onclick={handleNext} />
+        </div>
+      }
+    </motion.div>
   )
 }
 

@@ -2,13 +2,14 @@ import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from '@tanstack/react-query'
-import Loading from './utils/Loading'
-import Playlist from './components/dashboard/routeTypes/Playlist'
-import Artist from './components/dashboard/routeTypes/Artist'
-import Track from './components/dashboard/routeTypes/Track'
-import Album from './components/dashboard/routeTypes/Album'
-import Search from './components/dashboard/searchMenu/Search'
 import queryClient from './utils/queryClient'
+import Loading from './utils/Loading'
+const Playlist = lazy(() => import('./components/dashboard/routeTypes/Playlist'))
+const Artist = lazy(() => import('./components/dashboard/routeTypes/Artist'))
+const Track = lazy(() => import('./components/dashboard/routeTypes/Track'))
+const Album = lazy(() => import('./components/dashboard/routeTypes/Album'))
+const Search = lazy(() => import('./components/dashboard/searchMenu/Search'))
+const RecentlyPlayed = lazy(() => import('./components/dashboard/routeTypes/RecentlyPlayed'))
 const Landing = lazy(() => import('./pages/Landing'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Authentication = lazy(() => import('./pages/Authentication'))
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/search/:query",
         element: <Search />,
+      },
+      {
+        path: "/dashboard/recently-played",
+        element: <RecentlyPlayed />,
       },
     ]
   },
