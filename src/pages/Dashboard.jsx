@@ -31,6 +31,9 @@ const Dashboard = () => {
       case currentPath === '/dashboard':
         setShowMenu('home')
         break
+      case currentPath === '/dashboard/recently-played':
+        setShowMenu('recently-played')
+        break
       case currentPath === '/dashboard/search' ||
         (query && currentPath.startsWith('/dashboard/search/')):
         setShowMenu('search')

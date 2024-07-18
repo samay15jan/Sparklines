@@ -1,16 +1,17 @@
 import React, { lazy, useState } from 'react'
-import userData from '../../../utils/userData'
+import userData from '../../../../utils/userData'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { GrClose } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 const Menu = lazy(() => import('./Menu'))
 
 const Container = styled.div`
-  ${tw`absolute z-50 right-2 drop-shadow-xl`}
+  ${tw`mt-[1px]`}
 `
 const Image = styled.img`
-  ${tw`rounded-full w-8`}
+  ${tw`p-1 bg-black rounded-full w-8`}
 `
 
 const UserProfile = () => {
@@ -32,17 +33,21 @@ const UserProfile = () => {
   }
 
   return (
-    <Container>
-      <div onClick={handleClick}>
-        {menu ? (
-          <GrClose className='absolute right-0 m-2' size={20} />
-        ) : (
-          <Image src={userdata.profilePic} alt='userImg' />
-        )}
-      </div>
+    <AnimatePresence>
+      <Container>
+        <div onClick={handleClick}>
+          {menu ? (
+            <GrClose className='right-0 m-1 mt-1 opacity-80 p-[1px]' size={20} />
+          ) : (
+            <Image src={userdata.profilePic} alt='userImg' />
+          )}
+        </div>
 
-      {menu && <Menu userdata={userdata} handleLogout={handleLogout} />}
-    </Container>
+        <div className='relative w-auto'>
+          {menu && <Menu userdata={userdata} handleLogout={handleLogout} />}
+        </div>
+      </Container>
+    </AnimatePresence >
   )
 }
 

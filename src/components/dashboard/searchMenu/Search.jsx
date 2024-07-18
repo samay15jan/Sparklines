@@ -4,7 +4,6 @@ import { searchAll } from '../../../api/apiMethods'
 import { useLocation, useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 const Input = lazy(() => import('./Input'))
-const UserProfile = lazy(() => import('../profile/UserProfile'))
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
@@ -31,7 +30,7 @@ const Search = () => {
   return (
     <AnimatePresence>
       <motion.div
-        className='p-5'
+        className='p-5 mt-12'
         key="search"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -39,7 +38,6 @@ const Search = () => {
       >
         <div className='relative flex'>
           <Input SearchText={(text) => setSearchText(text)} />
-          <UserProfile />
         </div>
 
         {searchText != '' && apiResponse && (
