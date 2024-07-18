@@ -1,18 +1,23 @@
 # SparkLines - A Music Steaming platform
 
-### SparkLines - A Music Streaming Platform
-
-#### TODO:
-
-- **Top bar**: Forward & backward button, Profile dropdown (Language & Username changer)
-- **left Sidebar**: Liked Songs, Playlists & Albums, Following Artists
-- **Right Sidebar**: Queue, Lyrics
-- **Bottom Bar**: Next, Back, Shuffle/Repeat, Like, Fullscreen
-- **Center**: Albums & Playlist Screen (Details, Like Song, Shuffle, Play, Sort, Save), Artists Screen (Details, Songs, Albums, Popular)
-- **Fullscreen Mode**: Canvas, Details, Player, Queue, Lyrics, Close
-
-#### Additional Features:
-
-- Auto-play next song
-- Keyboard shortcuts
-- Responsiveness
+### Core Functionality (TODO) :
+  -  ~~Forward/backward buttons~~
+  -  ~~Fixing the profile~~
+  -  Queue display
+  -  Audio streaming/download quality changer
+  -  Fixing the playback bar
+  -  Specific search options
+  -  Discography  
+  -  Following artists
+  -  Liked songs
+  -  Custom playlists
+  -  Recently played music page
+  -  Adding genre search options
+  -  Keyboard shortcuts
+  -  Share song option
+  -  Fixing errors discovered in MVP
+  -  Fixing up UI with fallbacks
+  -  Fixing the landing page
+  -  Add 404 page
+  -  seekbar/progress bar css
+  -  Adding responsiveness
