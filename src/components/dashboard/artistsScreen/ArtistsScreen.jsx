@@ -1,24 +1,27 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
-import { MdOutlineLyrics, MdClose } from 'react-icons/md'
+import { MdOutlineLyrics } from 'react-icons/md'
 import { artistDetails, lyrics } from '../../../api/apiMethods'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import LyricsScreen from './LyricsScreen'
+import { QueueList, QueueScreen } from './QueueScreen'
 const Skeleton = lazy(() => import('./Skeleton'))
 
 const ArtistsScreen = () => {
   const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
+  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
   const [currentLyrics, setCurrentLyrics] = useState(null)
   const [isLyrics, showLyrics] = useState(false)
+  const [isQueue, showQueue] = useState(false)
   const data = currentSong?.data
   const navigate = useNavigate()
 
   function handleMenu(type, id) {
     navigate(`/dashboard/${type}/${id}`)
   }
-
 
   useEffect(() => {
     const listId = data && data?.primaryArtistsId
@@ -44,22 +47,25 @@ const ArtistsScreen = () => {
 
   return (
     <AnimatePresence>
-      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4'>
-        {isLyrics
-          ? <motion.div
+      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'>
+        {isLyrics && !isQueue
+          && <motion.div
             key="lyrics"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Lyrics
+            <LyricsScreen
               lyricsData={currentLyrics}
               songData={data}
               isLyrics={isLyrics}
               showLyrics={(e) => showLyrics(e)}
             />
           </motion.div>
-          : <motion.div
+        }
+
+        {!isLyrics && !isQueue
+          && <motion.div
             key="details"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -84,10 +90,34 @@ const ArtistsScreen = () => {
                   handleMenu={(type, id) => handleMenu(type, id)}
                   songData={data}
                 />
+                <NextQueue
+                  queue={isQueue}
+                  showQueue={(boolean) => showQueue(boolean)}
+                  updatePlayback={(data) => setPlaybackDetails(data)}
+                  queueData={playbackDetails?.data}
+                  handleMenu={(type, id) => handleMenu(type, id)}
+                />
               </div>
             ) : (
               <Skeleton />
             )}
+          </motion.div>
+        }
+
+        {isQueue && !isLyrics
+          && <motion.div
+            key="lyrics"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <QueueScreen
+              queue={isQueue}
+              showQueue={(boolean) => showQueue(boolean)}
+              updatePlayback={(data) => setPlaybackDetails(data)}
+              queueData={playbackDetails?.data}
+              handleMenu={(type, id) => handleMenu(type, id)}
+            />
           </motion.div>
         }
       </div>
@@ -96,7 +126,7 @@ const ArtistsScreen = () => {
 }
 
 const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
-  const artist = songData?.primaryArtists?.split(',')
+  const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
     <>
@@ -175,8 +205,6 @@ const DownloadURL = ({ songData }) => {
 }
 
 const ArtistDetails = ({ handleMenu, artistData, songData }) => {
-  const artist = songData?.primaryArtists?.split(',')
-  const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
     <>
       <div className='relative my-5 bg-[#242424] rounded-lg'>
@@ -206,7 +234,7 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
 }
 
 const Credits = ({ handleMenu, songData }) => {
-  const artist = songData?.primaryArtists?.split(',')
+  const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
     <div className='relative my-5 bg-[#242424] rounded-lg'>
@@ -243,63 +271,31 @@ const Credits = ({ handleMenu, songData }) => {
   )
 }
 
-const Lyrics = ({ lyricsData, songData, isLyrics, showLyrics }) => {
-  if (!lyricsData?.data?.lyrics) {
-    return (
-      <>
-        <button className='relative top-0 opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={30} /></button>
-        <div className='text-xl mt-80 text-center w-auto'>
-          Lyrics Not found !
-        </div>
-      </>
-    )
-  }
-
-  const formatLyrics = (lyrics) => {
-    const formattedLyrics = []
-    const verses = lyrics.split(/\[(.*?)\]/).filter(Boolean)
-
-    verses.forEach((verse, index) => {
-      if (index % 2 === 0) {
-        // Handle the label (Intro, Verse, Chorus, etc.)
-        formattedLyrics.push(<div className="mt-5 opacity-50" key={`verse-${index}`}><strong>{verse}</strong></div>)
-      } else {
-        // Handle the actual lyrics
-        const words = verse.trim().split(/\s+/)
-        let line = []
-
-        words.forEach((word, wordIndex) => {
-          line.push(word)
-          if (line.length >= 6) {
-            formattedLyrics.push(<div className="mt-2" key={`line-${index}-${wordIndex}`}>{line.join(' ')}</div>)
-            line = []
-          }
-        })
-
-        if (line.length > 0) {
-          formattedLyrics.push(<div className="mt-2" key={`line-${index}-end`}>{line.join(' ')}</div>)
-        }
-      }
-    })
-
-    return formattedLyrics
-  }
-
-  const lyrics = formatLyrics(lyricsData?.data?.lyrics)
-
+const NextQueue = ({ queue, showQueue, queueData, updatePlayback, handleMenu }) => {
+  if (!queueData[1]) return
   return (
     <>
-      {lyricsData?.data &&
-        <div>
-          <div className='py-2 bg-[#202020] font-semibold text-sm'>
-            <button className='absolute opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={25} /></button>
-            <h1 className='text-center'>{songData?.name}</h1>
-          </div>
-          <div className='m-10 text-2xl mt-4 text-center'>
-            {lyrics}
-          </div>
+      <div className='relative pb-1 bg-[#242424] rounded-lg'>
+        <div className='flex justify-between'>
+          <h1 className='text-md font-bold p-4'>Next in queue</h1>
+          <h1
+            className='px-4 mt-5 text-sm font-bold opacity-60 hover:underline cursor-pointer'
+            onClick={() => showQueue(!queue)}
+          >
+            Open queue
+          </h1>
         </div>
-      }
+        <QueueList
+          queueData={queueData}
+          artists={queueData[1]?.primaryArtists}
+          artistsIds={queueData[1]?.primaryArtistsId}
+          image={queueData[1].image[1]?.link}
+          id={queueData[1]?.id}
+          name={queueData[1]?.name}
+          updatePlayback={updatePlayback}
+          handleMenu={handleMenu}
+        />
+      </div >
     </>
   )
 }

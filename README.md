@@ -3,7 +3,8 @@
 ### Core Functionality (TODO) :
   -  ~~Forward/backward buttons~~
   -  ~~Fixing the profile~~
-  -  Queue display
+  -  ~~Queue display~~
+  -  Queue DND
   -  Audio streaming/download quality changer
   -  Fixing the playback bar
   -  Specific search options
