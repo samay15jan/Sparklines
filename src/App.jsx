@@ -2,14 +2,19 @@ import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
 import Loading from './utils/Loading'
-const Playlist = lazy(() => import('./components/dashboard/routeTypes/Playlist'))
+const Playlist = lazy(
+  () => import('./components/dashboard/routeTypes/Playlist')
+)
 const Artist = lazy(() => import('./components/dashboard/routeTypes/Artist'))
 const Track = lazy(() => import('./components/dashboard/routeTypes/Track'))
 const Album = lazy(() => import('./components/dashboard/routeTypes/Album'))
 const Search = lazy(() => import('./components/dashboard/searchMenu/Search'))
-const RecentlyPlayed = lazy(() => import('./components/dashboard/routeTypes/RecentlyPlayed'))
+const RecentlyPlayed = lazy(
+  () => import('./components/dashboard/routeTypes/RecentlyPlayed')
+)
 const Landing = lazy(() => import('./pages/Landing'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Authentication = lazy(() => import('./pages/Authentication'))
@@ -29,61 +34,61 @@ const router = createBrowserRouter([
     element: <Authentication />,
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     element: <Dashboard />,
     children: [
       {
-        path: "/dashboard/playlist/:id",
+        path: '/dashboard/playlist/:id',
         element: <Playlist />,
       },
       {
-        path: "/dashboard/artist/:id",
+        path: '/dashboard/artist/:id',
         element: <Artist />,
       },
       {
-        path: "/dashboard/track/:id",
+        path: '/dashboard/track/:id',
         element: <Track />,
       },
       {
-        path: "/dashboard/album/:id",
+        path: '/dashboard/album/:id',
         element: <Album />,
       },
       {
-        path: "/dashboard/search",
+        path: '/dashboard/search',
         element: <Search />,
       },
       {
-        path: "/dashboard/search/:query",
+        path: '/dashboard/search/:query',
         element: <Search />,
       },
       {
-        path: "/dashboard/recently-played",
+        path: '/dashboard/recently-played',
         element: <RecentlyPlayed />,
       },
-    ]
+    ],
   },
   {
-    path: "/developer",
+    path: '/developer',
     element: <Developer />,
     children: [
       {
-        path: "/developer/api",
+        path: '/developer/api',
         element: <API />,
       },
       {
-        path: "/developer/playground",
+        path: '/developer/playground',
         element: <Playground />,
       },
       {
-        path: "/developer/docs",
+        path: '/developer/docs',
         element: <Docs />,
       },
       {
-        path: "/developer/settings",
+        path: '/developer/settings',
         element: <Settings />,
       },
-    ]
-  }
+    ],
+  },
 ])
 
 const App = () => {
@@ -93,6 +98,7 @@ const App = () => {
       <HelmetProvider context={helmetContext}>
         <Suspense fallback={<Loading />}>
           <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools />
             <RouterProvider router={router} />
           </QueryClientProvider>
         </Suspense>

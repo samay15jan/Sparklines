@@ -93,7 +93,6 @@ const ArtistsScreen = () => {
                 <NextQueue
                   queue={isQueue}
                   showQueue={(boolean) => showQueue(boolean)}
-                  updatePlayback={(data) => setPlaybackDetails(data)}
                   queueData={playbackDetails?.data}
                   handleMenu={(type, id) => handleMenu(type, id)}
                 />
@@ -114,8 +113,6 @@ const ArtistsScreen = () => {
             <QueueScreen
               queue={isQueue}
               showQueue={(boolean) => showQueue(boolean)}
-              updatePlayback={(data) => setPlaybackDetails(data)}
-              queueData={playbackDetails?.data}
               handleMenu={(type, id) => handleMenu(type, id)}
             />
           </motion.div>
@@ -271,7 +268,7 @@ const Credits = ({ handleMenu, songData }) => {
   )
 }
 
-const NextQueue = ({ queue, showQueue, queueData, updatePlayback, handleMenu }) => {
+const NextQueue = ({ queue, showQueue, queueData, handleMenu }) => {
   if (!queueData[1]) return
   return (
     <>
@@ -292,7 +289,6 @@ const NextQueue = ({ queue, showQueue, queueData, updatePlayback, handleMenu }) 
           image={queueData[1].image[1]?.link}
           id={queueData[1]?.id}
           name={queueData[1]?.name}
-          updatePlayback={updatePlayback}
           handleMenu={handleMenu}
         />
       </div >
