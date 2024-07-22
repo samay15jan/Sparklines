@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { MdClose } from 'react-icons/md'
 import { MdDeleteOutline } from 'react-icons/md'
-import { FaPlay } from 'react-icons/fa6'
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import { FaPlay, FaPause } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 import {
   DndContext,
@@ -126,11 +125,12 @@ const QueueList = ({
   name,
   handleMenu,
 }) => {
+  const [playerRef] = useRQGlobalState('playerRef', null)
   const [playbackDetails, setPlaybackDetails] =
     useRQGlobalState('playbackQueue')
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id })
-  const [ShowDeleteNextQueue, SetDeleteNextQueue] = useState(false)
+    const [showPlay, setPlay] = useState(false)
   const artist = artists?.split(',').slice(0, 1)
   const artistId = artistsIds?.replaceAll(' ', '').split(',')
   const nextQueueRef = useRef(null)
@@ -139,7 +139,7 @@ const QueueList = ({
   useEffect(() => {
     let mouseEnter = null,
       mouseMove = null
-    const minSwipeDistance = 50
+    const minSwipeDistance = 100
 
     const handleMouseEnter = (event) => {
       if (event.clientX) {
@@ -158,7 +158,7 @@ const QueueList = ({
       if (mouseEnter == mouseMove) return
       const distance = mouseEnter - mouseMove
       const isLeftSwipe = distance > minSwipeDistance
-      if (isLeftSwipe) SetDeleteNextQueue(true)
+      if (isLeftSwipe) removeQueue()
     }
 
     if (nextQueueRef.current) {
@@ -184,13 +184,33 @@ const QueueList = ({
 
   // Remove Next Queue
   function removeQueue() {
-    const newQueryData = queueData.slice(0, 1).concat(queueData.slice(2))
+    const newQueryData = queueData.filter((task) => task.id !== id)
     setPlaybackDetails(newQueryData)
   }
 
-  function PlaySong() {
-    const newQueryData = queueData.slice(1)
-    updatePlayback(newQueryData)
+  // Play Song
+  function playSong() {
+    const filteredSong = queueData.filter((task) => task.id === id)
+    if (filteredSong.length > 0) {
+      const newQueueData = [
+        filteredSong[0],
+        ...queueData.filter((task) => task.id !== id),
+      ]
+
+      setPlaybackDetails(newQueueData)
+    }
+  }
+
+  // Pause Song
+  function pauseSong() {
+    if (!playerRef?.data) return
+    if (playerRef.data.paused) {
+      playerRef.data.play()
+      setPlay(true)
+    } else {
+      playerRef.data.pause()
+      setPlay(false)
+    }
   }
 
   function trimTextToLetters(text, maxLength) {
@@ -210,63 +230,58 @@ const QueueList = ({
 
   return (
     <div
-      ref={setNodeRef}
+      ref={nextQueueRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className='relative rounded-lg overflow-x-hidden '
+      className='relative rounded-lg overflow-x-hidden'
     >
-      <div className='absolute z-40 right-2 cursor-pointer'>
-        {ShowDeleteNextQueue ? (
-          <MdDeleteOutline
-            onClick={removeQueue}
-            className='relative bg-red-700 transition-opacity hover:bg-opacity-80 w-12 h-16 p-3 rounded-md'
-            size={25}
-          />
+      <MdDeleteOutline
+        onClick={removeQueue}
+        className='absolute hover:text-red-500 cursor-pointer z-20 right-2 text-white w-14 h-16 p-4'
+        size={25}
+      />
+      <div className='absolute hover:text-gray-500 cursor-pointer z-20 left-0 text-white w-14 h-16 p-2 ml-1'>
+        {!playing ? (
+          <FaPlay onClick={playSong} className='p-2 pt-3 mt-1 mr-2' size={35} />
         ) : (
-          <BsThreeDotsVertical
-            className='relative w-12 h-16 p-3 rounded-md'
-            onClick={() => SetDeleteNextQueue(true)}
-            size={25}
+          <FaPause
+            onClick={pauseSong}
+            className={showPlay ? 'p-2 pt-3 mt-1 mr-2' : 'p-2 pt-3 mt-1 mr-2 animate-pulse'}
+            size={35}
           />
         )}
       </div>
-      <div
-        ref={nextQueueRef}
-        className='relative flex text-sm hover:bg-[#353535] m-2 mt-0 p-2 rounded-md cursor-pointer select-none'
-      >
-        {!ShowDeleteNextQueue && !playing && (
-          <FaPlay onClick={PlaySong} className='p-2 pt-3 mt-1 mr-2' size={35} />
-        )}
-        <img className='max-w-12 max-h-12 mr-3 rounded-sm' src={image} />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className='mt-1'
-        >
-          <h1
-            className={
-              playing
-                ? 'ml-1 font-bold text-[14px] text-[#19a44b] hover:underline'
-                : 'ml-1 font-bold text-[14px] hover:underline'
-            }
-            onClick={() => handleMenu('track', id)}
+      <div ref={setNodeRef} {...attributes} {...listeners}>
+        <div className='relative flex text-sm hover:bg-[#353535] m-2 mt-0 p-2 rounded-md cursor-pointer select-none'>
+          <img className='max-w-12 max-h-12 ml-8 mr-3 rounded-sm' src={image} />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className='mt-1'
           >
-            {trimTextToLetters(name, 25)}
-          </h1>
-          <h1 className='flex text-sm opacity-80'>
-            {artist.map((name, index) => (
-              <h1
-                className='ml-1 hover:underline cursor-pointer'
-                key={index}
-                onClick={() => handleMenu('artist', artistId[index])}
-              >
-                {name}
-              </h1>
-            ))}
-          </h1>
-        </motion.div>
+            <h1
+              className={
+                playing
+                  ? 'ml-1 font-bold text-[14px] text-[#19a44b] hover:underline'
+                  : 'ml-1 font-bold text-[14px] hover:underline'
+              }
+              onClick={() => handleMenu('track', id)}
+            >
+              {trimTextToLetters(name, 25)}
+            </h1>
+            <h1 className='flex text-sm opacity-80'>
+              {artist.map((name, index) => (
+                <h1
+                  className='ml-1 hover:underline cursor-pointer'
+                  key={index}
+                  onClick={() => handleMenu('artist', artistId[index])}
+                >
+                  {name}
+                </h1>
+              ))}
+            </h1>
+          </motion.div>
+        </div>
       </div>
     </div>
   )
