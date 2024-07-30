@@ -121,22 +121,6 @@ async function artistSongs(artistId, page, category, sort) {
 		throw error
 	}
 }
-async function artistSongs(artistId, page, category, sort) {
-	try {
-		if (!artistId) {
-			return
-		}
-		const params = {
-			page: page || 1,
-			category: category || null, // alphabetical or latest
-			sort: sort || null, // asc or desc
-		}
-		return await handleApi(params, `/api/artists/${artistId}/songs`)
-	} catch (error) {
-		console.error('Error searching artist:', error)
-		throw error
-	}
-}
 
 async function artistAlbums(artistId, page, category, sort) {
 	try {

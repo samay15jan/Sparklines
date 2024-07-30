@@ -10,8 +10,18 @@ const ensureLogDirectory = (dir) => {
 	}
 }
 
-const Playback = ({ url }) => {
+const Playback = ({ playingSongId, simulationData }) => {
 	const pidRef = useRef(null)
+	const playingSong = simulationData?.find(
+		(song) => song?.id === playingSongId
+	)
+
+	const url =
+		playingSong?.downloadUrl[4]?.link ||
+		playingSong?.downloadUrl[3]?.link ||
+		playingSong?.downloadUrl[2]?.link ||
+		playingSong?.downloadUrl[1]?.link ||
+		playingSong?.downloadUrl[0]?.link
 
 	useEffect(() => {
 		const logFileLocation = path.join(

@@ -25,10 +25,14 @@ $ TUI --help
   Usage
     $ TUI
 
-		Options
-			--login
-			--register
+	Options:
+	--login
+	--register
 ```
 
 ## Inspiration
 <img src='https://pypi-camo.freetls.fastly.net/afccc8c5a4da868a7473e1026c6d0e872d234075/68747470733a2f2f692e696d6775722e636f6d2f3773794f544b622e676966'>
+
+## Current Progress
+<img src='https://i.ibb.co/z2yPJ9W/2024-07-30-233121-1366x768-scrot.png'>
+
