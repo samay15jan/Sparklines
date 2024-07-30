@@ -1,18 +1,38 @@
-# SparkLines - A Music Steaming platform
+# Sparklines TUI
 
-### SparkLines - A Music Streaming Platform
+## A text based user interface for Sparklines build with [Ink](https://github.com/vadimdemedes/ink)
 
-#### TODO:
+## Features
+- Listen and control music directly from command line
+- Implementation of login/register directly from terminal
+- Api key based interaction with [Sparklines-Backend](https://github.com/samay15jan/sparklines-backend)
+- Search Songs,Albums and Artists. [TODO]
+- Non stop playing with recommendations. [TODO]
+- Playback bar [TODO] 
+- Custom Shortcuts [TODO]
 
-- **Top bar**: Forward & backward button, Profile dropdown (Language & Username changer)
-- **left Sidebar**: Liked Songs, Playlists & Albums, Following Artists
-- **Right Sidebar**: Queue, Lyrics
-- **Bottom Bar**: Next, Back, Shuffle/Repeat, Like, Fullscreen
-- **Center**: Albums & Playlist Screen (Details, Like Song, Shuffle, Play, Sort, Save), Artists Screen (Details, Songs, Albums, Popular)
-- **Fullscreen Mode**: Canvas, Details, Player, Queue, Lyrics, Close
+## Install
 
-#### Additional Features:
+```bash
+$ npm install --global TUI
+```
 
-- Auto-play next song
-- Keyboard shortcuts
-- Responsiveness
+## CLI
+
+```
+$ TUI --help
+
+  Usage
+    $ TUI
+
+	Options:
+	--login
+	--register
+```
+
+## Inspiration
+<img src='https://pypi-camo.freetls.fastly.net/afccc8c5a4da868a7473e1026c6d0e872d234075/68747470733a2f2f692e696d6775722e636f6d2f3773794f544b622e676966'>
+
+## Current Progress
+<img src='https://i.ibb.co/z2yPJ9W/2024-07-30-233121-1366x768-scrot.png'>
+

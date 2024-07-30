@@ -1,10 +1,16 @@
-import { Box } from 'ink'
+import { Box, useFocus } from 'ink'
 import React from 'react'
 import { Select } from '@inkjs/ui'
 
-const menu = ({ returnValue }) => {
+const menu = ({ id, returnValue }) => {
+	const { isFocused } = useFocus({ id })
 	return (
-		<Box borderStyle='round' borderDimColor flexDirection='column'>
+		<Box
+			borderStyle='round'
+			borderColor={isFocused ? '#c69a67' : ''}
+			borderDimColor={!isFocused}
+			flexDirection='column'
+		>
 			<Select
 				options={[
 					{
@@ -15,13 +21,14 @@ const menu = ({ returnValue }) => {
 						label: 'Top Albums',
 						value: 'albums',
 					},
-          {
+					{
 						label: 'New Charts',
 						value: 'charts',
 					},
 				]}
+				isDisabled={!isFocused}
 				onChange={(newValue) => {
-          returnValue(newValue)
+					returnValue(newValue)
 				}}
 			/>
 		</Box>
