@@ -31,9 +31,7 @@ async function searchSpecific(type, query, page) {
     if (!type && !query) {
       return
     }
-    if (type !== 'songs' || 'albums' || 'artists' || 'playlists') {
-      return
-    }
+    // type should be 'songs' || 'albums' || 'artists' || 'playlists'
     const params = {
       page: page || 1,
       query: query,
@@ -145,10 +143,7 @@ async function recommendedSongs(songId) {
       return
     }
     const params = { id: songId }
-    return await handleApi(
-      params,
-      `/api/songs/recommendations/`
-    )
+    return await handleApi(params, `/api/songs/recommendations/`)
   } catch (error) {
     console.error('Error searching artist:', error)
     throw error
@@ -188,7 +183,7 @@ async function handleApi(params, url) {
     } else {
       throw new Error('Failed to fetch data from API')
     }
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export {
