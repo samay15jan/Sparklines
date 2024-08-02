@@ -98,7 +98,7 @@ const Header = ({
               )}
               {followerCount && (
                 <div className='ml-1 text-md font-medium'>
-                  {followerCount} monthly listeners
+                  {followerCount?.toLocaleString()} monthly listeners
                 </div>
               )}
             </div>

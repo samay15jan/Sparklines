@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { LineWave } from 'react-loader-spinner'
 import { searchAll, searchSpecific } from '../../../api/apiMethods'
-import Artists from './Artists'
+const Artists = lazy(() => import('./Artists'))
 const Input = lazy(() => import('./Input'))
 const Response = lazy(() => import('./Response'))
 const SongList = lazy(() => import('../routeTypes/components/SongList'))
@@ -19,7 +19,6 @@ const Search = () => {
   ])
   const [searchText, setSearchText] = useState()
   const [selectedMenu, setSelectedMenu] = useState(1)
-  const [isLastPage, setLastPage] = useState(false)
   const location = useLocation()
   const currentPath = location.pathname
   let { query } = useParams()
@@ -46,8 +45,14 @@ const Search = () => {
 
   useEffect(() => {
     selectedMenu === 1 && getData()
+    selectedMenu != 1 &&
+      updateCategory(selectedMenu, { data: null }) &&
+      getSpecificData()
+  }, [searchText, selectedMenu])
+
+  useEffect(() => {
     selectedMenu != 1 && getSpecificData()
-  }, [searchText, selectedMenu, inView])
+  }, [inView])
 
   async function getData() {
     const response = await searchAll(searchText)
@@ -130,7 +135,9 @@ const Search = () => {
               />
             )}
             <div className='ml-20'>
-            {selectedMenu === 3 && <Artists data={searchData?.data?.results} />}
+              {selectedMenu === 3 && (
+                <Artists data={searchData?.data?.results} />
+              )}
             </div>
             {selectedMenu === 4 && (
               <SongList

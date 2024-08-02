@@ -76,7 +76,7 @@ const Album = () => {
             releaseDate={handleDate(newAlbumDetails.data?.songs[0]?.releaseDate)}
             copyright={newAlbumDetails.data?.songs[0]?.copyright}
           />
-        }any
+        }
         {
           newArtistAlbums &&
           <RelatedContent
