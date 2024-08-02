@@ -220,10 +220,10 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
           {artistData?.name}
         </h1>
         <h1 className='text-sm font-medium opacity-80 mt-1 pl-4'>
-          {songData?.playCount.toLocaleString()} monthly listeners
+          {songData?.playCount?.toLocaleString()} monthly listeners
         </h1>
         <h1 className='text-sm font-medium opacity-80 mt-1 pl-4 pb-4'>
-          {artistData?.followerCount.toLocaleString()} followers
+          {artistData?.followerCount?.toLocaleString()} followers
         </h1>
       </div>
     </>
