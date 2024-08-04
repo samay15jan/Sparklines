@@ -2,7 +2,7 @@ import React, { lazy, useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { LineWave } from 'react-loader-spinner'
+import { DNA, LineWave } from 'react-loader-spinner'
 import { searchAll, searchSpecific } from '../../../api/apiMethods'
 const Artists = lazy(() => import('./Artists'))
 const Input = lazy(() => import('./Input'))
@@ -127,41 +127,48 @@ const Search = () => {
                 playlists={searchData?.data?.playlists?.results}
               />
             )}
-            {selectedMenu === 2 && (
-              <SongList
-                menu='search'
-                type='search'
-                songs={searchData?.data?.results}
-              />
-            )}
-            <div className='ml-20'>
-              {selectedMenu === 3 && (
-                <Artists data={searchData?.data?.results} />
-              )}
-            </div>
-            {selectedMenu === 4 && (
-              <SongList
-                menu='search'
-                type='search'
-                songs={searchData?.data?.results}
-              />
-            )}
-            {selectedMenu === 5 && (
-              <SongList
-                menu='search'
-                type='search'
-                songs={searchData?.data?.results}
-              />
+            {searchData?.data?.results?.length > 0 && (
+              <>
+                {selectedMenu === 2 && (
+                  <SongList
+                    menu='search'
+                    type='search'
+                    songs={searchData?.data?.results}
+                  />
+                )}
+                <div className='ml-20'>
+                  {selectedMenu === 3 && (
+                    <Artists data={searchData?.data?.results} />
+                  )}
+                </div>
+                {selectedMenu === 4 && (
+                  <SongList
+                    menu='search'
+                    type='search'
+                    songs={searchData?.data?.results}
+                  />
+                )}
+                {selectedMenu === 5 && (
+                  <SongList
+                    menu='search'
+                    type='search'
+                    songs={searchData?.data?.results}
+                  />
+                )}
+              </>
             )}
           </>
         )}
       </motion.div>
+
+      {!searchText && <LoadingMenu />}
+
       <div className='flex w-full mb-5 justify-center'>
         {!searchData.isLastPage
           ? selectedMenu != 1 && (
               <div ref={ref}>
                 <LineWave
-                  className='ml-6'
+                  className='ml-20'
                   color='white'
                   visible={true}
                   height='50'
@@ -173,6 +180,17 @@ const Search = () => {
           : 'x-x-x'}
       </div>
     </AnimatePresence>
+  )
+}
+
+const LoadingMenu = () => {
+  return (
+    <div className='opacity-80 text-center grid grid-cols-1 mt-36 w-full text-xl font-bold'>
+      Try Searching Something
+      <div className='flex mt-2 w-auto justify-center'>
+        <DNA visible={true} height='80' width='80' />
+      </div>
+    </div>
   )
 }
 

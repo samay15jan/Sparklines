@@ -37,7 +37,10 @@ const UserProfile = () => {
       <Container>
         <div onClick={handleClick}>
           {menu ? (
-            <GrClose className='right-0 m-1 mt-1 opacity-80 p-[1px]' size={20} />
+            <GrClose
+              className='right-0 m-1 mt-1 opacity-80 p-[1px]'
+              size={20}
+            />
           ) : (
             <Image src={userdata.profilePic} alt='userImg' />
           )}
@@ -47,7 +50,7 @@ const UserProfile = () => {
           {menu && <Menu userdata={userdata} handleLogout={handleLogout} />}
         </div>
       </Container>
-    </AnimatePresence >
+    </AnimatePresence>
   )
 }
 

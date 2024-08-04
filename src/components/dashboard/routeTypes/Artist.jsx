@@ -18,8 +18,8 @@ const Artists = lazy(() => import('../searchMenu/Artists'))
 const artist = () => {
   const [data, setData] = useRQGlobalState('artistDetails', [
     { id: 1, name: 'details', data: null },
-    { id: 2, name: 'songs', data: { popular: null, latest: null } },
-    { id: 3, name: 'albums', data: { popular: null, latest: null } },
+    { id: 2, name: 'songs', data: { popular: null, latest: null }, page: 1, isLastPage: false },
+    { id: 3, name: 'albums', data: { popular: null, latest: null }, page: 1, isLastPage: false  },
     { id: 4, name: 'playlists', data: null },
     { id: 5, name: 'artists', data: null },
     { id: 5, name: 'recommendations', data: null },

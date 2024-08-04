@@ -31,7 +31,13 @@ const Artists = ({ data, isArtistPage }) => {
   }
 
   return (
-    <Container className={isArtistPage ? 'overflow-x-scroll my-2 flex px-7 hover:rounded-xl' : 'grid grid-cols-3 p-5 '}>
+    <Container
+      className={
+        isArtistPage
+          ? 'overflow-x-scroll my-2 flex px-7 hover:rounded-xl'
+          : 'grid grid-cols-3 p-5 '
+      }
+    >
       {data &&
         data?.map((artist, index) => (
           <SubContainer

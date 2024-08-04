@@ -58,9 +58,10 @@ const Carousel = ({ CarouselData, typeId, isArtistPage }) => {
             <CarouselTitle title={data.name || data.title} />
             {isArtistPage ? (
               <div className='flex font-medium p-1 opacity-60'>
-                {data?.year || data?.songCount +' Songs'} &#128900;{' '}
-                {data?.type ? data?.type?.charAt(0).toUpperCase() + data?.type?.slice(1) : data?.label || data?.firstname }
-                
+                {data?.year || data?.songCount + ' Songs'} &#128900;{' '}
+                {data?.type
+                  ? data?.type?.charAt(0).toUpperCase() + data?.type?.slice(1)
+                  : data?.label || data?.firstname}
               </div>
             ) : (
               <CarouselArtists
