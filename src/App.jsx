@@ -5,6 +5,9 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
 import Loading from './utils/Loading'
+const Discography = lazy(
+  () => import('./components/dashboard/routeTypes/components/Discography')
+)
 const Playlist = lazy(
   () => import('./components/dashboard/routeTypes/Playlist')
 )
@@ -38,31 +41,35 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: '/dashboard/playlist/:id',
+        path: 'playlist/:id',
         element: <Playlist />,
       },
       {
-        path: '/dashboard/artist/:id',
+        path: 'artist/:id',
         element: <Artist />,
       },
       {
-        path: '/dashboard/track/:id',
+        path: 'artist/:id/discography',
+        element: <Discography />,
+      },
+      {
+        path: 'track/:id',
         element: <Track />,
       },
       {
-        path: '/dashboard/album/:id',
+        path: 'album/:id',
         element: <Album />,
       },
       {
-        path: '/dashboard/search',
+        path: 'search',
         element: <Search />,
       },
       {
-        path: '/dashboard/search/:query',
+        path: 'search/:query',
         element: <Search />,
       },
       {
-        path: '/dashboard/recently-played',
+        path: 'recently-played',
         element: <RecentlyPlayed />,
       },
     ],
@@ -72,19 +79,19 @@ const router = createBrowserRouter([
     element: <Developer />,
     children: [
       {
-        path: '/developer/api',
+        path: 'api',
         element: <API />,
       },
       {
-        path: '/developer/playground',
+        path: 'playground',
         element: <Playground />,
       },
       {
-        path: '/developer/docs',
+        path: 'docs',
         element: <Docs />,
       },
       {
-        path: '/developer/settings',
+        path: 'settings',
         element: <Settings />,
       },
     ],

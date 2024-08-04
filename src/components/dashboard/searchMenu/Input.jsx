@@ -18,13 +18,14 @@ const SearchInput = styled.input`
 
 const Input = ({ SearchText }) => {
   const [newQuery, setNewQuery] = useState(null)
+  const [temp, setTemp] = useState(null)
   let navigate = useNavigate()
   let { query } = useParams()
 
   useEffect(() => {
     if (query) {
       let modifiedText = query.replaceAll('+', ' ')
-      setNewQuery(modifiedText)
+      setTemp(modifiedText)
     }
   }, [query])
 
@@ -34,8 +35,9 @@ const Input = ({ SearchText }) => {
 
   const handleInputChange = (event) => {
     const newText = event.target.value
-    let modifiedText = newText.replace(/\s+/g, '+')
+    let modifiedText = newText.replace(/\s+/g, '+').trim() || ' '
     navigate(`/dashboard/search/${modifiedText}`)
+    setNewQuery(newText)
   }
 
   return (

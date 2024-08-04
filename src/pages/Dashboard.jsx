@@ -2,10 +2,14 @@ import React, { lazy, useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-const MainScreen = lazy(() => import('../components/dashboard/mainScreen/MainScreen'))
+const MainScreen = lazy(
+  () => import('../components/dashboard/mainScreen/MainScreen')
+)
 const Playback = lazy(() => import('../components/dashboard/playback/Playback'))
 const MenuBar = lazy(() => import('../components/dashboard/menuBar/MenuBar'))
-const ArtistsScreen = lazy(() => import('../components/dashboard/artistsScreen/ArtistsScreen'))
+const ArtistsScreen = lazy(
+  () => import('../components/dashboard/artistsScreen/ArtistsScreen')
+)
 
 const Container = styled.div`
   ${tw`overflow-y-hidden bg-black text-white w-screen h-auto`}
@@ -17,7 +21,7 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const location = useLocation()
   let currentPath = location.pathname
-  let { query } = useParams()
+  let { query, id } = useParams()
 
   useEffect(() => {
     userId = localStorage.getItem('userId')
@@ -33,6 +37,9 @@ const Dashboard = () => {
         break
       case currentPath === '/dashboard/recently-played':
         setShowMenu('recently-played')
+        break
+      case currentPath === `/dashboard/artist/${id}/discography`:
+        setShowMenu('artist-discography')
         break
       case currentPath === '/dashboard/search' ||
         (query && currentPath.startsWith('/dashboard/search/')):

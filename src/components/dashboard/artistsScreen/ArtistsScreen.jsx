@@ -11,7 +11,8 @@ const Skeleton = lazy(() => import('./Skeleton'))
 
 const ArtistsScreen = () => {
   const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
-  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue')
+  const [playbackDetails, setPlaybackDetails] =
+    useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
   const [currentLyrics, setCurrentLyrics] = useState(null)
   const [isLyrics, showLyrics] = useState(false)
@@ -38,7 +39,9 @@ const ArtistsScreen = () => {
       setArtistsData(getArtistData)
       if (data?.name && data?.primaryArtists) {
         const name = data?.name?.replaceAll(' ', '+')
-        const artistName = data?.primaryArtists?.split(",")[0]?.replaceAll(' ', '+')
+        const artistName = data?.primaryArtists
+          ?.split(',')[0]
+          ?. All(' ', '+')
         const getLyrics = await lyrics(name, artistName)
         setCurrentLyrics(getLyrics)
       }
@@ -48,9 +51,9 @@ const ArtistsScreen = () => {
   return (
     <AnimatePresence>
       <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'>
-        {isLyrics && !isQueue
-          && <motion.div
-            key="lyrics"
+        {isLyrics && !isQueue && (
+          <motion.div
+            key='lyrics'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -62,11 +65,11 @@ const ArtistsScreen = () => {
               showLyrics={(e) => showLyrics(e)}
             />
           </motion.div>
-        }
+        )}
 
-        {!isLyrics && !isQueue
-          && <motion.div
-            key="details"
+        {!isLyrics && !isQueue && (
+          <motion.div
+            key='details'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -79,13 +82,13 @@ const ArtistsScreen = () => {
                   isLyrics={isLyrics}
                   showLyrics={(e) => showLyrics(e)}
                 />
-                {artistsData?.data &&
+                {artistsData?.data && (
                   <ArtistDetails
                     handleMenu={(type, id) => handleMenu(type, id)}
                     artistData={artistsData?.data}
                     songData={data}
                   />
-                }
+                )}
                 <Credits
                   handleMenu={(type, id) => handleMenu(type, id)}
                   songData={data}
@@ -101,11 +104,11 @@ const ArtistsScreen = () => {
               <Skeleton />
             )}
           </motion.div>
-        }
+        )}
 
-        {isQueue && !isLyrics
-          && <motion.div
-            key="lyrics"
+        {isQueue && !isLyrics && (
+          <motion.div
+            key='lyrics'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -116,7 +119,7 @@ const ArtistsScreen = () => {
               handleMenu={(type, id) => handleMenu(type, id)}
             />
           </motion.div>
-        }
+        )}
       </div>
     </AnimatePresence>
   )
@@ -133,18 +136,15 @@ const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
       >
         {songData?.album?.name}
       </h1>
-      <img
-        className='rounded-lg'
-        src={songData?.image[2]?.link}
-        alt=''
-      />
+      <img className='rounded-lg' src={songData?.image[2]?.link} alt='' />
       <div className='flex justify-between my-2'>
         <div>
           <h1
             className='text-3xl font-bold mt-4 hover:underline cursor-pointer'
             onClick={() => handleMenu('track', songData?.id)}
           >
-            {songData?.name}</h1>
+            {songData?.name}
+          </h1>
           <h1 className=' flex gap-1 text-sm font-medium opacity-80 mt-1'>
             {artist.map((name, index) => (
               <h1
@@ -251,9 +251,7 @@ const Credits = ({ handleMenu, songData }) => {
         </div>
       </h1>
       <h1 className='p-4 pt-1'>
-        <div className='text-md font-semibold opacity-100'>
-          Release Date
-        </div>
+        <div className='text-md font-semibold opacity-100'>Release Date</div>
         <div className='text-sm font-medium opacity-80'>
           {songData?.releaseDate}
         </div>
@@ -291,7 +289,7 @@ const NextQueue = ({ queue, showQueue, queueData, handleMenu }) => {
           name={queueData[1]?.name}
           handleMenu={handleMenu}
         />
-      </div >
+      </div>
     </>
   )
 }

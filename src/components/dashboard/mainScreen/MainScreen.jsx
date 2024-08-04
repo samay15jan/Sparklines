@@ -7,6 +7,7 @@ const Track = lazy(() => import('../routeTypes/Track'))
 const Album = lazy(() => import('../routeTypes/Album'))
 const Artist = lazy(() => import('../routeTypes/Artist'))
 const RecentlyPlayed = lazy(() => import('../routeTypes/RecentlyPlayed'))
+const Discography = lazy(() => import('../routeTypes/components/Discography'))
 
 const MainScreen = ({ showMenu }) => {
   return (
@@ -20,6 +21,7 @@ const MainScreen = ({ showMenu }) => {
       {showMenu === 'track' && <Track />}
       {showMenu === 'album' && <Album />}
       {showMenu === 'artist' && <Artist />}
+      {showMenu === 'artist-discography' && <Discography />}
       {showMenu === 'recently-played' && <RecentlyPlayed />}
     </div>
   )

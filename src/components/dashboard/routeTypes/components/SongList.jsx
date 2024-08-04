@@ -30,13 +30,15 @@ const SongList = ({
               <h1>Title</h1>
             </div>
             {menu === 'search' && (
-              <div className='ml-40'>
-                <h1>Album</h1>
+              <div className={type != 'discography' ? 'ml-40' : 'mr-8'}>
+                <h1>{type != 'discography' ? 'Album' : 'Total'}</h1>
               </div>
             )}
-            <h1 className={menu === 'search' && 'mr-7'}>
-              <FaRegClock size={15} />
-            </h1>
+            {type != 'discography' && (
+              <h1 className={menu === 'search' && 'mr-7'}>
+                <FaRegClock size={15} />
+              </h1>
+            )}
           </div>
           <hr
             className={
@@ -63,25 +65,26 @@ const SongList = ({
                 />
               </div>
             ))}
-          {releaseDate || copyright && (
-            <div className='mt-10 ml-5'>
-              {releaseDate && (
-                <div className='text-sm font-medium opacity-80'>
-                  {releaseDate || ''}
-                </div>
-              )}
-              {copyright && (
-                <div className='text-[10px] font-medium opacity-80'>
-                  {copyright || ''}
-                </div>
-              )}
-              {copyright && (
-                <div className='text-[10px] font-medium opacity-80'>
-                  {copyright || ''}
-                </div>
-              )}
-            </div>
-          )}
+          {releaseDate ||
+            (copyright && (
+              <div className='mt-10 ml-5'>
+                {releaseDate && (
+                  <div className='text-sm font-medium opacity-80'>
+                    {releaseDate || ''}
+                  </div>
+                )}
+                {copyright && (
+                  <div className='text-[10px] font-medium opacity-80'>
+                    {copyright || ''}
+                  </div>
+                )}
+                {copyright && (
+                  <div className='text-[10px] font-medium opacity-80'>
+                    {copyright || ''}
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       ) : (
         <div>

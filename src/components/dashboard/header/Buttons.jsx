@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 
 const Buttons = ({ name }) => {
   const navigate = useNavigate()
@@ -19,21 +19,22 @@ const Buttons = ({ name }) => {
       }
     }
   }
-  
+
   return (
     <button>
-      {name === 'forward'
-        ? <IoIosArrowForward
+      {name === 'forward' ? (
+        <IoIosArrowForward
           onClick={handleNav}
           size={30}
           className='p-1 bg-opacity-80 bg-black rounded-full hover:bg-opacity-50'
         />
-        : <IoIosArrowBack
+      ) : (
+        <IoIosArrowBack
           onClick={handleNav}
           size={30}
           className='p-1 bg-opacity-80 bg-black rounded-full hover:bg-opacity-50'
         />
-      }
+      )}
     </button>
   )
 }

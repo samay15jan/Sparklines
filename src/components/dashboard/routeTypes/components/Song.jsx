@@ -3,6 +3,7 @@ import useRQGlobalState from '../../../../utils/useRQGlobalState'
 import { songDetails } from '../../../../api/apiMethods'
 import { FaPlay } from 'react-icons/fa6'
 import { MdExplicit } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const Song = ({
   id,
@@ -17,10 +18,15 @@ const Song = ({
 }) => {
   const [hover, setHover] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
+  const navigate = useNavigate()
 
   const handleClick = async (newId) => {
-    const { data } = await songDetails(newId)
-    setData(data)
+    if (type === 'discography') {
+      navigate(`/dashboard/album/${newId}`)
+    } else {
+      const { data } = await songDetails(newId)
+      setData(data)
+    }
   }
 
   function formatTime(time) {
@@ -33,7 +39,7 @@ const Song = ({
   return (
     <div className={menu === 'search' ? '' : 'ml-7 mr-9'}>
       <div
-        className='hover:bg-[#353535] relative rounded-md py-2 px-5 pr-8 grid grid-cols-5 justify-between'
+        className='hover:bg-[#353535] hover:cursor-pointer relative rounded-md py-2 px-5 pr-8 grid grid-cols-5 justify-between'
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={() => handleClick(songData?.id || id)}
@@ -101,8 +107,10 @@ const Song = ({
               {songData?.album?.name}
             </h1>
           )}
-          <h1 className='pt-2 font-medium mr-2 text-sm opacity-80'>
-            {formatTime(songData?.duration) || time || '0:00'}
+          <h1 className='pt-2 font-medium p-2 text-sm opacity-80'>
+            {type != 'discography'
+              ? formatTime(songData?.duration) || time || '0:00'
+              : songData?.songCount + ' Songs'}
           </h1>
         </div>
       </div>
