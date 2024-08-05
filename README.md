@@ -2,7 +2,7 @@
 
 ### Core Functionality (TODO) :
 
-- Fixing the playback bar
+- Add menus functionality on playback bar
 - Following artists
 - Liked songs
 - Custom playlists

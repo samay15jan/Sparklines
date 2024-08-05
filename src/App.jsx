@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
 import Loading from './utils/Loading'
 const Discography = lazy(
@@ -105,7 +105,7 @@ const App = () => {
       <HelmetProvider context={helmetContext}>
         <Suspense fallback={<Loading />}>
           <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools />
+            {/* <ReactQueryDevtools /> */}
             <RouterProvider router={router} />
           </QueryClientProvider>
         </Suspense>

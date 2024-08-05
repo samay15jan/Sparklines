@@ -55,7 +55,7 @@ const SeekingBar = styled.input`
 `
 
 const VolumeController = () => {
-  const playerRef = useRQGlobalState('playerRef', null)
+  const [playerRef] = useRQGlobalState('playerRef', null)
   const [currentVolume, setVolume] = useState(100)
 
   return (

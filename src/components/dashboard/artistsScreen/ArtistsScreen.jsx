@@ -41,7 +41,7 @@ const ArtistsScreen = () => {
         const name = data?.name?.replaceAll(' ', '+')
         const artistName = data?.primaryArtists
           ?.split(',')[0]
-          ?. All(' ', '+')
+          ?.replaceAll(' ', '+')
         const getLyrics = await lyrics(name, artistName)
         setCurrentLyrics(getLyrics)
       }
