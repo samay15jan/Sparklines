@@ -100,7 +100,7 @@ const Playback = () => {
       <SubContainer>
         <div className='flex'>
           <AudioDetails />
-          <AudioVisualizer show={false} /> {/* fix it */}
+          <AudioVisualizer />
         </div>
         <AudioController />
         <div className='flex'>

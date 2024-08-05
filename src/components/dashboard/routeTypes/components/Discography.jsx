@@ -32,7 +32,6 @@ const Discography = () => {
   const [showAlbum, setShowAlbum] = useState(false)
   const { ref, inView } = useInView({
     threshold: 0,
-    delay: 100,
   })
   const { id } = useParams()
   const navigate = useNavigate()
@@ -186,19 +185,15 @@ const Discography = () => {
         )}
       </div>
       <div ref={ref} className='flex w-full mb-5 justify-center'>
-        {!selectedMenuData?.isLastPage ? (
-          <div>
-            <LineWave
-              className='ml-6'
-              color='white'
-              visible={true}
-              height='50'
-              width='80'
-              ariaLabel='line-wave-loading'
-            />
-          </div>
-        ) : (
-          'x-x-x'
+        {!selectedMenuData?.isLastPage && (
+          <LineWave
+            className='ml-6'
+            color='white'
+            visible={true}
+            height='50'
+            width='80'
+            ariaLabel='line-wave-loading'
+          />
         )}
       </div>
     </AnimatePresence>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
@@ -59,45 +59,55 @@ const SeekingBar = styled.input`
 `
 
 const Seekbar = () => {
-  const [currentTime, setCurrentTime] = useState(null)
   const [playerRef] = useRQGlobalState('playerRef', null)
+  const [currentTime, setCurrentTime] = useState(0)
 
-  if (playerRef?.data) {
-    setInterval(() => {
-      const time = formatTime(playerRef.data.currentTime)
-      setCurrentTime(time)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playerRef?.data) {
+        setCurrentTime(playerRef.data.currentTime)
+      }
     }, 1000)
+
+    return () => clearInterval(interval)
+  }, [playerRef])
+
+  const handleSeekChange = (event) => {
+    const newTime = parseFloat(event.target.value)
+    if (playerRef?.data) {
+      playerRef.data.currentTime = newTime
+      setCurrentTime(newTime)
+    }
   }
 
   function formatTime(time) {
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
-    const finalFormat = `${minutes}:${seconds.toString().padStart(2, '0')}`
-    return finalFormat === 'NaN:NaN' ? '0:00' : finalFormat
+    if ((!minutes, !seconds)) return
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`
   }
 
   return (
-    <Container>
-      {playerRef &&
-        <>
-          <TimeLabel>{currentTime || '0:00'}</TimeLabel>
+    <>
+      {playerRef && (
+        <Container>
+          <TimeLabel>{formatTime(currentTime) || '0:00'}</TimeLabel>
 
           <SeekingBar
             type='range'
             min='0'
-            max={playerRef?.data?.duration}
-            value={playerRef?.data?.currentTime?.toFixed(0) || 0}
-            onChange={(e) => {
-              if (playerRef?.data) {
-                playerRef.data.currentTime = parseFloat(e.target.value)
-              }
-            }}
+            max={playerRef?.data?.duration || 100}
+            step='0.1'
+            value={currentTime || 0}
+            onChange={handleSeekChange}
           />
 
-          <TimeLabel>{formatTime(playerRef?.data?.duration)}</TimeLabel>
-        </>
-      }
-    </Container>
+          <TimeLabel>
+            {formatTime(playerRef?.data?.duration) || '0:00'}
+          </TimeLabel>
+        </Container>
+      )}
+    </>
   )
 }
 
