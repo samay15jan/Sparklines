@@ -1,11 +1,11 @@
 import React from 'react'
 import { MdClose } from 'react-icons/md'
 
-const LyricsScreen = ({ lyricsData, songData, isLyrics, showLyrics }) => {
+const LyricsScreen = ({ lyricsData, songData, showMenu }) => {
   if (!lyricsData?.data?.lyrics) {
     return (
       <>
-        <button className='relative top-0 opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={30} /></button>
+        <button className='relative top-0 opacity-60 font-bold bg-[#202020]' onClick={() => showMenu('nowPlaying')}><MdClose size={30} /></button>
         <div className='text-xl mt-80 text-center w-auto'>
           Lyrics Not found !
         </div>

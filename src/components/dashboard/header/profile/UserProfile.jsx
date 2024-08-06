@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 import { GrClose } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-const Menu = lazy(() => import('./Menu'))
+import Menu from './Menu'
 
 const Container = styled.div`
   ${tw`mt-[1px]`}
@@ -46,7 +46,7 @@ const UserProfile = () => {
           )}
         </div>
 
-        <div className='relative w-auto'>
+        <div className='relative right-0 w-auto'>
           {menu && <Menu userdata={userdata} handleLogout={handleLogout} />}
         </div>
       </Container>

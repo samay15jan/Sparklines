@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-const Header = lazy(() => import('../header/Header'))
+import Header from '../header/Header'
 const Homepage = lazy(() => import('../homepage/Homepage'))
 const Search = lazy(() => import('../searchMenu/Search'))
 const Playlist = lazy(() => import('../routeTypes/Playlist'))

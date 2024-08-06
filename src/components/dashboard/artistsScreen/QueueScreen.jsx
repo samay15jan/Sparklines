@@ -21,7 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 
-const QueueScreen = ({ queue, showQueue, updatePlayback, handleMenu }) => {
+const QueueScreen = ({ showMenu, handleMenu }) => {
   const [playbackDetails, setPlaybackDetails] =
     useRQGlobalState('playbackQueue')
   const queueList = playbackDetails?.data
@@ -59,7 +59,7 @@ const QueueScreen = ({ queue, showQueue, updatePlayback, handleMenu }) => {
         <h1 className='text-center'>Queue</h1>
         <button
           className='opacity-60 hover:opacity-100 font-bold'
-          onClick={() => showQueue(!queue)}
+          onClick={() => showMenu('nowPlaying')}
         >
           <MdClose size={25} />
         </button>

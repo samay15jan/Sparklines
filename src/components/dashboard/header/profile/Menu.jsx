@@ -21,15 +21,26 @@ const Menu = ({ userdata, handleLogout }) => {
   const [menu, setMenu] = useState('default')
   return (
     <motion.div
-      className='absolute mt-1 right-0 z-10 p-2 w-56 rounded-l-md rounded-b-md bg-[#282828]'
-      initial={{ x: 100, }}
-      animate={{ x: 13 }}
+      className='absolute mt-3 drop-shadow-2xl right-0 z-10 p-2 w-56 rounded-md rounded-b-md bg-[#282828]'
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
     >
-      {menu === 'profile' && <Profile data={userdata} onNext={() => setMenu('default')} alreadyLoggedIn='true' />}
-      {menu === 'default' &&
+      {menu === 'profile' && (
+        <Profile
+          data={userdata}
+          onNext={() => setMenu('default')}
+          alreadyLoggedIn='true'
+        />
+      )}
+      {menu === 'default' && (
         <>
           <div className='w-full flex justify-center'>
-            <Image className='hover:cursor-pointer hover:border-2' onClick={() => setMenu('profile')} src={userdata.profilePic} alt='userImg' />
+            <Image
+              className='hover:cursor-pointer hover:border-2'
+              onClick={() => setMenu('profile')}
+              src={userdata.profilePic}
+              alt='userImg'
+            />
           </div>
           <Heading>
             Username<SubHeading>{userdata.username}</SubHeading>
@@ -40,11 +51,14 @@ const Menu = ({ userdata, handleLogout }) => {
           <Heading>
             Languages<SubHeading>{userdata.languages}</SubHeading>
           </Heading>
-          <Heading className='p-2 text-red-500 opacity-90' onClick={handleLogout}>
+          <Heading
+            className='p-2 text-red-500 opacity-90'
+            onClick={handleLogout}
+          >
             Log out
           </Heading>
         </>
-      }
+      )}
     </motion.div>
   )
 }
