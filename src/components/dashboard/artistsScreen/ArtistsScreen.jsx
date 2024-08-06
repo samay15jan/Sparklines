@@ -2,19 +2,22 @@ import React, { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
 import { MdOutlineLyrics } from 'react-icons/md'
 import { artistDetails, lyrics } from '../../../api/apiMethods'
-import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import LyricsScreen from './LyricsScreen'
 import { QueueList, QueueScreen } from './QueueScreen'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
+const LyricsScreen = lazy(() => import('./LyricsScreen'))
 const Skeleton = lazy(() => import('./Skeleton'))
 
 const ArtistsScreen = () => {
-  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
-  const [playbackDetails, setPlaybackDetails] =
-    useRQGlobalState('playbackQueue')
+  const [currentSong] = useRQGlobalState('currentSong', null)
+  const [playbackDetails] = useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
   const [currentLyrics, setCurrentLyrics] = useState(null)
+  const [selectedScreen, setSelectedScreen] = useRQGlobalState(
+    'contentPlay',
+    null
+  )
   const [isLyrics, showLyrics] = useState(false)
   const [isQueue, showQueue] = useState(false)
   const data = currentSong?.data
@@ -51,23 +54,8 @@ const ArtistsScreen = () => {
   return (
     <AnimatePresence>
       <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'>
-        {isLyrics && !isQueue && (
-          <motion.div
-            key='lyrics'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <LyricsScreen
-              lyricsData={currentLyrics}
-              songData={data}
-              isLyrics={isLyrics}
-              showLyrics={(e) => showLyrics(e)}
-            />
-          </motion.div>
-        )}
-
-        {!isLyrics && !isQueue && (
+        {/* display nowPlaying screen*/}
+        {selectedScreen?.data === 'nowPlaying' && (
           <motion.div
             key='details'
             initial={{ opacity: 0 }}
@@ -79,8 +67,7 @@ const ArtistsScreen = () => {
                 <SongDetails
                   handleMenu={(type, id) => handleMenu(type, id)}
                   songData={data}
-                  isLyrics={isLyrics}
-                  showLyrics={(e) => showLyrics(e)}
+                  showMenu={(type) => setSelectedScreen(type)}
                 />
                 {artistsData?.data && (
                   <ArtistDetails
@@ -94,8 +81,7 @@ const ArtistsScreen = () => {
                   songData={data}
                 />
                 <NextQueue
-                  queue={isQueue}
-                  showQueue={(boolean) => showQueue(boolean)}
+                  showMenu={(type) => setSelectedScreen(type)}
                   queueData={playbackDetails?.data}
                   handleMenu={(type, id) => handleMenu(type, id)}
                 />
@@ -106,7 +92,24 @@ const ArtistsScreen = () => {
           </motion.div>
         )}
 
-        {isQueue && !isLyrics && (
+        {/* display lyrics screen*/}
+        {selectedScreen?.data === 'lyrics' && (
+          <motion.div
+            key='lyrics'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <LyricsScreen
+              lyricsData={currentLyrics}
+              songData={data}
+              showMenu={(type) => setSelectedScreen(type)}
+            />
+          </motion.div>
+        )}
+
+        {/* display queue screen*/}
+        {selectedScreen?.data === 'queue' && (
           <motion.div
             key='lyrics'
             initial={{ opacity: 0 }}
@@ -114,8 +117,7 @@ const ArtistsScreen = () => {
             transition={{ duration: 0.5 }}
           >
             <QueueScreen
-              queue={isQueue}
-              showQueue={(boolean) => showQueue(boolean)}
+              showMenu={(type) => setSelectedScreen(type)}
               handleMenu={(type, id) => handleMenu(type, id)}
             />
           </motion.div>
@@ -125,7 +127,7 @@ const ArtistsScreen = () => {
   )
 }
 
-const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
+const SongDetails = ({ handleMenu, songData, showMenu }) => {
   const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
@@ -159,7 +161,7 @@ const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
         </div>
         <div className='mt-8'>
           <button
-            onClick={() => showLyrics(!isLyrics)}
+            onClick={() => showMenu('lyrics')}
             className='mr-5 bg-[#0f0f0f]'
           >
             <MdOutlineLyrics className='pt-1' size={28} />
@@ -266,7 +268,7 @@ const Credits = ({ handleMenu, songData }) => {
   )
 }
 
-const NextQueue = ({ queue, showQueue, queueData, handleMenu }) => {
+const NextQueue = ({ showMenu, queueData, handleMenu }) => {
   if (!queueData[1]) return
   return (
     <>
@@ -275,7 +277,7 @@ const NextQueue = ({ queue, showQueue, queueData, handleMenu }) => {
           <h1 className='text-md font-bold p-4'>Next in queue</h1>
           <h1
             className='px-4 mt-5 text-sm font-bold opacity-60 hover:underline cursor-pointer'
-            onClick={() => showQueue(!queue)}
+            onClick={() => showMenu('queue')}
           >
             Open queue
           </h1>

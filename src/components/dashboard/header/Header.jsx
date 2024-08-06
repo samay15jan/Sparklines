@@ -1,9 +1,9 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import { FaHistory } from 'react-icons/fa'
 import { FaGithub } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
-const Buttons = lazy(() => import('./Buttons'))
-const UserProfile = lazy(() => import('./profile/UserProfile'))
+import Buttons from './Buttons'
+import UserProfile from './profile/UserProfile'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -14,7 +14,7 @@ const Header = () => {
         <Buttons name='backward' />
         <Buttons name='forward' />
       </div>
-      <div className='bg-[#282828] rounded-l-full py-1 rounded-t-full flex gap-3'>
+      <div className='bg-black bg-opacity-60 rounded-full py-1  flex gap-3'>
         <a href='https://github.com/samay15jan/sparklines' target='_blank'>
           <FaGithub
             size={31}
@@ -23,9 +23,7 @@ const Header = () => {
         </a>
         <button>
           <FaHistory
-            onClick={() =>
-              navigate('/dashboard/recently-played')
-            }
+            onClick={() => navigate('/dashboard/recently-played')}
             size={30}
             className='p-1 opacity-80 bg-black rounded-full'
           />
