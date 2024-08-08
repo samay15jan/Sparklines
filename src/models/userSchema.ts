@@ -2,6 +2,11 @@ import bcrypt from 'bcrypt'
 import mongoose, { Schema } from 'mongoose'
 import type { UserDoc } from '../interfaces/user.interface'
 
+const ItemSchema = new Schema({
+  artistId: { type: String },
+  imageUrl: { type: String }
+})
+
 const userSchema = new Schema<UserDoc>({
   email: {
     type: String,
@@ -38,6 +43,7 @@ const userSchema = new Schema<UserDoc>({
   apiKeyExpiry: {
     type: String,
   },
+  following: [ItemSchema],
   likedMusic: {
     type: [String],
   },

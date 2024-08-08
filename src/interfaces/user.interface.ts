@@ -1,6 +1,11 @@
 import type { Document } from 'mongoose'
 import type { Request } from 'express'
 
+interface FollowingItem {
+  artistId: string
+  imageUrl: string
+}
+
 export interface UserDoc extends Document {
   email: string
   password: string
@@ -12,6 +17,7 @@ export interface UserDoc extends Document {
   apiKey: string
   apiKeyCreated: Date
   apiKeyExpiry: string
+  following: FollowingItem[]
   likedMusic: string[]
   likedPlaylists: string[]
   likedAlbum: string[]
