@@ -15,7 +15,7 @@ const ButtonsContainer = styled.div`
 const MenuButtons = () => {
   const [selectedScreen, setSelectedScreen] = useRQGlobalState(
     'contentPlay',
-    null
+    'nowPlaying'
   )
   const [isLike, setLiked] = useState(false)
   const [isShowNowPlaying, showNowPlaying] = useState(true)

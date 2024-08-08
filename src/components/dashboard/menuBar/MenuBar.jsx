@@ -2,13 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { MdOutlineHome, MdHome } from 'react-icons/md'
 import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
 import { LuLibrary } from 'react-icons/lu'
-import { useLocation, Link, useParams } from 'react-router-dom'
+import { useLocation, Link, useParams, useNavigate } from 'react-router-dom'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const MenuBar = () => {
   const [menu, changeMenu] = useState('home')
   const location = useLocation()
   const currentPath = location.pathname
   let { query } = useParams()
+  const navigate = useNavigate()
+  const [following] = useRQGlobalState('following', null)
+
+  function navigateArtist(id) {
+    navigate(`/dashboard/artist/${id}`)
+  }
 
   //based on location
   useEffect(() => {
@@ -68,8 +75,20 @@ const MenuBar = () => {
           </div>
         )}
       </div>
-      <div className='overflow-y-scroll bg-[#0f0f0f] rounded-lg h-full p-5'>
-        <LuLibrary size={30} className='opacity-70 mb-5' />
+      <div className='overflow-y-scroll bg-[#0f0f0f] rounded-lg h-full py-5'>
+        <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
+        <div className='grid grid-cols-1 px-3'>
+          {following?.data &&
+            following.data?.map((item, index) => (
+              <img
+              className='w-16 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
+                key={index}
+                onClick={() => navigateArtist(item?.artistId)}
+                src={item?.imageUrl}
+                alt=''
+              />
+            ))}
+        </div>
       </div>
     </div>
   )
