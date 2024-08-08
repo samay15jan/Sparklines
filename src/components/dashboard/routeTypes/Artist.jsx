@@ -11,6 +11,7 @@ import {
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
+const Following = lazy(() => import('./components/Following'))
 const Header = lazy(() => import('./components/Header'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
 const Artists = lazy(() => import('../searchMenu/Artists'))
@@ -18,8 +19,20 @@ const Artists = lazy(() => import('../searchMenu/Artists'))
 const artist = () => {
   const [data, setData] = useRQGlobalState('artistDetails', [
     { id: 1, name: 'details', data: null },
-    { id: 2, name: 'songs', data: { popular: null, latest: null }, page: 1, isLastPage: false },
-    { id: 3, name: 'albums', data: { popular: null, latest: null }, page: 1, isLastPage: false  },
+    {
+      id: 2,
+      name: 'songs',
+      data: { popular: null, latest: null },
+      page: 1,
+      isLastPage: false,
+    },
+    {
+      id: 3,
+      name: 'albums',
+      data: { popular: null, latest: null },
+      page: 1,
+      isLastPage: false,
+    },
     { id: 4, name: 'playlists', data: null },
     { id: 5, name: 'artists', data: null },
     { id: 5, name: 'recommendations', data: null },
@@ -114,7 +127,16 @@ const artist = () => {
                 verfied={detailsData?.data?.isVerified}
                 dominantColor={(color) => setDominantColor(color)}
               />
-              <PlayIcon />
+              <div className='flex gap-4'>
+                <PlayIcon />
+                <Following
+                  id={detailsData?.data?.id}
+                  imageUrl={
+                    detailsData?.data?.image[2]?.link ||
+                    'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'
+                  }
+                />
+              </div>
             </div>
           )}
         </div>
@@ -178,7 +200,9 @@ const artist = () => {
           />
         )}
 
-        <div className='mb-2 flex justify-center w-full text-lg font-bold opacity-60 font-sans'>-x-x-x-</div>
+        <div className='mb-2 flex justify-center w-full text-lg font-bold opacity-60 font-sans'>
+          -x-x-x-
+        </div>
       </motion.div>
     </AnimatePresence>
   )

@@ -16,10 +16,8 @@ const ArtistsScreen = () => {
   const [currentLyrics, setCurrentLyrics] = useState(null)
   const [selectedScreen, setSelectedScreen] = useRQGlobalState(
     'contentPlay',
-    null
+    'nowPlaying'
   )
-  const [isLyrics, showLyrics] = useState(false)
-  const [isQueue, showQueue] = useState(false)
   const data = currentSong?.data
   const navigate = useNavigate()
 

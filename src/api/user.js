@@ -96,4 +96,37 @@ const addLanguages = async (data) => {
   }
 }
 
-export { register, login, updateUsername, imageUploader, addLanguages }
+const updateFollowing = async (data, action) => {
+  try {
+    const userId = localStorage.getItem('userId') || process.env.USERID_DEFAULT
+    const options = {
+      method: 'POST',
+      url: '/api/user/updateFollowing',
+      data: {
+        artistData: data,
+        action: action,
+      },
+      headers: {
+        userid: `${userId}`,
+        'Content-Type': 'application/json',
+      },
+    }
+    const response = await axios.request(options)
+    if (response && response.status === 200) {
+      return response.data
+    }
+  } catch (error) {
+    if (error.response.status === 500 || 401 || 404) {
+      return { error: error.response.data.message }
+    }
+  }
+}
+
+export {
+  register,
+  login,
+  updateUsername,
+  imageUploader,
+  addLanguages,
+  updateFollowing,
+}
