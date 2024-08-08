@@ -49,14 +49,31 @@ export class UpdateUserProfile {
     }
   }
 
-  public likedMusic = async (req: Request, res: Response, next: NextFunction) => {
-    const { likedMusic, userId } = req.body
-    const response = await this.updateData(req, res, next, { likedMusic }, userId)
+  public updateFollowing = async (req: Request, res: Response, next: NextFunction) => {
+    const { artistData, action } = req.body
+    const userId = req.headers.userid
+    const user = await User.findById(userId)
+    if (!user) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      return undefined
+    }
+    if (action === 'add') {
+      const isFollowing = user.following.some(item => 
+        item.artistId === artistData.artistId
+      );
+      if (!isFollowing) {
+        user.following.push(artistData)
+      }
+    } else if (action === 'remove') {
+      user.following = user.following.filter((item) => item.artistId !== artistData.artistId)
+    }
+    await user.save()
+    const response = user.following
     if (response) {
       res.status(200).json({
         status: globalConstants.status.success,
         message: 'Successfully Changed',
-        data: response.likedMusic,
+        data: response,
       })
     }
   }
