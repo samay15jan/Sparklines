@@ -8,6 +8,7 @@ import { QueueList, QueueScreen } from './QueueScreen'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 const LyricsScreen = lazy(() => import('./LyricsScreen'))
 const Skeleton = lazy(() => import('./Skeleton'))
+const Options = lazy(() => import('../routeTypes/components/Options'))
 
 const ArtistsScreen = () => {
   const [currentSong] = useRQGlobalState('currentSong', null)
@@ -157,7 +158,18 @@ const SongDetails = ({ handleMenu, songData, showMenu }) => {
             ))}
           </h1>
         </div>
-        <div className='mt-8'>
+        <div className='flex mt-8'>
+        <Options
+            type='liked'
+            id={songData?.id}
+            image={songData?.image[2]?.link}
+            name={songData?.name}
+            artist={songData?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+            artistId={songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]}
+            album={songData?.album?.name}
+            albumId={songData?.album?.id}
+            duration={songData?.duration}
+          />
           <button
             onClick={() => showMenu('lyrics')}
             className='mr-5 bg-[#0f0f0f]'
