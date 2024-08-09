@@ -2,7 +2,6 @@
 
 ### Core Functionality (TODO) :
 
-- Following artists
 - Liked songs
 - Custom playlists
 - Recently played music page

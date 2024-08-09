@@ -11,7 +11,8 @@ const MenuBar = () => {
   const currentPath = location.pathname
   let { query } = useParams()
   const navigate = useNavigate()
-  const [following] = useRQGlobalState('following', null)
+  const localData = localStorage.getItem('following')
+  const [following] = useRQGlobalState('following', JSON.parse(localData))
 
   function navigateArtist(id) {
     navigate(`/dashboard/artist/${id}`)
@@ -44,8 +45,8 @@ const MenuBar = () => {
   }
 
   return (
-    <div className='h-auto m-2 mr-1 rounded-lg'>
-      <div className='bg-[#0f0f0f] mb-2 rounded-lg h-auto p-5'>
+    <div className='flex flex-col h-auto m-2 mr-1 rounded-lg'>
+      <div className='bg-[#0f0f0f] mb-2 rounded-lg flex-none p-5'>
         {menu === 'home' && (
           <div>
             <Link to='/dashboard'>
@@ -75,16 +76,17 @@ const MenuBar = () => {
           </div>
         )}
       </div>
-      <div className='overflow-y-scroll bg-[#0f0f0f] rounded-lg h-full py-5'>
+      <div className='bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto'>
         <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
-        <div className='grid grid-cols-1 px-3'>
-          {following?.data &&
+        <div className='h-auto overflow-y-scroll grid grid-cols-1 px-3'>
+          {following &&
+            following?.data &&
             following.data?.map((item, index) => (
               <img
-              className='w-16 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
+                className='w-16 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
                 key={index}
-                onClick={() => navigateArtist(item?.artistId)}
-                src={item?.imageUrl}
+                onClick={() => navigateArtist(item?.id)}
+                src={item?.image}
                 alt=''
               />
             ))}

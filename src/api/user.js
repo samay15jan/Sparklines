@@ -96,14 +96,14 @@ const addLanguages = async (data) => {
   }
 }
 
-const updateFollowing = async (data, action) => {
+const updateOptions = async (body, action, url) => {
   try {
     const userId = localStorage.getItem('userId') || process.env.USERID_DEFAULT
     const options = {
       method: 'POST',
-      url: '/api/user/updateFollowing',
+      url: url,
       data: {
-        artistData: data,
+        data: body,
         action: action,
       },
       headers: {
@@ -128,5 +128,5 @@ export {
   updateUsername,
   imageUploader,
   addLanguages,
-  updateFollowing,
+  updateOptions,
 }

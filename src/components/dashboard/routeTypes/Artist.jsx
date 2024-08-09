@@ -11,7 +11,7 @@ import {
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
-const Following = lazy(() => import('./components/Following'))
+const Options = lazy(() => import('./components/Options'))
 const Header = lazy(() => import('./components/Header'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
 const Artists = lazy(() => import('../searchMenu/Artists'))
@@ -129,12 +129,13 @@ const artist = () => {
               />
               <div className='flex gap-4'>
                 <PlayIcon />
-                <Following
+                <Options
                   id={detailsData?.data?.id}
-                  imageUrl={
+                  image={
                     detailsData?.data?.image[2]?.link ||
                     'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'
                   }
+                  type='following'
                 />
               </div>
             </div>
