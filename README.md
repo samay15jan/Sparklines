@@ -2,7 +2,6 @@
 
 ### Core Functionality (TODO) :
 
-- Liked songs
 - Custom playlists
 - Recently played music page
 - Fixing errors discovered in MVP

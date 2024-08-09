@@ -5,6 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
 import Loading from './utils/Loading'
+const LikedSongs = lazy(() => import('./components/dashboard/routeTypes/LikedSongs'))
 const Discography = lazy(
   () => import('./components/dashboard/routeTypes/components/Discography')
 )
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: 'recently-played',
         element: <RecentlyPlayed />,
+      },
+      {
+        path: 'liked',
+        element: <LikedSongs/>,
       },
     ],
   },

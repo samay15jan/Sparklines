@@ -38,6 +38,9 @@ const Dashboard = () => {
       case currentPath === '/dashboard/recently-played':
         setShowMenu('recently-played')
         break
+      case currentPath === '/dashboard/liked':
+        setShowMenu('liked')
+        break
       case currentPath === `/dashboard/artist/${id}/discography`:
         setShowMenu('artist-discography')
         break

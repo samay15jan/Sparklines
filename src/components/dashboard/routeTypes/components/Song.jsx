@@ -36,6 +36,7 @@ const Song = ({
       return `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
   }
+
   return (
     <div className={menu === 'search' ? '' : 'ml-7 mr-9'}>
       <div
@@ -46,7 +47,7 @@ const Song = ({
       >
         <div
           className={
-            menu === 'search'
+            menu === 'search' || menu === 'liked'
               ? 'flex gap-4 col-span-3'
               : 'flex gap-4 col-span-4'
           }
@@ -68,7 +69,9 @@ const Song = ({
             {type && (
               <img
                 className='w-10 mr-3 rounded-sm'
-                src={songData?.image[2]?.link}
+                src={
+                  type === 'liked' ? songData?.image : songData?.image[2]?.link
+                }
               />
             )}
             <div>
@@ -88,6 +91,7 @@ const Song = ({
                       songData?.primaryArtists[0]?.name) ||
                       songData?.primaryArtists ||
                       artistName ||
+                      songData?.artist ||
                       'Unknown'}
                   </>
                 )}
@@ -97,14 +101,14 @@ const Song = ({
         </div>
         <div
           className={
-            menu === 'search'
+            menu === 'search' || menu === 'liked'
               ? 'flex justify-between col-span-2'
               : 'absolute right-8'
           }
         >
-          {menu === 'search' && (
+          {menu === 'search' || menu === 'liked' && (
             <h1 className='mt-3 text-sm font-medium opacity-80'>
-              {songData?.album?.name}
+              {songData?.album?.name || songData?.album}
             </h1>
           )}
           <h1 className='pt-2 font-medium p-2 text-sm opacity-80'>

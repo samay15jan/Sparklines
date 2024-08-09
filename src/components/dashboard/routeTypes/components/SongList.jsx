@@ -29,7 +29,7 @@ const SongList = ({
               <i>#</i>
               <h1>Title</h1>
             </div>
-            {menu === 'search' && (
+            {menu === 'search' || menu === 'liked' && (
               <div className={type != 'discography' ? 'ml-40' : 'mr-8'}>
                 <h1>{type != 'discography' ? 'Album' : 'Total'}</h1>
               </div>

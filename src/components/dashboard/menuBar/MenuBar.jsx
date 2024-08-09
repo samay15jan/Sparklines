@@ -78,12 +78,21 @@ const MenuBar = () => {
       </div>
       <div className='bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto'>
         <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
+        <Link to='/dashboard/liked'>
+          <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
+            <img
+            className='rounded-lg'
+              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
+              alt=''
+            />
+          </div>
+        </Link>
         <div className='h-auto overflow-y-scroll grid grid-cols-1 px-3'>
           {following &&
             following?.data &&
             following.data?.map((item, index) => (
               <img
-                className='w-16 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
+                className='w-10 ml-1 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
                 key={index}
                 onClick={() => navigateArtist(item?.id)}
                 src={item?.image}
