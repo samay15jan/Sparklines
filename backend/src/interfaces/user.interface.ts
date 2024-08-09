@@ -1,9 +1,20 @@
 import type { Document } from 'mongoose'
 import type { Request } from 'express'
 
-interface FollowingItem {
+export interface ItemDoc extends Document {
+  id: string
+  image: string
+}
+
+export interface LikedDoc extends Document {
+  id: string
+  image: string
+  name: string
+  artist: string
   artistId: string
-  imageUrl: string
+  album: string
+  albumId: string
+  duration: string
 }
 
 export interface UserDoc extends Document {
@@ -17,14 +28,14 @@ export interface UserDoc extends Document {
   apiKey: string
   apiKeyCreated: Date
   apiKeyExpiry: string
-  following: FollowingItem[]
-  likedMusic: string[]
-  likedPlaylists: string[]
-  likedAlbum: string[]
-  currentPlaying: string[]
-  queue: string[]
-  recentlyPlayed: string[]
-  playlists: string[]
+  following: ItemDoc[]
+  playlists: ItemDoc[]
+  likedPlaylists: ItemDoc[]
+  likedAlbum: ItemDoc[]
+  likedMusic: LikedDoc[]
+  recentlyPlayed: ItemDoc[]
+  currentPlaying: ItemDoc[]
+  queue: ItemDoc[]
 }
 
 export interface FileRequest extends Request {

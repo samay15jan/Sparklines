@@ -50,7 +50,7 @@ export class UpdateUserProfile {
   }
 
   public updateFollowing = async (req: Request, res: Response, next: NextFunction) => {
-    const { artistData, action } = req.body
+    const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
     if (!user) {
@@ -59,16 +59,45 @@ export class UpdateUserProfile {
     }
     if (action === 'add') {
       const isFollowing = user.following.some(item => 
-        item.artistId === artistData.artistId
+        item.id === data.id
       );
       if (!isFollowing) {
-        user.following.push(artistData)
+        user.following.push(data)
       }
     } else if (action === 'remove') {
-      user.following = user.following.filter((item) => item.artistId !== artistData.artistId)
+      user.following = user.following.filter((item) => item.id !== data.id)
     }
     await user.save()
     const response = user.following
+    if (response) {
+      res.status(200).json({
+        status: globalConstants.status.success,
+        message: 'Successfully Changed',
+        data: response,
+      })
+    }
+  }
+
+  public updateLikedMusic = async (req: Request, res: Response, next: NextFunction) => {
+    const { data, action } = req.body
+    const userId = req.headers.userid
+    const user = await User.findById(userId)
+    if (!user) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      return undefined
+    }
+    if (action === 'add') {
+      const isLiked = user.likedMusic.some(item => 
+        item.id === data.id
+      );
+      if (!isLiked) {
+        user.likedMusic.push(data)
+      }
+    } else if (action === 'remove') {
+      user.likedMusic = user.likedMusic.filter((item) => item.id !== data.id)
+    }
+    await user.save()
+    const response = user.likedMusic
     if (response) {
       res.status(200).json({
         status: globalConstants.status.success,
