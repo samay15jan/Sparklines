@@ -1,10 +1,21 @@
 import bcrypt from 'bcrypt'
 import mongoose, { Schema } from 'mongoose'
-import type { UserDoc } from '../interfaces/user.interface'
+import type { ItemDoc, LikedDoc, UserDoc } from '../interfaces/user.interface'
 
-const ItemSchema = new Schema({
+const ItemSchema = new Schema<ItemDoc>({
+  id: { type: String },
+  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+})
+
+const LikedSchema = new Schema<LikedDoc>({
+  id: { type: String },
+  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+  name: { type: String },
+  artist: { type: String },
+  album: { type: String },
   artistId: { type: String },
-  imageUrl: { type: String }
+  albumId: { type: String },
+  duration: { type: String },
 })
 
 const userSchema = new Schema<UserDoc>({
@@ -44,31 +55,13 @@ const userSchema = new Schema<UserDoc>({
     type: String,
   },
   following: [ItemSchema],
-  likedMusic: {
-    type: [String],
-  },
-  likedPlaylists: {
-    type: [String],
-  },
-  likedAlbum: {
-    type: [String],
-  },
-  currentPlaying: {
-    type: [String],
-  },
-  queue: {
-    type: [String],
-  },
-  recentlyPlayed: {
-    type: [String],
-  },
-  playlists: [
-    {
-      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
-      name: String,
-      songs: [String],
-    },
-  ],
+  likedPlaylists: [ItemSchema],
+  likedAlbum: [ItemSchema],
+  playlists: [ItemSchema],
+  likedMusic: [LikedSchema],
+  recentlyPlayed: [ItemSchema],
+  currentPlaying: [ItemSchema],
+  queue: [ItemSchema],
 })
 
 // Generate a random username before saving the document
