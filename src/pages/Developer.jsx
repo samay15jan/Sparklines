@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 import SideBar from '../components/developer/SideBar'
 import Target from '../components/developer/Target'
 import styled from 'styled-components'
@@ -26,12 +26,10 @@ const Developer = () => {
     setPath(path)
   }
 
+  useDocumentTitle('Sparklines - Developer')
+
   return (
     <>
-      <Helmet>
-        <title>Developer</title>
-        <meta name='description' content='Developer API' />
-      </Helmet>
       <Container>
         <SideBar activeMenu={handlePath} />
         <Target path={path} />
