@@ -15,7 +15,7 @@ const Text = styled.div`
 const Heading = () => {
   return (
     <Text>
-      <p className='h-60'>EXPLORE NOW</p>
+      <p className='h-52'>EXPLORE NOW</p>
       <GoArrowDownRight size={40} />
     </Text>
   )

@@ -1,9 +1,10 @@
-import React, { lazy, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { homepageData } from '../../../api/apiMethods'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 import { FaPause, FaPlay } from 'react-icons/fa6'
-const AudioPlayer = lazy(() => import('../utils/AudioPlayer'))
+import { songDetails } from '../../../api/apiMethods'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 const Container = styled.div`
   ${tw`mt-[-50px] ml-28 w-96 h-32 rounded-full bg-gray-200 opacity-90 drop-shadow-sm`}
@@ -26,6 +27,7 @@ const SubHeading = styled.div`
 
 const Player = ({ apiResponse }) => {
   const [data, setData] = useState('')
+  const [playbackId, setPlaybackId] = useState('')
   const [songDetails, setSongDetails] = useState('')
   const [showControls, setShowControls] = useState(false)
   const [play, setPlay] = useState(false)
@@ -35,21 +37,15 @@ const Player = ({ apiResponse }) => {
   }, [])
 
   useEffect(() => {
-    if (play) {
-      const playbackId = data && data.data.trending.songs[0].id
-      localStorage.setItem('playback', JSON.stringify([playbackId]))
-    }
-  }, [play])
-
-  useEffect(() => {
     apiResponse(data)
   }, [data])
 
   async function getData() {
     const homepage = await homepageData()
-    const playbackId = homepage && homepage.data.trending.songs[0].id
-    localStorage.setItem('playback', JSON.stringify([playbackId]))
-    setData(homepage)
+    if (homepage) {
+      setPlaybackId(homepage?.data?.trending?.songs[0]?.id)
+      setData(homepage)
+    }
   }
 
   const songName = songDetails && songDetails.data[0].name
@@ -61,6 +57,12 @@ const Player = ({ apiResponse }) => {
       ? details?.substring(0, 15) + '...'
       : details?.substring(0, 15)
   }
+
+  useDocumentTitle(
+    songDetails && play
+      ? `${songName || 'unknown'} - ${artistName || 'unknown'}`
+      : 'Sparklines - A music streaming platform'
+  )
 
   return (
     <Container>
@@ -89,8 +91,46 @@ const Player = ({ apiResponse }) => {
       <AudioPlayer
         songResponse={(data) => setSongDetails(data)}
         playingStatus={play}
+        playbackId={playbackId}
       />
     </Container>
+  )
+}
+
+const AudioPlayer = ({ playbackId, songResponse, playingStatus }) => {
+  const audioPlayer = useRef()
+  const currentPlayer = audioPlayer?.current
+  const [songData, setSongData] = useState('')
+
+  async function getData() {
+    const playback = await songDetails(playbackId)
+    setSongData(playback)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [playingStatus, playbackId])
+
+  useEffect(() => {
+    songResponse(songData)
+  }, [songData])
+
+  useEffect(() => {
+    if (currentPlayer) {
+      if (playingStatus) {
+        currentPlayer.play()
+      } else {
+        currentPlayer.pause()
+      }
+    }
+  }, [currentPlayer, playingStatus])
+
+  return (
+    <audio
+      ref={audioPlayer}
+      loop
+      src={songData && songData.data[0].downloadUrl[4].link}
+    ></audio>
   )
 }
 

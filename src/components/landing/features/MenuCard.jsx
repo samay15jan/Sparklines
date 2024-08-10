@@ -13,8 +13,8 @@ const MenuCard = ({
     <div
       className={
         theme === 'light'
-          ? 'w-96 h-96 bg-black absolute rounded-[50px] text-white'
-          : 'w-96 h-96 absolute rounded-[50px] text-black'
+          ? 'relative w-96 h-96 bg-black absolute rounded-[50px] text-white'
+          : 'relative w-96 h-96 absolute rounded-[50px] text-black'
       }
     >
       <div>

@@ -10,7 +10,7 @@ const TopArtists = lazy(() => import('./TopArtists'))
 
 const Features = ({ response }) => {
   return (
-    <div className='mt-20 mx-5 ml-14 w-auto h-screen grid grid-cols-3'>
+    <div className='relative mt-20 mx-5 ml-14 w-auto h-screen grid grid-cols-3'>
       <div>
         <Heading />
         <MenuCard

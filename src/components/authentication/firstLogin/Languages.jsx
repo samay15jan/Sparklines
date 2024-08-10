@@ -1,9 +1,9 @@
 import React, { lazy, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { addLanguages } from '../../../api/user'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 const SendButton = lazy(() => import('../SendButton'))
 const Button = lazy(() => import('./Button'))
 
@@ -61,14 +61,12 @@ const Languages = () => {
     }
   }
 
+  useDocumentTitle('Sparklines - Select Language')
+  
+
   return (
     <div>
-      <Helmet>
-        <title>Select Language</title>
-        <meta name='description' content='First Language Preferences' />
-      </Helmet>
       <Heading>Select Language</Heading>
-
       <SubContainer>
         {values.map((lang, index) => (
           <div key={index}>
