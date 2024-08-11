@@ -122,6 +122,26 @@ const ArtistsScreen = () => {
           </motion.div>
         )}
       </div>
+
+      {/* handle recently played automatically */}
+      {currentSong?.data && (
+        <Options
+          type='recentlyPlayed'
+          autoUpdate={true}
+          id={currentSong?.data?.id}
+          image={currentSong?.data?.image[2]?.link}
+          name={currentSong?.data?.name}
+          artist={currentSong?.data?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+          artistId={
+            currentSong?.data?.primaryArtistsId
+              ?.replaceAll(' ', '')
+              ?.split(',')[0]
+          }
+          album={currentSong?.data?.album?.name}
+          albumId={currentSong?.data?.album?.id}
+          duration={currentSong?.data?.duration}
+        />
+      )}
     </AnimatePresence>
   )
 }
@@ -159,13 +179,15 @@ const SongDetails = ({ handleMenu, songData, showMenu }) => {
           </h1>
         </div>
         <div className='flex mt-8'>
-        <Options
+          <Options
             type='liked'
             id={songData?.id}
             image={songData?.image[2]?.link}
             name={songData?.name}
             artist={songData?.primaryArtists?.split(',')?.slice(0, 1)[0]}
-            artistId={songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]}
+            artistId={
+              songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]
+            }
             album={songData?.album?.name}
             albumId={songData?.album?.id}
             duration={songData?.duration}

@@ -25,40 +25,71 @@ const Options = ({
   album,
   albumId,
   duration,
-  style
+  style,
+  autoUpdate,
 }) => {
   const [isSelected, setSelection] = useState(false)
-  const menu = type === 'following' ? 'following' : 'liked'
-  const localData = localStorage.getItem(menu)
-  const [data, setNewData] = useRQGlobalState(menu, JSON.parse(localData))
+  const localData = localStorage.getItem(type)
+  const [data, setNewData] = useRQGlobalState(type, JSON.parse(localData))
+  const [currentSong] = useRQGlobalState('currentSong', null)
+
+  const songBody = {
+    id: id,
+    image: image,
+    name: name,
+    artist: artist,
+    artistId: artistId,
+    album: album,
+    albumId: albumId,
+    duration: duration,
+  }
+
+  const api = [
+    {
+      type: 'following',
+      endpoint: 'updateFollowing',
+      body: {
+        id: id,
+        name: name,
+        image: image,
+      },
+    },
+    {
+      type: 'liked',
+      endpoint: 'updateLikedMusic',
+      body: songBody,
+    },
+    {
+      type: 'recentlyPlayed',
+      endpoint: 'updateRecentlyPlayed',
+      body: songBody,
+    },
+  ]
+
+  const selectedBody = api.find((item) => item.type === type)
+  const { body, endpoint } = selectedBody
 
   useEffect(() => {
     if (data?.data) {
       const isAvailable = data.data.some((artist) => artist.id === id)
-      setSelection(isAvailable)
+      if (!autoUpdate) {
+        setSelection(isAvailable)
+      }
       // Saving it locally
-      localStorage.setItem(menu, JSON.stringify(data?.data))
+      localStorage.setItem(type, JSON.stringify(data?.data))
     }
   }, [data?.data, id])
+
+  useEffect(() => {
+    if (autoUpdate) {
+      setSelection(false)
+      handleClick()
+    }
+  }, [id, currentSong?.data?.id])
 
   async function handleClick() {
     if (!id) return
     try {
-      const body =
-        menu === 'following'
-          ? { id: id, image: image }
-          : {
-              id: id,
-              image: image,
-              name: name,
-              artist: artist,
-              artistId: artistId,
-              album: album,
-              albumId: albumId,
-              duration: duration,
-            }
-      const endpoint =
-        menu === 'following' ? 'updateFollowing' : 'updateLikedMusic'
       const response = await updateOptions(
         body,
         isSelected ? 'remove' : 'add',
@@ -66,7 +97,9 @@ const Options = ({
       )
       if (response?.data) {
         setNewData(response?.data)
-        setSelection(!isSelected)
+        if (!autoUpdate) {
+          setSelection(!isSelected)
+        }
       }
     } catch (error) {
       console.log(error)
@@ -75,7 +108,7 @@ const Options = ({
 
   return (
     <>
-      {menu === 'following' && (
+      {type === 'following' && (
         <FollowingButton
           onClick={handleClick}
           className={isSelected ? 'bg-white text-black' : ''}
@@ -84,8 +117,11 @@ const Options = ({
         </FollowingButton>
       )}
 
-      {menu === 'liked' && (
-        <LikedButton className={style ? style : 'mt-2 mr-5'} onClick={handleClick}>
+      {type === 'liked' && (
+        <LikedButton
+          className={style ? style : 'mt-2 mr-5'}
+          onClick={handleClick}
+        >
           {isSelected ? (
             <FaHeart style={{ color: '#1db954' }} size={style ? 20 : 25} />
           ) : (
