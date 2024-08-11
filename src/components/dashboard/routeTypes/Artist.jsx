@@ -135,6 +135,7 @@ const artist = () => {
                     detailsData?.data?.image[2]?.link ||
                     'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'
                   }
+                  name={detailsData?.data?.name}
                   type='following'
                 />
               </div>

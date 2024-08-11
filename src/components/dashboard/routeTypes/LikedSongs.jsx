@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy } from 'react'
+import React, { useState, lazy } from 'react'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 import PlayIcon from './components/PlayIcon'
 const Header = lazy(() => import('./components/Header'))
@@ -12,7 +12,6 @@ const LikedSongs = () => {
     'liked',
     JSON.parse(likedDataLocally)
   )
-  console.log(data.data)
 
   return (
     <div>
