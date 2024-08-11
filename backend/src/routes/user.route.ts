@@ -31,5 +31,6 @@ export class UserRoute implements Route {
     this.router.post(`${this.path}/addLanguages`, authenticateUser, this.userData.updateLanguages)
     this.router.post(`${this.path}/updateFollowing`, authenticateUser, this.userData.updateFollowing)
     this.router.post(`${this.path}/updateLikedMusic`, authenticateUser, this.userData.updateLikedMusic)
+    this.router.post(`${this.path}/updateRecentlyPlayed`, authenticateUser, this.userData.updateRecentlyPlayed)
   }
 }
