@@ -1,6 +1,7 @@
 import User from '../models/userSchema'
 import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
+import { logger } from 'utils/logger'
 
 export class UpdateUserProfile {
   private async updateData(req: Request, res: Response, next: NextFunction, updateData: any, userId: String) {
@@ -58,9 +59,7 @@ export class UpdateUserProfile {
       return undefined
     }
     if (action === 'add') {
-      const isFollowing = user.following.some(item => 
-        item.id === data.id
-      );
+      const isFollowing = user.following.some((item) => item.id === data.id)
       if (!isFollowing) {
         user.following.push(data)
       }
@@ -87,9 +86,7 @@ export class UpdateUserProfile {
       return undefined
     }
     if (action === 'add') {
-      const isLiked = user.likedMusic.some(item => 
-        item.id === data.id
-      );
+      const isLiked = user.likedMusic.some((item) => item.id === data.id)
       if (!isLiked) {
         user.likedMusic.push(data)
       }
@@ -98,6 +95,41 @@ export class UpdateUserProfile {
     }
     await user.save()
     const response = user.likedMusic
+    if (response) {
+      res.status(200).json({
+        status: globalConstants.status.success,
+        message: 'Successfully Changed',
+        data: response,
+      })
+    }
+  }
+
+  public updateRecentlyPlayed = async (req: Request, res: Response, next: NextFunction) => {
+    const { data, action } = req.body
+    const userId = req.headers.userid
+    const user = await User.findById(userId)
+    if (!user) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      return undefined
+    }
+    if (action === 'add') {
+      const isAlreadyplayed = user.recentlyPlayed.some((item) => item.id === data.id) // checking if already played
+      if (isAlreadyplayed) {
+        const filteredArray = user.recentlyPlayed.filter((item) => item.id !== data.id) // fitering previous item
+        if (filteredArray) {
+          user.recentlyPlayed = filteredArray // removing previous item
+        }
+        user.recentlyPlayed.unshift(data) // adding item at first position
+      } else {
+        user.recentlyPlayed.unshift(data) // adding item normally
+      }
+    }
+    // Setting max limit
+    if (user.recentlyPlayed.length > 50) {
+      user.recentlyPlayed = user.recentlyPlayed.slice(0, 50)
+    }
+    await user.save()
+    const response = user.recentlyPlayed
     if (response) {
       res.status(200).json({
         status: globalConstants.status.success,
