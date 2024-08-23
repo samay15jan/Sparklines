@@ -192,6 +192,19 @@ const SongDetails = ({ handleMenu, songData, showMenu }) => {
             albumId={songData?.album?.id}
             duration={songData?.duration}
           />
+          <Options
+            type='customPlaylists'
+            id={songData?.id}
+            image={songData?.image[2]?.link}
+            name={songData?.name}
+            artist={songData?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+            artistId={
+              songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]
+            }
+            album={songData?.album?.name}
+            albumId={songData?.album?.id}
+            duration={songData?.duration}
+          />
           <button
             onClick={() => showMenu('lyrics')}
             className='mr-5 bg-[#0f0f0f]'
@@ -243,7 +256,7 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
           About the artist
         </h1>
         <img
-          className='rounded-t-lg inset-0 w-full h-72 object-cover object-center opacity-70'
+          className='rounded-t-lg z-10 inset-0 w-full h-72 object-cover object-center opacity-70'
           src={artistData?.image[2]?.link}
           alt=''
         />

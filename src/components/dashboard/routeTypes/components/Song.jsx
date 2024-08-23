@@ -70,7 +70,9 @@ const Song = ({
               <img
                 className='w-10 mr-3 rounded-sm'
                 src={
-                  type === 'liked' ? songData?.image : songData?.image[2]?.link
+                  type === 'liked' || type === 'customPlaylists'
+                    ? songData?.image
+                    : songData?.image[2]?.link
                 }
               />
             )}
@@ -85,16 +87,17 @@ const Song = ({
               <h1 className='flex opacity-80'>
                 {songData?.explicitContent == 1 ||
                   (explicit && <MdExplicit size={20} className='opacity-80' />)}
-                {type != 'artist' && (
-                  <>
-                    {(songData?.primaryArtists?.length > 0 &&
-                      songData?.primaryArtists[0]?.name) ||
-                      songData?.primaryArtists ||
-                      artistName ||
-                      songData?.artist ||
-                      'Unknown'}
-                  </>
-                )}
+                {type != 'artist' ||
+                  (type != 'customPlaylists' && (
+                    <>
+                      {(songData?.primaryArtists?.length > 0 &&
+                        songData?.primaryArtists[0]?.name) ||
+                        songData?.primaryArtists ||
+                        artistName ||
+                        songData?.artist ||
+                        'Unknown'}
+                    </>
+                  ))}
               </h1>
             </div>
           </div>
@@ -106,15 +109,16 @@ const Song = ({
               : 'absolute right-8'
           }
         >
-          {menu === 'search' || menu === 'liked' && (
-            <h1 className='mt-3 text-sm font-medium opacity-80'>
-              {songData?.album?.name || songData?.album}
-            </h1>
-          )}
+          {menu === 'search' ||
+            (menu === 'liked' && (
+              <h1 className='mt-3 text-sm font-medium opacity-80'>
+                {songData?.album?.name || songData?.album}
+              </h1>
+            ))}
           <h1 className='pt-2 font-medium p-2 text-sm opacity-80'>
-            {type != 'discography'
+            {type != 'discography' && type != 'customPlaylists'
               ? formatTime(songData?.duration) || time || '0:00'
-              : songData?.songCount + ' Songs'}
+              : songData?.songCount || songData?.songs?.length + ' Songs'}
           </h1>
         </div>
       </div>

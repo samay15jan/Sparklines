@@ -4,13 +4,13 @@ import PlayIcon from './components/PlayIcon'
 const Header = lazy(() => import('./components/Header'))
 import SongList from './components/SongList'
 
-const RecentlyPlayed = () => {
+const Playlists = () => {
   const [dominantColor, setDominantColor] = useState()
   const userName = localStorage.getItem('username')
-  const recentlyPlayedDataLocally = localStorage.getItem('recentlyPlayed')
+  const customPlaylistsLocally = localStorage.getItem('customPlaylists')
   const [data, setNewData] = useRQGlobalState(
-    'recentlyPlayed',
-    JSON.parse(recentlyPlayedDataLocally)
+    'customPlaylists',
+    JSON.parse(customPlaylistsLocally)
   )
 
   return (
@@ -27,9 +27,9 @@ const RecentlyPlayed = () => {
           <div className='relative pt-20 ml-5 pb-5'>
             <Header
               data={data?.data}
-              image='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/ixnkxiirpxnr9u3sb9cl?_a=BAMAGSRg0'
+              image='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
               type={`Created By ${userName}`}
-              name='Recently Played'
+              name='Custom Playlists'
               verfied={false}
               dominantColor={(color) => setDominantColor(color)}
             />
@@ -40,17 +40,10 @@ const RecentlyPlayed = () => {
         )}
       </div>
       <div className='absolulte'>
-        {data?.data && (
-          <SongList
-            songs={data?.data}
-            artistName={data?.data?.artist}
-            type='liked'
-            menu='liked'
-          />
-        )}
+        {data?.data && <SongList songs={data?.data} type='customPlaylists' />}
       </div>
     </div>
   )
 }
 
-export default RecentlyPlayed
+export default Playlists

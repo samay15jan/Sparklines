@@ -79,7 +79,7 @@ const MenuBar = () => {
       <div className='bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto'>
         <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
         <Link to='/dashboard/liked'>
-          <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
+          <div className='w-10 mb-4 mx-4' onClick={handleMenu1}>
             <img
             className='rounded-lg'
               src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
@@ -87,6 +87,16 @@ const MenuBar = () => {
             />
           </div>
         </Link>
+        <Link to='/dashboard/playlists'>
+          <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
+            <img
+            className='rounded-lg'
+              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
+              alt=''
+            />
+          </div>
+        </Link>
+
         <div className='h-auto overflow-y-scroll grid grid-cols-1 px-3'>
           {following &&
             following?.data &&
