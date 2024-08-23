@@ -1,7 +1,6 @@
 import User from '../models/userSchema'
 import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
-import { logger } from 'utils/logger'
 
 export class UpdateUserProfile {
   private async updateData(req: Request, res: Response, next: NextFunction, updateData: any, userId: String) {
@@ -67,14 +66,11 @@ export class UpdateUserProfile {
       user.following = user.following.filter((item) => item.id !== data.id)
     }
     await user.save()
-    const response = user.following
-    if (response) {
-      res.status(200).json({
-        status: globalConstants.status.success,
-        message: 'Successfully Changed',
-        data: response,
-      })
-    }
+    res.status(200).json({
+      status: globalConstants.status.success,
+      message: 'Updated Following Artists',
+      data: user.following,
+    })
   }
 
   public updateLikedMusic = async (req: Request, res: Response, next: NextFunction) => {
@@ -94,14 +90,11 @@ export class UpdateUserProfile {
       user.likedMusic = user.likedMusic.filter((item) => item.id !== data.id)
     }
     await user.save()
-    const response = user.likedMusic
-    if (response) {
-      res.status(200).json({
-        status: globalConstants.status.success,
-        message: 'Successfully Changed',
-        data: response,
-      })
-    }
+    res.status(200).json({
+      status: globalConstants.status.success,
+      message: 'Updated Liked Music',
+      data: user.likedMusic,
+    })
   }
 
   public updateRecentlyPlayed = async (req: Request, res: Response, next: NextFunction) => {
@@ -129,13 +122,64 @@ export class UpdateUserProfile {
       user.recentlyPlayed = user.recentlyPlayed.slice(0, 50)
     }
     await user.save()
-    const response = user.recentlyPlayed
-    if (response) {
-      res.status(200).json({
-        status: globalConstants.status.success,
-        message: 'Successfully Changed',
-        data: response,
-      })
+    res.status(200).json({
+      status: globalConstants.status.success,
+      message: 'Updated Recently Played',
+      data: user.recentlyPlayed,
+    })
+  }
+
+  public managePlaylists = async (req: Request, res: Response, next: NextFunction) => {
+    const { data, action } = req.body
+    const userId = req.headers.userid
+    const user = await User.findById(userId)
+    if (!user) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      return undefined
     }
+    const playlistExists = user.playlists.some((item) => item.name === data.name)
+    if (action === 'add') {
+      if (playlistExists) {
+        res.status(400).json({ status: globalConstants.status.failed, message: 'Playlist already exists' })
+        return
+      }
+      user.playlists.unshift(data)
+    } else if (action === 'remove') {
+      user.playlists = user.playlists.filter((item) => item.name !== data.name)
+    }
+    await user.save()
+    res.status(200).json({
+      status: globalConstants.status.success,
+      message: 'Playlist created successfully',
+      data: user.playlists,
+    })
+  }
+
+  public updatePlaylistSongs = async (req: Request, res: Response, next: NextFunction) => {
+    const { data, action } = req.body
+    const userId = req.headers.userid
+    const user = await User.findById(userId)
+    if (!user) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+      return undefined
+    }
+    const playlist = user.playlists.find((item) => item.name === data.name)
+    if (!playlist) {
+      res.status(404).json({ status: globalConstants.status.failed, message: 'Playlist not found' })
+      return
+    }
+    if (playlist) {
+      if (action === 'add') {
+        playlist.songs.unshift(data.songs)
+      } else if (action === 'remove') {
+        playlist.songs = playlist.songs.filter((song) => song.id !== data.id)
+      }
+    }
+    await user.save()
+    res.status(200).json({
+      status: globalConstants.status.success,
+      message: 'Playlist created successfully',
+      data: user.playlists,
+    })
   }
 }

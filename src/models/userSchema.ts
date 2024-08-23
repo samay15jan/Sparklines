@@ -2,34 +2,38 @@ import bcrypt from 'bcrypt'
 import mongoose, { Schema } from 'mongoose'
 import type { FollowingDoc, SongDoc, PlaylistDoc, UserDoc } from '../interfaces/user.interface'
 
-const followingSchema = new Schema<FollowingDoc>({
-  id: { type: String },
-  name: { type: String },
-  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
-})
+const followingSchema = new Schema<FollowingDoc>(
+  {
+    id: { type: String },
+    name: { type: String },
+    image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+  },
+  { _id: false }
+)
 
-const songSchema = new Schema<SongDoc>({
-  id: { type: String },
-  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
-  name: { type: String },
-  artist: { type: String },
-  album: { type: String },
-  artistId: { type: String },
-  albumId: { type: String },
-  duration: { type: String },
-})
+const songSchema = new Schema<SongDoc>(
+  {
+    id: { type: String },
+    image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+    name: { type: String },
+    artist: { type: String },
+    album: { type: String },
+    artistId: { type: String },
+    albumId: { type: String },
+    duration: { type: String },
+  },
+  { _id: false }
+)
 
-const playlistSchema = new Schema<PlaylistDoc>({
-  id: { type: String },
-  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
-  name: { type: String },
-  artist: { type: String },
-  artistId: { type: String },
-  year: { type: String },
-  type: { type: String },
-  date: { type: Date, default: Date.now() },
-  songs: [songSchema],
-})
+const playlistSchema = new Schema<PlaylistDoc>(
+  {
+    image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+    name: { type: String },
+    type: { type: String, default: 'Playlist' },
+    date: { type: Date, default: Date.now() },
+    songs: [songSchema],
+  },
+)
 
 const userSchema = new Schema<UserDoc>({
   email: {

@@ -19,12 +19,8 @@ export interface SongDoc extends Document {
 }
 
 export interface PlaylistDoc extends Document {
-  id: string
   image: string
   name: string
-  artist: string
-  artistId: string
-  year: string
   type: string
   date: Date
   songs: SongDoc[]
