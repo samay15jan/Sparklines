@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ApiKeyController } from '../controllers/apiKey,controller'
+import { ApiKeyController } from '../controllers/apiKey.controller'
 import type { Route } from '../interfaces/route.interface'
 
 export class ApiRoute implements Route {
