@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
 import { MdOutlineLyrics } from 'react-icons/md'
 import { artistDetails, lyrics } from '../../../api/apiMethods'

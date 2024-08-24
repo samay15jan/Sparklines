@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaHistory } from 'react-icons/fa'
 import { FaGithub } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +14,11 @@ const Header = () => {
         <Buttons name='forward' />
       </div>
       <div className='bg-black bg-opacity-60 rounded-full py-1  flex gap-3'>
-        <a href='https://github.com/samay15jan/sparklines' target='_blank'>
+        <a
+          href='https://github.com/samay15jan/sparklines'
+          rel='noreferrer'
+          target='_blank'
+        >
           <FaGithub
             size={31}
             className='p-1 mt-[1px] ml-2 opacity-80 bg-black rounded-full'

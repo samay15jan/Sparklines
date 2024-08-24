@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react'
+import { lazy, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { motion } from 'framer-motion'

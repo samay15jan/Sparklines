@@ -1,4 +1,3 @@
-import React from 'react'
 import Carousel from '../../homepage/Carousel'
 import Skeleton from '../../homepage/Skeleton'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -15,9 +14,7 @@ const RelatedContent = ({ relatedSongs, heading, artistName }) => {
         </h1>
         <h1
           className='mt-2 font-bold text-sm opacity-50 hover:opacity-60 hover:underline cursor-pointer'
-          onClick={() =>
-            navigate(`/dashboard/artist/${id}/discography`)
-          }
+          onClick={() => navigate(`/dashboard/artist/${id}/discography`)}
         >
           See discography
         </h1>

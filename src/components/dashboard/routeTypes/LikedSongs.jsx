@@ -1,4 +1,4 @@
-import React, { useState, lazy } from 'react'
+import { useState, lazy } from 'react'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 import PlayIcon from './components/PlayIcon'
 const Header = lazy(() => import('./components/Header'))
@@ -8,10 +8,7 @@ const LikedSongs = () => {
   const [dominantColor, setDominantColor] = useState()
   const userName = localStorage.getItem('username')
   const likedDataLocally = localStorage.getItem('liked')
-  const [data, setNewData] = useRQGlobalState(
-    'liked',
-    JSON.parse(likedDataLocally)
-  )
+  const [data] = useRQGlobalState('liked', JSON.parse(likedDataLocally))
 
   return (
     <div>

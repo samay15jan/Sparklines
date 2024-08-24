@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -71,7 +71,7 @@ const Dashboard = () => {
         setShowMenu('home')
         break
     }
-  }, [currentPath, query])
+  }, [currentPath, query, id])
 
   return (
     <Container>

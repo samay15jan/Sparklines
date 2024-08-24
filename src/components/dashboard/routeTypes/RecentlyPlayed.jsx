@@ -1,4 +1,4 @@
-import React, { useState, lazy } from 'react'
+import { useState, lazy } from 'react'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 import PlayIcon from './components/PlayIcon'
 const Header = lazy(() => import('./components/Header'))
@@ -8,7 +8,7 @@ const RecentlyPlayed = () => {
   const [dominantColor, setDominantColor] = useState()
   const userName = localStorage.getItem('username')
   const recentlyPlayedDataLocally = localStorage.getItem('recentlyPlayed')
-  const [data, setNewData] = useRQGlobalState(
+  const [data] = useRQGlobalState(
     'recentlyPlayed',
     JSON.parse(recentlyPlayedDataLocally)
   )

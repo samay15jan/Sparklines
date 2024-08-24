@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import Header from '../header/Header'
 const Homepage = lazy(() => import('../homepage/Homepage'))
 const Search = lazy(() => import('../searchMenu/Search'))

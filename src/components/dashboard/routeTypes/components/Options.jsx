@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { updateOptions } from '../../../../api/user'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import useRQGlobalState from '../../../../utils/useRQGlobalState'
 import { FaHeart, FaRegHeart, FaPlus } from 'react-icons/fa6'
-import {
-  MdPlaylistAdd,
-  MdOutlinePlaylistRemove,
-  MdPlaylistAddCheck,
-} from 'react-icons/md'
+import { MdPlaylistAdd } from 'react-icons/md'
 import { GrClose } from 'react-icons/gr'
 import { AnimatePresence } from 'framer-motion'
 import { MdOutlineHourglassEmpty } from 'react-icons/md'

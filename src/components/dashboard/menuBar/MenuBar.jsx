@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdOutlineHome, MdHome } from 'react-icons/md'
 import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
 import { LuLibrary } from 'react-icons/lu'
@@ -81,7 +81,7 @@ const MenuBar = () => {
         <Link to='/dashboard/liked'>
           <div className='w-10 mb-4 mx-4' onClick={handleMenu1}>
             <img
-            className='rounded-lg'
+              className='rounded-lg'
               src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
               alt=''
             />
@@ -90,7 +90,7 @@ const MenuBar = () => {
         <Link to='/dashboard/playlists'>
           <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
             <img
-            className='rounded-lg'
+              className='rounded-lg'
               src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
               alt=''
             />

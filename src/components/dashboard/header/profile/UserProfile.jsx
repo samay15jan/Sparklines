@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react'
+import { useState } from 'react'
 import userData from '../../../../utils/userData'
 import styled from 'styled-components'
 import tw from 'twin.macro'

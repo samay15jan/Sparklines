@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 import { GoArrowUpRight } from 'react-icons/go'

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -16,7 +15,7 @@ const SubHeading = styled.div`
 `
 
 const AudioData = () => {
-  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
+  const [currentSong] = useRQGlobalState('currentSong', null)
   const data = currentSong?.data
   const artistName = data?.primaryArtists?.split(',')?.slice(0, 2)
   const artistId = data?.primaryArtistsId
@@ -40,7 +39,9 @@ const AudioData = () => {
               className='hover:underline'
               onClick={() => handleMenu('track', data?.id)}
             >
-              {data?.name.length > 20 ? data?.name.slice(0, 20) + '...' : data?.name.slice(0, 20)}
+              {data?.name.length > 20
+                ? data?.name.slice(0, 20) + '...'
+                : data?.name.slice(0, 20)}
             </Heading>
             <SubHeading>
               {artistName.map((name, index) => (

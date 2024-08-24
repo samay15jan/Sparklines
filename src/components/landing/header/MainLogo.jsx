@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { TbBrandNeteaseMusic } from 'react-icons/tb'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

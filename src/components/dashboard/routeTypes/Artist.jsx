@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
@@ -16,7 +16,7 @@ const Header = lazy(() => import('./components/Header'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
 const Artists = lazy(() => import('../searchMenu/Artists'))
 
-const artist = () => {
+const Artist = () => {
   const [data, setData] = useRQGlobalState('artistDetails', [
     { id: 1, name: 'details', data: null },
     {
@@ -210,4 +210,4 @@ const artist = () => {
   )
 }
 
-export default artist
+export default Artist

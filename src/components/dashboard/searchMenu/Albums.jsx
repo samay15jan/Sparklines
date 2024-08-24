@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
@@ -28,6 +27,7 @@ const Albums = ({ data }) => {
       {data &&
         data?.map((album, index) => (
           <div
+            key={index}
             id={album?.id}
             className='w-1/2 p-2'
             onMouseDown={() => handleMenu(album?.id)}

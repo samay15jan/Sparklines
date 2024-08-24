@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { HiOutlineHeart } from 'react-icons/hi'
 import { CgPlayButtonR } from 'react-icons/cg'
 import { MdOutlineLyrics } from 'react-icons/md'
 import { HiOutlineQueueList } from 'react-icons/hi2'

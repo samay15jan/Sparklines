@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, useRef, useState } from 'react'
+import { useEffect, lazy, useRef } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDocumentTitle } from '@uidotdev/usehooks'
@@ -91,7 +91,7 @@ const Player = () => {
 }
 
 const Playback = () => {
-  const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
+  const [currentSong] = useRQGlobalState('currentSong', null)
 
   // Set Webpage Title
   useDocumentTitle(

@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 const GenerateKey = lazy(() => import('./API'))
 const Playground = lazy(() => import('./Playground'))
 const Docs = lazy(() => import('./Docs'))

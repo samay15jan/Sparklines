@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { playlistDetails } from '../../../api/apiMethods'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
@@ -8,7 +8,10 @@ const PlayIcon = lazy(() => import('./components/PlayIcon'))
 const SongList = lazy(() => import('./components/SongList'))
 
 const Playlist = () => {
-  const [newPlaylistDetails, setPlaylistDetails] = useRQGlobalState('playlistDetail', null)
+  const [newPlaylistDetails, setPlaylistDetails] = useRQGlobalState(
+    'playlistDetail',
+    null
+  )
   const [dominantColor, setDominantColor] = useState()
   const { id } = useParams()
 
@@ -34,7 +37,7 @@ const Playlist = () => {
   return (
     <AnimatePresence>
       <motion.div
-        key="playlist"
+        key='playlist'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
@@ -63,13 +66,15 @@ const Playlist = () => {
             </div>
           )}
         </div>
-        {data &&
+        {newPlaylistDetails && (
           <SongList
             songs={newPlaylistDetails.data?.songs}
-            releaseDate={handleDate(newPlaylistDetails.data?.songs[0]?.releaseDate)}
+            releaseDate={handleDate(
+              newPlaylistDetails.data?.songs[0]?.releaseDate
+            )}
             copyright={newPlaylistDetails.data?.songs[0]?.copyright}
           />
-        }
+        )}
       </motion.div>
     </AnimatePresence>
   )

@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaGithub } from 'react-icons/fa6'
 import { MdEmail } from 'react-icons/md'
