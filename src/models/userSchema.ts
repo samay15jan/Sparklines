@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import mongoose, { Schema } from 'mongoose'
-import type { FollowingDoc, SongDoc, PlaylistDoc, UserDoc } from '../interfaces/user.interface'
+import type { FollowingDoc, PlaylistDoc, SongDoc, UserDoc } from '../interfaces/user.interface'
 
 const followingSchema = new Schema<FollowingDoc>(
   {
@@ -25,15 +25,13 @@ const songSchema = new Schema<SongDoc>(
   { _id: false }
 )
 
-const playlistSchema = new Schema<PlaylistDoc>(
-  {
-    image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
-    name: { type: String },
-    type: { type: String, default: 'Playlist' },
-    date: { type: Date, default: Date.now() },
-    songs: [songSchema],
-  },
-)
+const playlistSchema = new Schema<PlaylistDoc>({
+  image: { type: String, default: 'https://www.jiosaavn.com/_i/3.0/artist-default-music.png' },
+  name: { type: String },
+  type: { type: String, default: 'Playlist' },
+  date: { type: Date, default: Date.now() },
+  songs: [songSchema],
+})
 
 const userSchema = new Schema<UserDoc>({
   email: {

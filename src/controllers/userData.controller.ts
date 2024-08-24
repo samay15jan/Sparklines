@@ -49,7 +49,7 @@ export class UpdateUserProfile {
     }
   }
 
-  public updateFollowing = async (req: Request, res: Response, next: NextFunction) => {
+  public updateFollowing = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
@@ -73,7 +73,7 @@ export class UpdateUserProfile {
     })
   }
 
-  public updateLikedMusic = async (req: Request, res: Response, next: NextFunction) => {
+  public updateLikedMusic = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
@@ -97,7 +97,7 @@ export class UpdateUserProfile {
     })
   }
 
-  public updateRecentlyPlayed = async (req: Request, res: Response, next: NextFunction) => {
+  public updateRecentlyPlayed = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
@@ -129,7 +129,7 @@ export class UpdateUserProfile {
     })
   }
 
-  public managePlaylists = async (req: Request, res: Response, next: NextFunction) => {
+  public managePlaylists = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
@@ -155,7 +155,7 @@ export class UpdateUserProfile {
     })
   }
 
-  public updatePlaylistSongs = async (req: Request, res: Response, next: NextFunction) => {
+  public updatePlaylistSongs = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
     const user = await User.findById(userId)
