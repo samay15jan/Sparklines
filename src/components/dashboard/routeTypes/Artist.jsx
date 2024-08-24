@@ -1,5 +1,6 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   artistDetails,
   artistSongs,
@@ -7,69 +8,103 @@ import {
   recommendedSongs,
   searchSpecific,
 } from '../../../api/apiMethods'
-import PlayIcon from './components/PlayIcon'
-import SongList from './components/SongList'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
-import { AnimatePresence, motion } from 'framer-motion'
+const PlayIcon = lazy(() => import('./components/PlayIcon'))
+const SongList = lazy(() => import('./components/SongList'))
+const Options = lazy(() => import('./components/Options'))
 const Header = lazy(() => import('./components/Header'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
+const Artists = lazy(() => import('../searchMenu/Artists'))
 
-const artist = () => {
-  const [artistData, setArtistData] = useRQGlobalState('artistData', null)
+const Artist = () => {
+  const [data, setData] = useRQGlobalState('artistDetails', [
+    { id: 1, name: 'details', data: null },
+    {
+      id: 2,
+      name: 'songs',
+      data: { popular: null, latest: null },
+      page: 1,
+      isLastPage: false,
+    },
+    {
+      id: 3,
+      name: 'albums',
+      data: { popular: null, latest: null },
+      page: 1,
+      isLastPage: false,
+    },
+    { id: 4, name: 'playlists', data: null },
+    { id: 5, name: 'artists', data: null },
+    { id: 5, name: 'recommendations', data: null },
+  ])
   const [dominantColor, setDominantColor] = useState()
   const { id } = useParams()
 
-  useEffect(() => {
-    getData()
-  }, [id])
+  let detailsData = data?.data?.find((category) => category.name === 'details')
+  let songsData = data?.data?.find((category) => category.name === 'songs')
+  let albumsData = data?.data?.find((category) => category.name === 'albums')
+  let playlistsData = data?.data?.find(
+    (category) => category.name === 'playlists'
+  )
+  let artistsData = data?.data?.find((category) => category.name === 'artists')
+  let recommendationsData = data?.data?.find(
+    (category) => category.name === 'recommendations'
+  )
 
-  const addArtistData = (newKey, newData) => {
-    setArtistData(prevState => ({
-      ...prevState,
-      [newKey]: newData
-    }))
+  const updateCategory = (name, newData) => {
+    setData((prevState) =>
+      prevState.map((category) =>
+        category.name === name ? { ...category, ...newData } : category
+      )
+    )
   }
 
-  async function getData() {
-    var songId
-    if (id) {
-      const artistResponse = await artistDetails(id)
-      const artistId = artistResponse?.data?.id
-      const artistName = artistResponse?.data?.name.replace(' ', '+')
-      addArtistData('artistDetails', artistResponse?.data)
-      if (artistId) {
-        const songsResponse = await artistSongs(artistId)
-        addArtistData('artistSongs', songsResponse?.data)
-        songId = songsResponse?.data?.results[4]?.id
-      }
-      if (artistId) {
-        const albumsResponse = await artistAlbums(artistId)
-        addArtistData('artistAlbums', albumsResponse?.data)
-      }
-      if (artistName) {
-        const songs = await searchSpecific('songs', artistName)
-        const albums = await searchSpecific('albums', artistName)
-        const artists = await searchSpecific('artists', artistName)
-        const playlists = await searchSpecific('playlists', artistName)
-        const searchResponse = {
-          'songs': songs,
-          'albums': albums,
-          'artists': artists,
-          'playlists': playlists,
-        }
-        addArtistData('artistSearches', searchResponse)
-      }
-      if (songId) {
-        const albumsResponse = await recommendedSongs(songId)
-        addArtistData('artistRecommendations', albumsResponse?.data)
-      }
+  useEffect(() => {
+    getArtistData()
+  }, [id])
+
+  async function getArtistData() {
+    if (!id) return
+    const artistResponse = await artistDetails(id)
+    const artistId = artistResponse?.data?.id
+    const artistName = artistResponse?.data?.name.replace(' ', '+')
+    let songId
+    updateCategory('details', { data: artistResponse?.data })
+    if (artistId) {
+      const songsResponsePopular = await artistSongs(artistId)
+      const songsResponseLatest = await artistSongs(artistId, 1, 'latest')
+      const albumsResponsePopular = await artistAlbums(artistId)
+      const albumsResponseLatest = await artistAlbums(artistId, 1, 'latest')
+      songId = songsResponseLatest?.data?.results[0]?.id
+      updateCategory('songs', {
+        data: {
+          popular: songsResponsePopular?.data,
+          latest: songsResponseLatest?.data,
+        },
+      })
+      updateCategory('albums', {
+        data: {
+          popular: albumsResponsePopular?.data,
+          latest: albumsResponseLatest?.data,
+        },
+      })
+    }
+    if (artistName) {
+      const playlistsResponse = await searchSpecific('playlists', artistName)
+      const artistsResponse = await searchSpecific('artists', artistName)
+      updateCategory('playlists', { data: playlistsResponse?.data })
+      updateCategory('artists', { data: artistsResponse?.data })
+    }
+    if (songId) {
+      const recommendedResponse = await recommendedSongs(songId)
+      updateCategory('recommendations', { data: recommendedResponse?.data })
     }
   }
 
   return (
     <AnimatePresence>
       <motion.div
-        key="artist"
+        key='artist'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
@@ -82,37 +117,97 @@ const artist = () => {
             }
           }
         >
-          {artistData?.data?.artistDetails && (
+          {detailsData?.data && (
             <div className='relative pt-20 ml-5'>
               <Header
-                data={artistData?.data?.artistDetails}
-                image={artistData?.data?.artistDetails?.image[2].link}
-                name={artistData?.data?.artistDetails?.name}
-                followerCount={artistData?.data?.artistDetails?.followerCount}
+                data={detailsData?.data}
+                image={detailsData?.data?.image[2]?.link}
+                name={detailsData?.data?.name}
+                followerCount={detailsData?.data?.followerCount}
+                verfied={detailsData?.data?.isVerified}
                 dominantColor={(color) => setDominantColor(color)}
-                verfied={artistData?.data?.artistDetails?.isVerified}
               />
-              <PlayIcon />
+              <div className='flex gap-4'>
+                <PlayIcon />
+                <Options
+                  id={detailsData?.data?.id}
+                  image={
+                    detailsData?.data?.image[2]?.link ||
+                    'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'
+                  }
+                  name={detailsData?.data?.name}
+                  type='following'
+                />
+              </div>
             </div>
           )}
         </div>
-        {artistData?.data?.artistSongs &&
+
+        {/* Popular Songs */}
+        {songsData?.data?.popular && (
           <SongList
-            songs={artistData?.data?.artistSongs?.results?.slice(0, 5)}
+            songs={songsData?.data?.popular?.results?.slice(0, 5)}
             type='artist'
           />
-        }
-        <div>
-          {artistData?.data?.artistAlbums &&
-            <RelatedContent
-              relatedSongs={artistData?.data?.artistAlbums?.results.slice(0, 4)}
-              heading='Appears On'
+        )}
+
+        {/* Latest Songs */}
+        {songsData?.data?.latest && (
+          <RelatedContent
+            relatedSongs={songsData?.data?.latest?.results}
+            heading='Singles and EPs'
+          />
+        )}
+
+        {/* Latest Albums */}
+        {albumsData?.data?.latest && (
+          <RelatedContent
+            relatedSongs={albumsData?.data?.latest?.results}
+            heading={`Featuring ${detailsData?.data?.name}`}
+          />
+        )}
+
+        {/* Popular Albums */}
+        {albumsData?.data && (
+          <RelatedContent
+            relatedSongs={albumsData?.data?.popular?.results}
+            heading='Appears On'
+          />
+        )}
+
+        {/* Related Artists */}
+        {artistsData?.data && (
+          <>
+            <h1 className='mt-5 ml-5  text-2xl font-bold'>Fans also like</h1>
+            <Artists
+              isArtistPage={true}
+              data={artistsData?.data?.results?.slice(0, 4)}
             />
-          }
+          </>
+        )}
+
+        {/* Recommended Songs */}
+        {recommendationsData?.data && (
+          <RelatedContent
+            relatedSongs={recommendationsData?.data}
+            heading='Must Listen Songs'
+          />
+        )}
+
+        {/* Discovered on */}
+        {playlistsData?.data && (
+          <RelatedContent
+            relatedSongs={playlistsData?.data?.results}
+            heading='Discovered On'
+          />
+        )}
+
+        <div className='mb-2 flex justify-center w-full text-lg font-bold opacity-60 font-sans'>
+          -x-x-x-
         </div>
       </motion.div>
     </AnimatePresence>
   )
 }
 
-export default artist
+export default Artist

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 const Heading = styled.h1`
   ${tw`text-3xl font-medium`}
@@ -26,12 +26,10 @@ const API = () => {
     }
   }, [userId])
 
+  useDocumentTitle('Sparklines - Generate API Key')
+
   return (
     <div>
-      <Helmet>
-        <title>Generate API Key</title>
-        <meta name='description' content='Generate APi Key' />
-      </Helmet>
       <div className='flex justify-between'>
         <Heading>API Keys</Heading>
         <GenButton>Generate Key</GenButton>

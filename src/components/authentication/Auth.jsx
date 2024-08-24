@@ -1,4 +1,4 @@
-import React, { useState, lazy } from 'react'
+import { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'

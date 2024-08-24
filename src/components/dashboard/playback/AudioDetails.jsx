@@ -1,22 +1,33 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import useRQGlobalState from '../../../utils/useRQGlobalState'
+import { useNavigate } from 'react-router-dom'
 
 const Image = styled.img`
-  ${tw`w-16 rounded-lg p-1 ml-1 mr-1`}
+  ${tw`w-16 h-16 rounded-lg p-1 ml-[6px] mr-1 pointer-events-none`}
 `
 const Heading = styled.div`
-  ${tw`px-1 mt-3 opacity-80`}
+  ${tw`px-1 mt-3 opacity-80 cursor-pointer`}
 `
 const SubHeading = styled.div`
-  ${tw`px-1 text-[12px] opacity-50`}
+  ${tw`flex gap-1 px-1 text-[12px] opacity-50`}
 `
 
 const AudioData = () => {
-  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
+  const [currentSong] = useRQGlobalState('currentSong', null)
   const data = currentSong?.data
+  const artistName = data?.primaryArtists?.split(',')?.slice(0, 2)
+  const artistId = data?.primaryArtistsId
+    ?.replaceAll(' ', '')
+    .split(',')
+    ?.slice(0, 2)
+
+  const navigate = useNavigate()
+
+  function handleMenu(type, id) {
+    navigate(`/dashboard/${type}/${id}`)
+  }
 
   return (
     <>
@@ -24,8 +35,25 @@ const AudioData = () => {
         <>
           <Image src={data?.image[0]?.link} alt='' />
           <div className='grid grid-rows-2'>
-            <Heading>{data?.name}</Heading>
-            <SubHeading>{data?.primaryArtists}</SubHeading>
+            <Heading
+              className='hover:underline'
+              onClick={() => handleMenu('track', data?.id)}
+            >
+              {data?.name.length > 20
+                ? data?.name.slice(0, 20) + '...'
+                : data?.name.slice(0, 20)}
+            </Heading>
+            <SubHeading>
+              {artistName.map((name, index) => (
+                <h1
+                  className='hover:underline cursor-pointer'
+                  key={index}
+                  onClick={() => handleMenu('artist', artistId[index])}
+                >
+                  {name}
+                </h1>
+              ))}
+            </SubHeading>
           </div>
         </>
       ) : (

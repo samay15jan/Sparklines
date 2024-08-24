@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
@@ -25,22 +24,21 @@ const Image = styled.img`
 `
 
 const Songs = ({ data }) => {
-  const [id, setId] = useState('')
   const navigate = useNavigate()
 
   function handleMenu(id) {
     navigate(`/dashboard/track/${id}`)
   }
 
-  useEffect(() => {
-    localStorage.setItem('playback', JSON.stringify([id]))
-  }, [id])
-
   return (
     <Container>
       {data &&
         data?.map((song, index) => (
-          <SubContainer id={song?.id} onMouseDown={() => handleMenu(song?.id)}>
+          <SubContainer
+            key={index}
+            id={song?.id}
+            onMouseDown={() => handleMenu(song?.id)}
+          >
             <Image
               src={
                 song?.image[0]?.link ||

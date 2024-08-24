@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { FaCirclePlay } from 'react-icons/fa6'
@@ -45,7 +45,7 @@ const TopResults = ({ data }) => {
         }
         alt={data?.title + "'s Image"}
       />
-      <div className={show ? '' : 'hidden'} onClick={() => setId(id)}>
+      <div className={show ? '' : 'hidden'}>
         <FaCirclePlay
           size={55}
           color='#1ed760'

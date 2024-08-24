@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   FaCirclePlay,
   FaCirclePause,
@@ -17,6 +17,8 @@ const ButtonsContainer = styled.div`
 
 const ControllerButtons = () => {
   const [playerRef] = useRQGlobalState('playerRef', null)
+  const [playbackDetails, setPlaybackDetails] =
+    useRQGlobalState('playbackQueue')
   const [playing, setPlaying] = useState('')
   const [isLooping, setLooping] = useState(false)
   const [isShuffling, setShuffling] = useState(false)
@@ -38,10 +40,30 @@ const ControllerButtons = () => {
     }
   }
 
-  useEffect(() => {
-    if(!playerRef?.data?.paused){
-      setPlaying(true)
+  // Fisher-Yates shuffle / Knuth shuffle algorithm
+  function shuffleItems(array) {
+    const shuffledArray = array.slice()
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ]
     }
+    return shuffledArray
+  }
+
+  // Check Playing
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playerRef?.data?.paused) {
+        setPlaying(false)
+      } else {
+        setPlaying(true)
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
   })
 
   // handle playback Controls
@@ -55,14 +77,25 @@ const ControllerButtons = () => {
   }, [playing, playerRef?.data])
 
   // handle Looping
-  // useEffect(() => {
-  //   if (isLooping) {
-  //     playerRef?.data?.loop = true
-  //   }
-  //   if (!isLooping && playerRef?.data?.loop) {
-  //     playerRef?.data?loop = false
-  //   }
-  // }, [isLooping])
+  useEffect(() => {
+    if (!playerRef?.data) return
+    if (isLooping) {
+      playerRef.data.loop = true
+    }
+    if (!isLooping && playerRef?.data?.loop) {
+      playerRef.data.loop = false
+    }
+  }, [isLooping])
+
+  // handle shuffle
+  useEffect(() => {
+    if (!playbackDetails?.data || !isShuffling) return
+    const songs = playbackDetails?.data?.slice()
+    const [firstItem, ...restItems] = songs
+    const shuffledItems = shuffleItems(restItems)
+    const newArray = [firstItem, ...shuffledItems]
+    setPlaybackDetails(newArray)
+  }, [isShuffling])
 
   return (
     <ButtonsContainer>

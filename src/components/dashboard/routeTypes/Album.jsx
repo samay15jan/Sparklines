@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { albumDetails, artistAlbums } from '../../../api/apiMethods'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
@@ -9,8 +9,14 @@ const SongList = lazy(() => import('./components/SongList'))
 const RelatedContent = lazy(() => import('./components/RelatedContent'))
 
 const Album = () => {
-  const [newAlbumDetails, setAlbumsDetails] = useRQGlobalState('albumDetails', null)
-  const [newArtistAlbums, setArtistAlbums] = useRQGlobalState('artistAlbums', null)
+  const [newAlbumDetails, setAlbumsDetails] = useRQGlobalState(
+    'albumDetails',
+    null
+  )
+  const [newArtistAlbums, setArtistAlbums] = useRQGlobalState(
+    'artistAlbums',
+    null
+  )
   const [dominantColor, setDominantColor] = useState()
   const { id } = useParams()
 
@@ -23,7 +29,11 @@ const Album = () => {
       const detailsResponse = await albumDetails(id)
       setAlbumsDetails(detailsResponse?.data)
       if (newAlbumDetails.data) {
-        const albumsResponse = await artistAlbums(newAlbumDetails?.data?.primaryArtistsId, 1, 'latest')
+        const albumsResponse = await artistAlbums(
+          newAlbumDetails?.data?.primaryArtistsId,
+          1,
+          'latest'
+        )
         setArtistAlbums(albumsResponse?.data)
       }
     }
@@ -40,7 +50,7 @@ const Album = () => {
   return (
     <AnimatePresence>
       <motion.div
-        key="album"
+        key='album'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
@@ -69,23 +79,23 @@ const Album = () => {
             </div>
           )}
         </div>
-        {
-          newAlbumDetails &&
+        {newAlbumDetails && (
           <SongList
             songs={newAlbumDetails.data?.songs}
-            releaseDate={handleDate(newAlbumDetails.data?.songs[0]?.releaseDate)}
+            releaseDate={handleDate(
+              newAlbumDetails.data?.songs[0]?.releaseDate
+            )}
             copyright={newAlbumDetails.data?.songs[0]?.copyright}
           />
-        }
-        {
-          newArtistAlbums &&
+        )}
+        {newArtistAlbums && (
           <RelatedContent
             relatedSongs={newArtistAlbums?.data?.results}
             artistName={newAlbumDetails.data?.primaryArtists}
           />
-        }
-      </motion.div >
-    </AnimatePresence >
+        )}
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

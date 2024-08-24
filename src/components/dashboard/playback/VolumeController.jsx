@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
@@ -55,7 +55,7 @@ const SeekingBar = styled.input`
 `
 
 const VolumeController = () => {
-  const playerRef = useRQGlobalState('playerRef', null)
+  const [playerRef] = useRQGlobalState('playerRef', null)
   const [currentVolume, setVolume] = useState(100)
 
   return (

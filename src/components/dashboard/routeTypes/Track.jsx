@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { songDetails, artistSongs } from '../../../api/apiMethods'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
@@ -56,7 +56,7 @@ const Track = () => {
   return (
     <AnimatePresence>
       <motion.div
-        key="track"
+        key='track'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
@@ -96,12 +96,12 @@ const Track = () => {
             id={songData.data[0]?.id}
           />
         )}
-        {relatedSongs &&
+        {relatedSongs && (
           <RelatedContent
             relatedSongs={relatedSongs.data?.results}
             artistName={relatedSongs.data?.primaryArtists}
           />
-        }
+        )}
       </motion.div>
     </AnimatePresence>
   )
