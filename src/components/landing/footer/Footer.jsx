@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -21,6 +20,7 @@ const Footer = () => {
         <a
           href='https://github.com/samay15jan'
           target='_blank'
+          rel='noreferrer'
           className='hover:text-[#828284] ml-2'
         >
           Samay Kumar ! 😎 ⚡

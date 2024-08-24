@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useRQGlobalState from '../../../../utils/useRQGlobalState'
 import { songDetails } from '../../../../api/apiMethods'
 import { FaPlay } from 'react-icons/fa6'

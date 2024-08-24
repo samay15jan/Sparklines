@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import { FaRegClock } from 'react-icons/fa6'
 const Song = lazy(() => import('./Song'))
 
@@ -29,11 +29,12 @@ const SongList = ({
               <i>#</i>
               <h1>Title</h1>
             </div>
-            {menu === 'search' || menu === 'liked' && (
-              <div className={type != 'discography' ? 'ml-40' : 'mr-8'}>
-                <h1>{type != 'discography' ? 'Album' : 'Total'}</h1>
-              </div>
-            )}
+            {menu === 'search' ||
+              (menu === 'liked' && (
+                <div className={type != 'discography' ? 'ml-40' : 'mr-8'}>
+                  <h1>{type != 'discography' ? 'Album' : 'Total'}</h1>
+                </div>
+              ))}
             {type != 'discography' && (
               <h1 className={menu === 'search' && 'mr-7'}>
                 <FaRegClock size={15} />
@@ -56,7 +57,7 @@ const SongList = ({
           )}
           {songs &&
             songs.map((songData, index) => (
-              <div>
+              <div key={index}>
                 <Song
                   menu={menu}
                   songData={songData}

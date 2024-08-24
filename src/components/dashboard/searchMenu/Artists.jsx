@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
@@ -41,6 +40,7 @@ const Artists = ({ data, isArtistPage }) => {
       {data &&
         data?.map((artist, index) => (
           <SubContainer
+            key={index}
             id={artist?.id}
             className='w-1/2'
             onMouseDown={() => handleMenu(artist?.id)}

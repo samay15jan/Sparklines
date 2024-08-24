@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { FaCirclePlay } from 'react-icons/fa6'
@@ -76,14 +76,7 @@ const Carousel = ({ CarouselData, typeId, isArtistPage }) => {
   )
 }
 
-const CarouselImage = ({
-  image,
-  title,
-  id,
-  typeId,
-  CarouselData,
-  isArtistPage,
-}) => {
+const CarouselImage = ({ image, id, typeId, CarouselData, isArtistPage }) => {
   const [show, setShow] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -28,8 +27,8 @@ const Skeleton = () => {
   return (
     <Container>
       {fallback.map((type) => (
-        <SubContainer>
-          <ImageSkeleton key={type} />
+        <SubContainer key={type}>
+          <ImageSkeleton />
           <TitleSkeleton />
           <SubTitileSkeleton />
         </SubContainer>

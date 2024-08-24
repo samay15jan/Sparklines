@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ColorThief from 'colorthief'
-import { MdVerified } from "react-icons/md"
+import { MdVerified } from 'react-icons/md'
 
 const Header = ({
   data,
@@ -57,7 +57,7 @@ const Header = ({
                 {type}
               </div>
             )}
-            {verfied &&
+            {verfied && (
               <div className='mb-2 flex'>
                 <div className='absolute mt-2 ml-1 bg-white w-5 h-3' />
                 <div className='relative'>
@@ -65,7 +65,7 @@ const Header = ({
                 </div>
                 <h1 className='ml-2 text-sm mt-[5px]'>Verified Artist</h1>
               </div>
-            }
+            )}
 
             {name && (
               <div className='flex text-6xl font-extrabold drop-shadow-2xl gap-4'>

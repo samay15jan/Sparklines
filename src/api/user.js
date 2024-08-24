@@ -28,7 +28,8 @@ const login = async (userData) => {
       }
     }
   } catch (error) {
-    if (error.response.status === 500 || 401 || 404) {
+    const statusCodes = [500, 401, 404]
+    if (statusCodes.includes(error.response.status)) {
       return { error: error.response.data.message }
     }
   }
@@ -48,7 +49,8 @@ const updateUsername = async (data) => {
       return response.data.data
     }
   } catch (error) {
-    if (error.response.status === 500 || 401 || 404) {
+    const statusCodes = [500, 401, 404]
+    if (statusCodes.includes(error.response.status)) {
       return { error: error.response.data.message }
     }
   }
@@ -70,7 +72,8 @@ const imageUploader = async (pic, userId) => {
       return response.data.data
     }
   } catch (error) {
-    if (error.response.status === 500 || 401 || 404) {
+    const statusCodes = [500, 401, 404]
+    if (statusCodes.includes(error.response.status)) {
       return { error: error.response.data.message }
     }
   }
@@ -90,7 +93,8 @@ const addLanguages = async (data) => {
       return response.data.data
     }
   } catch (error) {
-    if (error.response.status === 500 || 401 || 404) {
+    const statusCodes = [500, 401, 404]
+    if (statusCodes.includes(error.response.status)) {
       return { error: error.response.data.message }
     }
   }
@@ -116,7 +120,8 @@ const updateOptions = async (body, action, url) => {
       return response.data
     }
   } catch (error) {
-    if (error.response.status === 500 || 401 || 404) {
+    const statusCodes = [500, 401, 404]
+    if (statusCodes.includes(error.response.status)) {
       return { error: error.response.data.message }
     }
   }

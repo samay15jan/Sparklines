@@ -1,4 +1,4 @@
-import React, { useState, lazy } from 'react'
+import { useState, lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { RotatingLines } from 'react-loader-spinner'
@@ -25,7 +25,8 @@ const Input = styled.input`
 
 const Profile = ({ data, onNext, alreadyLoggedIn }) => {
   const [loading, setLoading] = useState('')
-  const imageUrl = data.profilePic ||
+  const imageUrl =
+    data.profilePic ||
     'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/v1710355835/default/bzcj4ipftbmo48v30din.png'
   const [name, setName] = useState('')
   const [pic, setPic] = useState(imageUrl)
@@ -42,20 +43,22 @@ const Profile = ({ data, onNext, alreadyLoggedIn }) => {
 
   const handleNext = async () => {
     try {
-      if (name || data.username && pic) {
+      if (name || (data.username && pic)) {
         let params
         if (alreadyLoggedIn) {
-          params = { username: data.username, profilePic: pic, userId: data.userId }
-        } else (
-          params = { username: name, profilePic: pic, userId: userId }
-        )
+          params = {
+            username: data.username,
+            profilePic: pic,
+            userId: data.userId,
+          }
+        } else params = { username: name, profilePic: pic, userId: userId }
         const response = await updateUsername(params)
         if (response) {
           setDataLocally(response)
           onNext()
+        } else {
+          console.log(response.error)
         }
-      } else {
-        console.log(response.error)
       }
     } catch (error) {
       console.log(error)
@@ -100,14 +103,12 @@ const Profile = ({ data, onNext, alreadyLoggedIn }) => {
   )
 
   return (
-    <motion.div
-      initial={{ scale: 0.5 }}
-      animate={{ scale: 0.9 }}
-    >
-      {alreadyLoggedIn
-        ? <h1 className='mb-5 font-bold text-center'>Update Profile Pic</h1>
-        : <Heading>{'Complete your Profile'}</Heading>
-      }
+    <motion.div initial={{ scale: 0.5 }} animate={{ scale: 0.9 }}>
+      {alreadyLoggedIn ? (
+        <h1 className='mb-5 font-bold text-center'>Update Profile Pic</h1>
+      ) : (
+        <Heading>{'Complete your Profile'}</Heading>
+      )}
       <Container>
         <>
           <motion.label
@@ -118,7 +119,13 @@ const Profile = ({ data, onNext, alreadyLoggedIn }) => {
             className='w-full flex justify-center mb-2'
           >
             <Image src={pic} alt='Upload Image' />
-            <div className={alreadyLoggedIn ? 'absolute mt-3 flex justify-center pointer-events-none' : 'absolute mt-14 flex justify-center pointer-events-none'}>
+            <div
+              className={
+                alreadyLoggedIn
+                  ? 'absolute mt-3 flex justify-center pointer-events-none'
+                  : 'absolute mt-14 flex justify-center pointer-events-none'
+              }
+            >
               {loading ? loadingComponent : ''}
             </div>
           </motion.label>
@@ -130,23 +137,30 @@ const Profile = ({ data, onNext, alreadyLoggedIn }) => {
           />
         </>
       </Container>
-      {alreadyLoggedIn
-        ? ''
-        : <Input
+      {alreadyLoggedIn ? (
+        ''
+      ) : (
+        <Input
           placeholder='Name'
           type='name'
           value={name}
           onChange={handleName}
           autoComplete='off'
         />
-      }
-      {alreadyLoggedIn
-        ? <button className='flex justify-center items-center w-full mt-1 text-white text-lg border mt-5 mb-2 rounded-md bg-[#23233f]' onClick={handleNext}>Save</button>
-        : <div className='grid grid-cols-2 space-x-1'>
+      )}
+      {alreadyLoggedIn ? (
+        <button
+          className='flex justify-center items-center w-full mt-1 text-white text-lg border mt-5 mb-2 rounded-md bg-[#23233f]'
+          onClick={handleNext}
+        >
+          Save
+        </button>
+      ) : (
+        <div className='grid grid-cols-2 space-x-1'>
           <SendButton value='Skip' onclick={handleSkip} />
           <SendButton value='Next' onclick={handleNext} />
         </div>
-      }
+      )}
     </motion.div>
   )
 }

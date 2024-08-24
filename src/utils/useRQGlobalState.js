@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import queryClient from "./queryClient"
+import { useQuery } from '@tanstack/react-query'
+import queryClient from './queryClient'
 
 const useRQGlobalState = (key, initialData) => {
   const queryResult = useQuery({

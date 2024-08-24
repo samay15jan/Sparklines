@@ -1,11 +1,13 @@
-import React, { useState, lazy } from 'react'
+import { useState, lazy } from 'react'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const AutoNavigate = lazy(() => import('../utils/AutoNavigate'))
 const Auth = lazy(() => import('../components/authentication/Auth'))
 const Profile = lazy(() => import('../components/authentication/Profile'))
-const Languages = lazy(() => import('../components/authentication/firstLogin/Languages'))
+const Languages = lazy(
+  () => import('../components/authentication/firstLogin/Languages')
+)
 const Video = lazy(() => import('../components/authentication/Video'))
 
 const Container = styled.div`

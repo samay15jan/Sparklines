@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import { FaHeart, FaStar } from 'react-icons/fa6'
 import { GoArrowUpRight } from 'react-icons/go'
 import { RiCompassDiscoverLine } from 'react-icons/ri'

@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -71,7 +71,10 @@ const Search = () => {
     if (response?.data) {
       const newData = {
         results: selectedCategory.data
-          ? [...selectedCategory?.data?.results, ...response?.data?.results]
+          ? [
+              ...(selectedCategory?.data?.results || []),
+              ...(response?.data?.results || []),
+            ]
           : response?.data.results,
         start: response?.data?.start,
         total: response?.data?.total,
@@ -109,7 +112,6 @@ const Search = () => {
               }
               key={category.id}
               onClick={() => setSelectedMenu(category.id)}
-              tw='cursor-pointer'
             >
               {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
             </h1>

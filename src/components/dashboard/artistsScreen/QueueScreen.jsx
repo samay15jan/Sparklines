@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MdClose } from 'react-icons/md'
 import { MdDeleteOutline } from 'react-icons/md'
 import { FaPlay, FaPause } from 'react-icons/fa6'
@@ -96,9 +96,8 @@ const QueueScreen = ({ showMenu, handleMenu }) => {
           strategy={verticalListSortingStrategy}
         >
           {queueList?.slice(1)?.map((song) => (
-            <div className='my-1 '>
+            <div className='my-1' key={song?.id}>
               <QueueList
-                key={song?.id}
                 queueData={queueList}
                 artists={song?.primaryArtists}
                 artistsIds={song?.primaryArtistsId}
@@ -128,9 +127,8 @@ const QueueList = ({
   const [playerRef] = useRQGlobalState('playerRef', null)
   const [playbackDetails, setPlaybackDetails] =
     useRQGlobalState('playbackQueue')
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id })
-    const [showPlay, setPlay] = useState(false)
+  const { attributes, listeners, setNodeRef, transform } = useSortable({ id })
+  const [showPlay, setPlay] = useState(false)
   const artist = artists?.split(',').slice(0, 1)
   const artistId = artistsIds?.replaceAll(' ', '').split(',')
   const nextQueueRef = useRef(null)
@@ -245,7 +243,11 @@ const QueueList = ({
         ) : (
           <FaPause
             onClick={pauseSong}
-            className={showPlay ? 'p-2 pt-3 mt-1 mr-2' : 'p-2 pt-3 mt-1 mr-2 animate-pulse'}
+            className={
+              showPlay
+                ? 'p-2 pt-3 mt-1 mr-2'
+                : 'p-2 pt-3 mt-1 mr-2 animate-pulse'
+            }
             size={35}
           />
         )}

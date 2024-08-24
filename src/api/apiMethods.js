@@ -183,7 +183,9 @@ async function handleApi(params, url) {
     } else {
       throw new Error('Failed to fetch data from API')
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error('An error occured:', error)
+  }
 }
 
 export {

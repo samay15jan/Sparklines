@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   ${tw`flex`}
@@ -18,16 +18,7 @@ const SearchInput = styled.input`
 
 const Input = ({ SearchText }) => {
   const [newQuery, setNewQuery] = useState(null)
-  const [temp, setTemp] = useState(null)
   let navigate = useNavigate()
-  let { query } = useParams()
-
-  useEffect(() => {
-    if (query) {
-      let modifiedText = query.replaceAll('+', ' ')
-      setTemp(modifiedText)
-    }
-  }, [query])
 
   useEffect(() => {
     SearchText(newQuery)

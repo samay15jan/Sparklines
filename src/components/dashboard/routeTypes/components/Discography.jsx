@@ -1,11 +1,11 @@
-import React, { useState, useEffect, lazy } from 'react'
+import { useState, useEffect, lazy } from 'react'
 import useRQGlobalState from '../../../../utils/useRQGlobalState'
 import { HiOutlineHeart } from 'react-icons/hi'
 import { FaCirclePlay, FaRegClock } from 'react-icons/fa6'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { artistAlbums, artistSongs } from '../../../../api/apiMethods'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { LineWave } from 'react-loader-spinner'
 const SongList = lazy(() => import('./SongList'))
 const Song = lazy(() => import('./Song'))
@@ -34,7 +34,6 @@ const Discography = () => {
     threshold: 0,
   })
   const { id } = useParams()
-  const navigate = useNavigate()
 
   let songsData = data?.data?.find((category) => category.name === 'songs')
   let albumsData = data?.data?.find((category) => category.name === 'albums')
@@ -63,8 +62,8 @@ const Discography = () => {
       const newData = {
         results: selectedMenuData?.data?.latest
           ? [
-              ...selectedMenuData?.data?.latest?.results,
-              ...response?.data?.results,
+              ...(selectedMenuData?.data?.latest?.results || []),
+              ...(response?.data?.results || []),
             ]
           : response?.data.results,
         lastPage: response?.data?.lastPage,
@@ -97,20 +96,13 @@ const Discography = () => {
             }
             key={category.name}
             onClick={() => setShowAlbum(!showAlbum)}
-            tw='cursor-pointer'
           >
             {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
           </h1>
         ))}
       </div>
 
-      <div
-        className='relative'
-        key='discography'
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className='relative' key='discography'>
         {showAlbum ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -134,8 +126,8 @@ const Discography = () => {
             transition={{ duration: 0.2 }}
             className='mx-5 mt-5'
           >
-            {selectedMenuData?.data?.latest?.results?.map((song) => (
-              <div className='my-10'>
+            {selectedMenuData?.data?.latest?.results?.map((song, index) => (
+              <div className='my-10' key={index}>
                 <div className='mb-5 mt-14 grid grid-cols-4'>
                   <img
                     src={song?.image[2]?.link}
