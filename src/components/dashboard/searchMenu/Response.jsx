@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const TopResults = lazy(() => import('./TopResults'))

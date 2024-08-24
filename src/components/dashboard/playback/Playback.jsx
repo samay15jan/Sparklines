@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, useRef, useState } from 'react'
+import { useEffect, lazy, useRef } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDocumentTitle } from '@uidotdev/usehooks'
@@ -20,7 +20,8 @@ const SubContainer = styled.div`
 const Player = () => {
   const audioRef = useRef()
   const [playerRef, setPlayerRef] = useRQGlobalState('playerRef', null)
-  const [playbackDetails, setPlaybackDetails] = useRQGlobalState('playbackQueue')
+  const [playbackDetails, setPlaybackDetails] =
+    useRQGlobalState('playbackQueue')
   const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
   const [id, setId] = useRQGlobalState('currentId', currentSong?.data?.id)
 
@@ -50,7 +51,9 @@ const Player = () => {
 
     const handleSongEnd = async () => {
       if (!playbackDetails?.data) return
-      const newData = playbackDetails?.data?.filter((song) => song?.id != id?.data)
+      const newData = playbackDetails?.data?.filter(
+        (song) => song?.id != id?.data
+      )
       setPlaybackDetails(newData)
       setCurrentSong(newData[0])
     }
@@ -68,10 +71,7 @@ const Player = () => {
     const songId = playbackDetails?.data[0]?.id
     const albumsResponse = await recommendedSongs(songId)
     if (albumsResponse?.data) {
-      const updatedData = [
-        playbackDetails?.data[0],
-        ...albumsResponse.data
-      ];
+      const updatedData = [playbackDetails?.data[0], ...albumsResponse.data]
 
       setPlaybackDetails(updatedData)
     }
@@ -79,20 +79,25 @@ const Player = () => {
 
   return (
     <>
-      {currentSong?.data?.downloadUrl &&
-        <audio ref={audioRef} autoPlay src={currentSong?.data?.downloadUrl[4]?.link} ></audio>
-      }
+      {currentSong?.data?.downloadUrl && (
+        <audio
+          ref={audioRef}
+          autoPlay
+          src={currentSong?.data?.downloadUrl[4]?.link}
+        ></audio>
+      )}
     </>
   )
 }
 
 const Playback = () => {
-  const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
+  const [currentSong] = useRQGlobalState('currentSong', null)
 
   // Set Webpage Title
-  useDocumentTitle(currentSong
-    ? `${currentSong?.data?.name || 'unknown'} - ${currentSong?.data?.primaryArtists || 'unknown'}`
-    : 'Sparklines - A music streaming platform'
+  useDocumentTitle(
+    currentSong
+      ? `${currentSong?.data?.name || 'unknown'} - ${currentSong?.data?.primaryArtists || 'unknown'}`
+      : 'Sparklines - A music streaming platform'
   )
 
   return (
@@ -100,7 +105,7 @@ const Playback = () => {
       <SubContainer>
         <div className='flex'>
           <AudioDetails />
-          <AudioVisualizer show={false} /> {/* fix it */}
+          <AudioVisualizer />
         </div>
         <AudioController />
         <div className='flex'>
