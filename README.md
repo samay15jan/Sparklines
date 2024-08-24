@@ -60,3 +60,6 @@ Technologies used in the project:
 <h2>🛡️ License:</h2>
 
 This project is licensed under the MIT License.
+
+<h2>Check out demo:</h2>
+https://github.com/user-attachments/assets/dc76fdeb-c5dc-434c-9b38-50a06b7bdc2c
