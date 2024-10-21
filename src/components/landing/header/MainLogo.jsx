@@ -8,7 +8,7 @@ const LogoContainer = lazy(() =>
 
 const MainLogo = () => {
   return (
-    <div className='flex ml-10 justify-center'>
+    <div className='flex lg:ml-10 justify-center'>
       <div className='w-3 h-3 rounded-full opacity-90 mt-5 mr-1 bg-[#dad4f1]' />
       <div className='w-4 h-7 rounded-l-full opacity-90 mt-3 bg-[#dad4f1]' />
       <Suspense
