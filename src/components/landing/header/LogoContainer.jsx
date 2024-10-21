@@ -21,7 +21,7 @@ const LogoContainer = ({ text, image, whiteBg, Icon, navigation }) => {
       onClick={handleNavigation}
     >
       {image && <img src={image} className='w-10' />}
-      <div className='mt-3 ml-1'>{text}</div>
+      <div className='my-3 lg:mt-3 ml-1'>{text}</div>
       {Icon && <Icon size={25} className='mt-3' />}
     </Container>
   )
