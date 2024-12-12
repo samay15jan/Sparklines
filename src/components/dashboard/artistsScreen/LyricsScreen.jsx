@@ -1,15 +1,17 @@
 import { MdClose } from 'react-icons/md'
-;``
-const LyricsScreen = ({ lyricsData, songData, showMenu }) => {
+
+const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
   if (!lyricsData?.data?.lyrics) {
     return (
       <>
-        <button
-          className='relative top-0 opacity-60 font-bold bg-[#202020]'
-          onClick={() => showMenu('nowPlaying')}
-        >
-          <MdClose size={30} />
-        </button>
+        {isPublic && (
+          <button
+            className='relative top-0 opacity-60 font-bold bg-[#202020]'
+            onClick={() => showMenu('nowPlaying')}
+          >
+            <MdClose size={30} />
+          </button>
+        )}
         <div className='text-xl mt-80 text-center w-auto'>
           Lyrics Not found !
         </div>
@@ -66,12 +68,14 @@ const LyricsScreen = ({ lyricsData, songData, showMenu }) => {
       {lyricsData?.data && (
         <div>
           <div className='py-2 bg-[#202020] font-semibold text-sm'>
-            <button
-              className='absolute opacity-60 font-bold bg-[#202020]'
-              onClick={() => showMenu('nowPlaying')}
-            >
-              <MdClose size={25} />
-            </button>
+            {isPublic && (
+              <button
+                className='absolute opacity-60 font-bold bg-[#202020]'
+                onClick={() => showMenu('nowPlaying')}
+              >
+                <MdClose size={25} />
+              </button>
+            )}
             <h1 className='text-center'>{songData?.name}</h1>
           </div>
           <div className='m-10 text-2xl mt-4 text-center'>{lyrics}</div>

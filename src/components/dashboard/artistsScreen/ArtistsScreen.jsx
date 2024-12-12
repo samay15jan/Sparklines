@@ -1,6 +1,7 @@
 import { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
-import { MdOutlineLyrics } from 'react-icons/md'
+import { MdOutlineLyrics, MdIosShare, MdClose } from 'react-icons/md'
+import { TbCornerRightUp } from 'react-icons/tb'
 import { artistDetails, lyrics } from '../../../api/apiMethods'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +10,7 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 const LyricsScreen = lazy(() => import('./LyricsScreen'))
 const Skeleton = lazy(() => import('./Skeleton'))
 const Options = lazy(() => import('../routeTypes/components/Options'))
+const ShareScreen = lazy(() => import('./ShareScreen'))
 
 const ArtistsScreen = () => {
   const [currentSong] = useRQGlobalState('currentSong', null)
@@ -62,7 +64,7 @@ const ArtistsScreen = () => {
             transition={{ duration: 0.5 }}
           >
             {data ? (
-              <div className='p-4'>
+              <div className={'p-4'}>
                 <SongDetails
                   handleMenu={(type, id) => handleMenu(type, id)}
                   songData={data}
@@ -147,17 +149,54 @@ const ArtistsScreen = () => {
 }
 
 const SongDetails = ({ handleMenu, songData, showMenu }) => {
+  const [showQR, setShowQR] = useState(false)
+  const [url, setUrl] = useState(
+    'https://5173-idx-sparklines-1721587428772.cluster-7ubberrabzh4qqy2g4z7wgxuw2.cloudworkstations.dev/'
+  )
   const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
+
+  useEffect(() => {
+    setUrl(
+      `https://5173-idx-sparklines-1721587428772.cluster-7ubberrabzh4qqy2g4z7wgxuw2.cloudworkstations.dev/public/${songData?.id}`
+    )
+  }, [songData])
+
   return (
     <>
-      <h1
-        className='text-lg font-bold mb-4 hover:underline cursor-pointer'
-        onClick={() => handleMenu('album', songData?.album?.id)}
-      >
-        {songData?.album?.name}
-      </h1>
-      <img className='rounded-lg' src={songData?.image[2]?.link} alt='' />
+      <div className='flex justify-between'>
+        <h1
+          className='text-lg font-bold mb-4 hover:underline cursor-pointer'
+          onClick={() => handleMenu('album', songData?.album?.id)}
+        >
+          {songData?.album?.name}
+        </h1>
+        <button
+          onClick={() => setShowQR(!showQR)}
+          className='mb-4 bg-[#0f0f0f]'
+        >
+          {showQR ? <MdClose size={28} /> : <MdIosShare size={28} />}
+        </button>
+      </div>
+      {showQR ? <ShareScreen newURL={url} /> : null}
+      <img
+        className={showQR ? 'rounded-lg opacity-50' : 'rounded-lg'}
+        src={songData?.image[2]?.link}
+        alt=''
+      />
+      {showQR && (
+        <div className='flex justify-center text-xl font-semibold opacity-80 mt-4'>
+          <div
+            className='cursor-pointer hover:opacity-50 opacity-100 underline'
+            onClick={() => navigator.clipboard.writeText(url)}
+          >
+            Copy
+          </div>
+          <h1 className='ml-1'>or Scan the QR Code</h1>
+          <TbCornerRightUp size={28} />
+        </div>
+      )}
+
       <div className='flex justify-between my-2'>
         <div>
           <h1
@@ -166,7 +205,7 @@ const SongDetails = ({ handleMenu, songData, showMenu }) => {
           >
             {songData?.name}
           </h1>
-          <h1 className=' flex gap-1 text-sm font-medium opacity-80 mt-1'>
+          <h1 className='flex gap-1 text-sm font-medium opacity-80 mt-1'>
             {artist.map((name, index) => (
               <h1
                 className='hover:underline cursor-pointer'
