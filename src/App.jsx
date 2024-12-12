@@ -25,6 +25,7 @@ const RecentlyPlayed = lazy(
 const Landing = lazy(() => import('./pages/Landing'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Authentication = lazy(() => import('./pages/Authentication'))
+const Public = lazy(() => import('./pages/Public'))
 const Developer = lazy(() => import('./pages/Developer'))
 const API = lazy(() => import('./components/developer/API'))
 const Playground = lazy(() => import('./components/developer/Playground'))
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
         element: <Settings />,
       },
     ],
+  },
+  {
+    path: '/public/:id',
+    element: <Public />,
   },
 ])
 

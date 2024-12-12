@@ -90,7 +90,7 @@ const Player = () => {
   )
 }
 
-const Playback = () => {
+const Playback = ({ isPublic }) => {
   const [currentSong] = useRQGlobalState('currentSong', null)
 
   // Set Webpage Title
@@ -101,20 +101,30 @@ const Playback = () => {
   )
 
   return (
-    <Container>
-      <SubContainer>
-        <div className='flex'>
-          <AudioDetails />
-          <AudioVisualizer />
+    <>
+      {!isPublic && (
+        <Container>
+          <SubContainer>
+            <div className='flex'>
+              <AudioDetails />
+              <AudioVisualizer />
+            </div>
+            <AudioController />
+            <div className='flex'>
+              <MenuButtons />
+              <VolumeController />
+            </div>
+          </SubContainer>
+        </Container>
+      )}
+      {isPublic && (
+        <div className='relative z-10 flex mt-10 mx-20 justify-between'>
+          <AudioController />
+          <VolumeController isPublic='true' />
         </div>
-        <AudioController />
-        <div className='flex'>
-          <MenuButtons />
-          <VolumeController />
-        </div>
-      </SubContainer>
+      )}
       <Player />
-    </Container>
+    </>
   )
 }
 
