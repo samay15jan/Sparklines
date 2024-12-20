@@ -1,51 +1,49 @@
-import React, { useEffect, lazy } from 'react'
+import React, { useState, useEffect, lazy } from 'react'
 import { useParams } from 'react-router-dom'
-import { songDetails, artistSongs, lyrics } from '../api/apiMethods'
+import { songDetails, lyrics } from '../api/apiMethods'
 import TsParticles from '../components/public/TsParticles'
 import useRQGlobalState from '../utils/useRQGlobalState'
-import LyricsScreen from '../components/dashboard/artistsScreen/LyricsScreen'
 const Playback = lazy(() => import('../components/dashboard/playback/Playback'))
+import ArtistsScreen from '../components/dashboard/artistsScreen/ArtistsScreen'
 
 const Public = () => {
   let { id } = useParams()
-  const [relatedSongs, setRelatedSongs] = React.useState(null)
   const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
-  const [currentLyrics, setCurrentLyrics] = React.useState(null)
+  const [currentLyrics, setCurrentLyrics] = useState(null)
+  const [playbackDetails, setPlaybackDetails] =
+    useRQGlobalState('playbackQueue')
 
   async function getData() {
     if (id) {
       const response = await songDetails(id)
       setCurrentSong(response?.data[0])
+      setPlaybackDetails([response?.data[0]])
 
       if (currentSong?.data) {
-        const artistsId = currentSong?.data?.primaryArtistsId?.split(',')
         const songName = currentSong?.data?.name?.replaceAll(' ', '+')
         const artistName = currentSong?.data?.primaryArtists
           ?.split(',')[0]
           ?.replaceAll(' ', '+')
         const getLyrics = await lyrics(songName, artistName)
         setCurrentLyrics(getLyrics)
-
-        const albumsResponse = await artistSongs(artistsId[0], 1, 'latest')
-        setRelatedSongs(albumsResponse?.data)
       }
     }
   }
-console.log(currentLyrics)
+
   useEffect(() => {
     getData()
   }, [id])
 
   return (
-    <div className='w-screen h-screen'>
+    <div className='w-screen max-h-[100vh] overflow-hidden grid grid-col-2'>
       <TsParticles />
       {currentSong && (
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-2 w-screen justify-between pt-20'>
           <div className='flex justify-center'>
             <div>
               <img
                 src={currentSong?.data?.image[2]?.link}
-                className='relative z-2 mt-24 w-96 rounded-xl'
+                className='relative justify-center flex z-2 w-96 rounded-xl'
                 alt=''
               />
               <h1 className='relative z-2 font-bold text-2xl justify-center flex mt-5'>
@@ -55,15 +53,17 @@ console.log(currentLyrics)
                 {currentSong?.data?.primaryArtists}
               </h1>
             </div>
-            <LyricsScreen
-              lyricsData={currentLyrics}
-              songData={currentSong?.data}
-              isPublic='true'
-            />
+          </div>
+          <div className='flex w-full justify-center'>
+            <div className='w-[380px] overflow-y-scroll'>
+              <ArtistsScreen isPublic='true' />
+            </div>
           </div>
         </div>
       )}
+      <div className='mt-5' />
       <Playback isPublic='true' />
+      <div className='flex gap-2 w-full justify-center mt-40' />
     </div>
   )
 }

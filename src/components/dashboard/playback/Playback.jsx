@@ -2,8 +2,9 @@ import { useEffect, lazy, useRef } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDocumentTitle } from '@uidotdev/usehooks'
+import { useLocation } from 'react-router-dom'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
-import { recommendedSongs } from '../../../api/apiMethods'
+import { artistSongs, recommendedSongs } from '../../../api/apiMethods'
 const AudioDetails = lazy(() => import('./AudioDetails'))
 const AudioVisualizer = lazy(() => import('./AudioVisualizer'))
 const AudioController = lazy(() => import('./AudioController'))
@@ -24,6 +25,8 @@ const Player = () => {
     useRQGlobalState('playbackQueue')
   const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
   const [id, setId] = useRQGlobalState('currentId', currentSong?.data?.id)
+  const location = useLocation()
+  let currentPath = location.pathname
 
   useEffect(() => {
     if (!currentSong?.data) return
@@ -68,10 +71,20 @@ const Player = () => {
   }, [playbackDetails?.data])
 
   async function fetchNewData() {
+    let isPublic = currentPath.startsWith('/public/')
     const songId = playbackDetails?.data[0]?.id
-    const albumsResponse = await recommendedSongs(songId)
-    if (albumsResponse?.data) {
+    const artistsId = playbackDetails?.data[0]?.primaryArtistsId?.split(',')
+    const albumsResponse = isPublic
+      ? await artistSongs(artistsId[0], 1, 'latest')
+      : await recommendedSongs(songId)
+    if (!isPublic && albumsResponse?.data) {
       const updatedData = [playbackDetails?.data[0], ...albumsResponse.data]
+
+      setPlaybackDetails(updatedData)
+    }
+
+    if (isPublic && albumsResponse?.data?.results) {
+      const updatedData = [playbackDetails?.data[0], ...albumsResponse?.data?.results]
 
       setPlaybackDetails(updatedData)
     }
@@ -118,8 +131,9 @@ const Playback = ({ isPublic }) => {
         </Container>
       )}
       {isPublic && (
-        <div className='relative z-10 flex mt-10 mx-20 justify-between'>
+        <div className='relative z-10 flex mt-10 ml-20 mr-40 justify-between'>
           <AudioController />
+          <MenuButtons isPublic='true' />
           <VolumeController isPublic='true' />
         </div>
       )}
