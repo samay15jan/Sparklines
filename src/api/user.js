@@ -19,6 +19,7 @@ const login = async (userData) => {
   try {
     const response = await axios.post('/api/auth/login', userData)
     if (response && response.status === 200) {
+      // sessionStorage.setItem("token", response.data.data);
       const authToken = { Authorization: `Bearer ${response.data.data}` }
       const apiAuth = await axios.get('/api/user/profile', {
         headers: authToken,

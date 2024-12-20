@@ -54,12 +54,16 @@ const SeekingBar = styled.input`
   }
 `
 
-const VolumeController = ({isPublic}) => {
+const VolumeController = ({ isPublic }) => {
   const [playerRef] = useRQGlobalState('playerRef', null)
   const [currentVolume, setVolume] = useState(100)
 
   return (
-    <div className={isPublic ? 'flex gap-3 mt-10': 'flex gap-3 mt-5 absolute right-5'}>
+    <div
+      className={
+        isPublic ? 'flex gap-3 mt-8' : 'flex gap-3 mt-5 absolute right-5'
+      }
+    >
       <div className='mt-1 opacity-80'>
         {(currentVolume > 0 && currentVolume < 50 && <SlVolume1 size={18} />) ||
           (currentVolume >= 50 && <SlVolume2 size={18} />) ||
@@ -79,10 +83,10 @@ const VolumeController = ({isPublic}) => {
           }
         }}
       />
-      <FaExpandAlt
-        size={15}
-        style={{ opacity: 0.7, marginTop: '7px', marginLeft: '5px' }}
-      />
+        <FaExpandAlt
+          size={15}
+          style={{ opacity: 0.7, marginTop: '7px', marginLeft: '5px' }}
+        />
     </div>
   )
 }

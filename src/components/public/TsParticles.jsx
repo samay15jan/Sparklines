@@ -14,7 +14,7 @@ const TsParticles = () => {
   }, [])
 
   const particlesLoaded = (container) => {
-    console.log(container)
+    // Auto play song
   }
 
   const options = useMemo(

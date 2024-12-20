@@ -4,7 +4,7 @@ const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
   if (!lyricsData?.data?.lyrics) {
     return (
       <>
-        {isPublic && (
+        {!isPublic && (
           <button
             className='relative top-0 opacity-60 font-bold bg-[#202020]'
             onClick={() => showMenu('nowPlaying')}
@@ -12,7 +12,7 @@ const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
             <MdClose size={30} />
           </button>
         )}
-        <div className='text-xl mt-80 text-center w-auto'>
+        <div className={isPublic ? 'text-xl mt-48 text-center w-auto': 'text-xl mt-80 text-center w-auto'}>
           Lyrics Not found !
         </div>
       </>
@@ -67,18 +67,18 @@ const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
     <>
       {lyricsData?.data && (
         <div>
-          <div className='py-2 bg-[#202020] font-semibold text-sm'>
-            {isPublic && (
+          {!isPublic && (
+            <div className='py-2 bg-[#202020] font-semibold text-sm'>
               <button
                 className='absolute opacity-60 font-bold bg-[#202020]'
                 onClick={() => showMenu('nowPlaying')}
               >
                 <MdClose size={25} />
               </button>
-            )}
-            <h1 className='text-center'>{songData?.name}</h1>
-          </div>
-          <div className='m-10 text-2xl mt-4 text-center'>{lyrics}</div>
+              <h1 className='text-center'>{songData?.name}</h1>
+            </div>
+          )}
+          <div className={isPublic ? 'm-5 opacity-80 px-5 text-2xl mt-0 text-center flex max-h-[50vh] overflow-y-scroll' : 'm-10 text-2xl mt-4 text-center'}>{lyrics}</div>
         </div>
       )}
     </>

@@ -21,11 +21,11 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 
-const QueueScreen = ({ showMenu, handleMenu }) => {
+const QueueScreen = ({ showMenu, handleMenu, isPublic }) => {
   const [playbackDetails, setPlaybackDetails] =
     useRQGlobalState('playbackQueue')
   const queueList = playbackDetails?.data
-  if (!queueList[1]) return
+  if (!queueList || !queueList[1]) return
 
   const artist = queueList[0]?.primaryArtists?.split(',').slice(0, 1)
   const artistId = queueList[0]?.primaryArtistsId
@@ -40,7 +40,7 @@ const QueueScreen = ({ showMenu, handleMenu }) => {
     })
   )
 
-  const getTaskPos = (id) => queueList.findIndex((task) => task.id === id)
+  const getTaskPos = (id) => queueList?.findIndex((task) => task.id === id)
 
   function handleDragEnd(event) {
     const { active, over } = event
@@ -55,29 +55,34 @@ const QueueScreen = ({ showMenu, handleMenu }) => {
 
   return (
     <div className='w-full'>
-      <div className='flex w-full  justify-between px-4 py-5 font-semibold text-md'>
-        <h1 className='text-center'>Queue</h1>
-        <button
-          className='opacity-60 hover:opacity-100 font-bold'
-          onClick={() => showMenu('nowPlaying')}
-        >
-          <MdClose size={25} />
-        </button>
-      </div>
-      <div className='py-2'>
-        <h1 className='text-md font-semibold my-2 ml-4'>Now Playing</h1>
-        <QueueList
-          playing
-          queueData={queueList}
-          artists={queueList[0]?.primaryArtists}
-          artistsIds={queueList[0]?.primaryArtistsId}
-          image={queueList[0].image[1]?.link}
-          id={queueList[0]?.id}
-          name={queueList[0]?.name}
-          handleMenu={handleMenu}
-        />
-      </div>
-      <h1 className='flex text-md font-semibold my-2 ml-4'>
+      {!isPublic && (
+        <div className='flex w-full justify-between px-4 py-5 font-semibold text-md'>
+          <h1 className='text-center'>Queue</h1>
+          <button
+            className='opacity-60 hover:opacity-100 font-bold'
+            onClick={() => showMenu('nowPlaying')}
+          >
+            <MdClose size={25} />
+          </button>
+        </div>
+      )}
+      {!isPublic && (
+        <div className='py-2'>
+          <h1 className='text-md font-semibold my-2 ml-4'>Now Playing</h1>
+          <QueueList
+            playing
+            queueData={queueList}
+            artists={queueList[0]?.primaryArtists}
+            artistsIds={queueList[0]?.primaryArtistsId}
+            image={queueList[0].image[1]?.link}
+            id={queueList[0]?.id}
+            name={queueList[0]?.name}
+            handleMenu={handleMenu}
+          />
+        </div>
+      )}
+
+      <h1 className='relative z-2 flex text-md font-semibold my-2 ml-4'>
         Next from:
         <h1
           className='ml-1 hover:underline cursor-pointer'
@@ -95,19 +100,21 @@ const QueueScreen = ({ showMenu, handleMenu }) => {
           items={queueList}
           strategy={verticalListSortingStrategy}
         >
-          {queueList?.slice(1)?.map((song) => (
-            <div className='my-1' key={song?.id}>
-              <QueueList
-                queueData={queueList}
-                artists={song?.primaryArtists}
-                artistsIds={song?.primaryArtistsId}
-                image={song?.image[1]?.link}
-                id={song?.id}
-                name={song?.name}
-                handleMenu={handleMenu}
-              />
-            </div>
-          ))}
+          <div className={isPublic && 'max-h-[50vh] overflow-y-scroll'}>
+            {queueList?.slice(1)?.map((song) => (
+              <div className='my-1' key={song?.id}>
+                <QueueList
+                  queueData={queueList}
+                  artists={song?.primaryArtists}
+                  artistsIds={song?.primaryArtistsId}
+                  image={song?.image[1]?.link}
+                  id={song?.id}
+                  name={song?.name}
+                  handleMenu={handleMenu}
+                />
+              </div>
+            ))}
+          </div>
         </SortableContext>
       </DndContext>
     </div>

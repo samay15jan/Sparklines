@@ -12,7 +12,7 @@ const Skeleton = lazy(() => import('./Skeleton'))
 const Options = lazy(() => import('../routeTypes/components/Options'))
 const ShareScreen = lazy(() => import('./ShareScreen'))
 
-const ArtistsScreen = () => {
+const ArtistsScreen = ({ isPublic }) => {
   const [currentSong] = useRQGlobalState('currentSong', null)
   const [playbackDetails] = useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
@@ -54,7 +54,13 @@ const ArtistsScreen = () => {
 
   return (
     <AnimatePresence>
-      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'>
+      <div
+        className={
+          isPublic
+            ? 'overflow-scroll bg-[#0f0f0f] rounded-lg h-auto col-span-4 select-none'
+            : 'overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'
+        }
+      >
         {/* display nowPlaying screen*/}
         {selectedScreen?.data === 'nowPlaying' && (
           <motion.div
@@ -64,28 +70,33 @@ const ArtistsScreen = () => {
             transition={{ duration: 0.5 }}
           >
             {data ? (
-              <div className={'p-4'}>
-                <SongDetails
-                  handleMenu={(type, id) => handleMenu(type, id)}
-                  songData={data}
-                  showMenu={(type) => setSelectedScreen(type)}
-                />
-                {artistsData?.data && (
-                  <ArtistDetails
+              <div className={!isPublic && 'p-4'}>
+                {!isPublic && (
+                  <SongDetails
                     handleMenu={(type, id) => handleMenu(type, id)}
-                    artistData={artistsData?.data}
                     songData={data}
+                    showMenu={(type) => setSelectedScreen(type)}
                   />
                 )}
-                <Credits
-                  handleMenu={(type, id) => handleMenu(type, id)}
-                  songData={data}
-                />
-                <NextQueue
-                  showMenu={(type) => setSelectedScreen(type)}
-                  queueData={playbackDetails?.data}
-                  handleMenu={(type, id) => handleMenu(type, id)}
-                />
+                <div className={isPublic && 'max-h-[50vh] overflow-y-scroll'}>
+                  {artistsData?.data && (
+                    <ArtistDetails
+                      handleMenu={(type, id) => handleMenu(type, id)}
+                      artistData={artistsData?.data}
+                      songData={data}
+                      isPublic={isPublic}
+                    />
+                  )}
+                  <Credits
+                    handleMenu={(type, id) => handleMenu(type, id)}
+                    songData={data}
+                  />
+                  <NextQueue
+                    showMenu={(type) => setSelectedScreen(type)}
+                    queueData={playbackDetails?.data}
+                    handleMenu={(type, id) => handleMenu(type, id)}
+                  />
+                </div>
               </div>
             ) : (
               <Skeleton />
@@ -105,6 +116,7 @@ const ArtistsScreen = () => {
               lyricsData={currentLyrics}
               songData={data}
               showMenu={(type) => setSelectedScreen(type)}
+              isPublic={isPublic}
             />
           </motion.div>
         )}
@@ -120,13 +132,14 @@ const ArtistsScreen = () => {
             <QueueScreen
               showMenu={(type) => setSelectedScreen(type)}
               handleMenu={(type, id) => handleMenu(type, id)}
+              isPublic={isPublic}
             />
           </motion.div>
         )}
       </div>
 
       {/* handle recently played automatically */}
-      {currentSong?.data && (
+      {!isPublic && currentSong?.data && (
         <Options
           type='recentlyPlayed'
           autoUpdate={true}
@@ -257,7 +270,7 @@ const SongDetails = ({ handleMenu, songData, showMenu }) => {
   )
 }
 
-const DownloadURL = ({ songData }) => {
+export const DownloadURL = ({ songData, isPublic }) => {
   const name = songData?.name
   const fileUrl = songData?.downloadUrl[4]?.link
 
@@ -281,16 +294,22 @@ const DownloadURL = ({ songData }) => {
     }
   }
   return (
-    <button onClick={handleDownload}>
-      <LuDownload size={25} />
+    <button onClick={handleDownload} className={isPublic && 'mb-2'}>
+      <LuDownload size={isPublic ? 18 : 25} />
     </button>
   )
 }
 
-const ArtistDetails = ({ handleMenu, artistData, songData }) => {
+const ArtistDetails = ({ handleMenu, artistData, songData, isPublic }) => {
   return (
     <>
-      <div className='relative my-5 bg-[#242424] rounded-lg'>
+      <div
+        className={
+          isPublic
+            ? 'relative bg-[#242424] rounded-lg'
+            : 'relative my-5 bg-[#242424] rounded-lg'
+        }
+      >
         <h1 className='absolute z-10 m-5 text-md font-bold'>
           About the artist
         </h1>
