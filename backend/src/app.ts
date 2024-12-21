@@ -35,7 +35,11 @@ export class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(this.config.log.format))
-    this.app.use(cors())
+    this.app.use(cors({
+      origin: 'https://sparklines.vercel.app',
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization', 'Referer'],=
+    }))
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(rateLimiterMiddleware)
