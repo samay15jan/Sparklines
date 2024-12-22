@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import User from '../models/userSchema'
 import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
-import { logger } from 'utils/logger'
 
 interface DecodedToken {
   userId: string
@@ -14,11 +13,11 @@ export class Authorization {
   }
 
   public async authenticate(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers.authorization?.split(' ')[1]
-    
-    // LOG
-    console.log(req.headers)
-
+    let token =
+      (typeof req.headers.authorization === 'string' ? req.headers.authorization.split(' ')[1] : undefined) ||
+      (typeof req.headers['x-vercel-proxy-signature'] === 'string'
+        ? req.headers['x-vercel-proxy-signature'].split(' ')[1]
+        : undefined)
     const key: string = process.env.SECRET_KEY || ''
 
     if (!token) {
