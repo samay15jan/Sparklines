@@ -17,8 +17,8 @@ export class Authorization {
     const token = req.headers.authorization?.split(' ')[1]
     
     // LOG
-    logger.info(req.headers)
-    
+    console.log(req.headers)
+
     const key: string = process.env.SECRET_KEY || ''
 
     if (!token) {
