@@ -11,11 +11,11 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "*"
+          "value": "Authorization, Content-Type, *"
         },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET, OPTIONS"
+          "value": "GET, POST, OPTIONS"
         },
         {
           "key": "Cache-Control",
@@ -23,11 +23,11 @@
         },
         {
           "key": "Author",
-          "value": "Sumit Kolhe"
+          "value": "Samay Kumar"
         },
         {
           "key": "Github",
-          "value": "https://github.com/sumitkolhe/jiosaavn-api"
+          "value": "https://github.com/samay15jan/sparklines"
         }
       ]
     }
