@@ -28,6 +28,10 @@
         {
           "key": "Github",
           "value": "https://github.com/samay15jan/sparklines"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
         }
       ]
     }
