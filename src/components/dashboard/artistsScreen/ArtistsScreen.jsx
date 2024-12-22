@@ -164,14 +164,14 @@ const ArtistsScreen = ({ isPublic }) => {
 const SongDetails = ({ handleMenu, songData, showMenu }) => {
   const [showQR, setShowQR] = useState(false)
   const [url, setUrl] = useState(
-    'https://5173-idx-sparklines-1721587428772.cluster-7ubberrabzh4qqy2g4z7wgxuw2.cloudworkstations.dev/'
+    'https://sparklines.vercel.app/'
   )
   const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
 
   useEffect(() => {
     setUrl(
-      `https://5173-idx-sparklines-1721587428772.cluster-7ubberrabzh4qqy2g4z7wgxuw2.cloudworkstations.dev/public/${songData?.id}`
+      `https://sparklines.vercel.app/public/${songData?.id}`
     )
   }, [songData])
 
