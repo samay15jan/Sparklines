@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/userSchema'
 import { globalConstants } from '../constants'
 import type { NextFunction, Request, Response } from 'express'
+import { logger } from 'utils/logger'
 
 interface DecodedToken {
   userId: string
@@ -14,6 +15,10 @@ export class Authorization {
 
   public async authenticate(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(' ')[1]
+    
+    // LOG
+    logger.info(req.headers)
+    
     const key: string = process.env.SECRET_KEY || ''
 
     if (!token) {
