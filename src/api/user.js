@@ -25,6 +25,7 @@ const login = async (userData) => {
       const apiAuth = await axios.get('/api/user/profile', {
         headers: authToken,
         maxRedirects: 0,
+        withCredentials: true,
       })
       if (apiAuth && apiAuth.status === 200) {
         return apiAuth.data
@@ -47,6 +48,8 @@ const updateUsername = async (data) => {
     }
     const response = await axios.post('/api/user/updateData', data, {
       headers,
+      maxRedirects: 0,
+      withCredentials: true,
     })
     if (response && response.status === 200) {
       return response.data.data
@@ -70,6 +73,8 @@ const imageUploader = async (pic, userId) => {
     formData.append('profilePic', pic)
     const response = await axios.post('/api/user/imageUploader', formData, {
       headers,
+      maxRedirects: 0,
+      withCredentials: true,
     })
     if (response && response.status === 200) {
       return response.data.data
@@ -91,6 +96,8 @@ const addLanguages = async (data) => {
     }
     const response = await axios.post('/api/user/addLanguages', data, {
       headers,
+      maxRedirects: 0,
+      withCredentials: true,
     })
     if (response && response.status === 200) {
       return response.data.data
@@ -116,6 +123,8 @@ const updateOptions = async (body, action, url) => {
       headers: {
         userid: `${userId}`,
         'Content-Type': 'application/json',
+        maxRedirects: 0,
+        withCredentials: true,
       },
     }
     const response = await axios.request(options)
