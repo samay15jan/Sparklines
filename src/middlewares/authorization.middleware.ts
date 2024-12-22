@@ -13,15 +13,18 @@ export class Authorization {
   }
 
   public async authenticate(req: Request, res: Response, next: NextFunction) {
-    let token =
-      (typeof req.headers.authorization === 'string' ? req.headers.authorization.split(' ')[1] : undefined) ||
-      (typeof req.headers['x-vercel-proxy-signature'] === 'string'
-        ? req.headers['x-vercel-proxy-signature'].split(' ')[1]
-        : undefined)
+    let token = req.headers.authorization?.split(' ')[1]
+
     const key: string = process.env.SECRET_KEY || ''
 
     if (!token) {
-      return res.status(401).json({ status: globalConstants.status.failed, message: 'Token is not valid', data: null })
+      let signature: any = req.headers['x-proxy-vercel-signature']
+      token = signature?.split(' ')[1]
+      if (!token) {
+        return res
+          .status(401)
+          .json({ status: globalConstants.status.failed, message: 'Token is not valid', data: null })
+      }
     }
 
     try {
