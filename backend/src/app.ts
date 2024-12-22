@@ -36,7 +36,6 @@ export class App {
   private initializeMiddlewares() {
     this.app.use(morgan(this.config.log.format))
     this.app.use(cors({
-      origin: 'https://sparklines.vercel.app',
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization', 'Referer'],
     }))
