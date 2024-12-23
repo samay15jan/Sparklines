@@ -11,7 +11,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Authorization, Content-Type, *"
+          "value": "userid, Authorization, Content-Type, *"
         },
         {
           "key": "Access-Control-Allow-Methods",
