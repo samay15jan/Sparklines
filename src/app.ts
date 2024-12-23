@@ -39,7 +39,7 @@ export class App {
       origin: 'https://sparklines.vercel.app',
       methods: ['GET', 'POST', 'OPTIONS'],
       credentials: false,
-      allowedHeaders: ['Content-Type', 'Authorization', 'Referer'],
+      allowedHeaders: ['Content-Type', 'userId', 'Authorization', 'Referer'],
     }))
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))

@@ -18,13 +18,7 @@ export class Authorization {
     const key: string = process.env.SECRET_KEY || ''
 
     if (!token) {
-      let signature: any = req.headers['x-proxy-vercel-signature']
-      token = signature?.split(' ')[1]
-      if (!token) {
-        return res
-          .status(401)
-          .json({ status: globalConstants.status.failed, message: 'Token is not valid', data: null })
-      }
+      return res.status(401).json({ status: globalConstants.status.failed, message: 'Token is not valid', data: null })
     }
 
     try {
