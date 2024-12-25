@@ -2,22 +2,38 @@ import React, { useEffect, useState } from 'react'
 import { Box, useFocus } from 'ink'
 import { Select } from '@inkjs/ui'
 
-const Simulation = ({ id, data, returnPlaySongID }) => {
+const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 	const { isFocused } = useFocus({ id })
 	const [options, setOptions] = useState([])
+	const [playingSongId, setPlayingSongId] = useState(false)
+
+	useEffect(() => {
+		returnPlaySongId(playingSongId)
+	}, [playingSongId])
 
 	useEffect(() => {
 		if (data) {
 			const updatedOptions = data.map((song) => ({
 				label:
-					song?.name + ' - ' + song?.primaryArtists ||
-					song?.title + ' - ' + song?.primaryArtists,
+					song?.name + ' - ' + song?.primaryArtists?.slice(0, 28) ||
+					song?.title + ' - ' + song?.primaryArtists?.slice(0, 28),
 				value: song.id,
 			}))
 
 			setOptions(updatedOptions)
 		}
 	}, [data])
+
+	useEffect(() => {
+		if (songFinished) {
+			const selectedIndex = data.findIndex((item) => item.id === playingSongId)
+			if (selectedIndex !== -1 && selectedIndex < data.length - 1) {
+				returnPlaySongId(data[selectedIndex + 1].id)
+			} else {
+				returnPlaySongId(null) // Implement Recommendations here
+			}
+		}
+	}, [songFinished])
 
 	return (
 		<Box
@@ -31,7 +47,7 @@ const Simulation = ({ id, data, returnPlaySongID }) => {
 				visibleOptionCount={20}
 				options={options}
 				isDisabled={!isFocused}
-				onChange={(id) => returnPlaySongID(id)}
+				onChange={(id) => setPlayingSongId(id)}
 			/>
 		</Box>
 	)
