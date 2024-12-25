@@ -3,21 +3,33 @@
 ## A text based user interface for Sparklines build with [Ink](https://github.com/vadimdemedes/ink)
 
 ## Features
-- Listen and control music directly from command line
-- Implementation of login/register directly from terminal
-- Api key based interaction with [Sparklines-Backend](https://github.com/samay15jan/sparklines-backend)
-- Search Songs,Albums and Artists. [TODO]
-- Non stop playing with recommendations. [TODO]
-- Playback bar [TODO] 
+- Listen and control music directly from command line.
+- Implementation of login/register directly from terminal.
+- Api key based interaction with [Sparklines-Backend](https://github.com/samay15jan/sparklines-backend).
+- Non stop playing.
+- A Clean Playback bar.
+- Search Songs, Albums and Artists. [TODO]
+- Recommendations. [TODO]
 - Custom Shortcuts [TODO]
+- Loop and shuffle [TODO]
 
-## Install
+## Installation
 
 ```bash
-$ npm install --global TUI
+$ git clone https://github.com/samay15jan/sparklines
+
+$ cd sparklines
+
+$ git checkout TUI
+
+$ cd TUI && npm install
+
+$ npm link
+
+$ npm run dev
 ```
 
-## CLI
+## Usage
 
 ```
 $ TUI --help

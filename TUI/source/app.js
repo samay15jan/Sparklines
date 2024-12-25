@@ -30,11 +30,11 @@ export default function App({ login, register }) {
 	const [homepageData, setHomepageData] = useState(null)
 	const [simulationData, setSimulationData] = useState(null)
 	const [selectedMenu, setSelectedMenu] = useState('playlists')
-	const [id, setId] = useState()
 	const [playingSongId, setPlayingSongId] = useState(null)
 	const [homepageLoading, setHomepageLoading] = useState(true)
 	const [playlistLoading, setPlaylistLoading] = useState(true)
 	const [selectedPlaylistId, setPlaylistId] = useState(null)
+	const [songFinished, isSongFinished] = useState(null)
 
 	const menuLists = [
 		{
@@ -84,13 +84,15 @@ export default function App({ login, register }) {
 							<Simulation
 								id='simulation'
 								data={simulationData?.songs}
-								returnPlaySongID={(id) => setPlayingSongId(id)}
+								returnPlaySongId={(id) => setPlayingSongId(id)}
+								songFinished={songFinished}
 							/>
 						)}
 					</Box>
 					<Progress
 						playingSongId={playingSongId}
 						simulationData={simulationData?.songs}
+						isFinished={(value) => isSongFinished(value)}
 					/>
 				</>
 			)}
