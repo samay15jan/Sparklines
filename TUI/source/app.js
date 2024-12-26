@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box } from 'ink'
 import { Spinner } from '@inkjs/ui'
-import { useFocusManager, useInput } from 'ink'
+import { useFocusManager, useInput, useApp } from 'ink'
 import List from './components/list.js'
 import { HomepageData, PlaylistData } from './api/api.js'
 import Auth from './components/auth.js'
@@ -9,9 +9,11 @@ import Simulation from './components/simulation.js'
 import Progress from './components/progress.js'
 import Playback from './components/playback.js'
 import Menu from './components/menu.js'
+import HelpBox from './components/helpBox.js'
 
 const HandleFocus = () => {
 	const { focus } = useFocusManager()
+	const { exit } = useApp()
 
 	useInput((input) => {
 		if (input === 'a') {
@@ -20,6 +22,8 @@ const HandleFocus = () => {
 			focus('list')
 		} else if (input === 'd') {
 			focus('simulation')
+		} else if (input === 'q') {
+			exit()
 		}
 	})
 
@@ -35,6 +39,13 @@ export default function App({ login, register }) {
 	const [playlistLoading, setPlaylistLoading] = useState(true)
 	const [selectedPlaylistId, setPlaylistId] = useState(null)
 	const [songFinished, isSongFinished] = useState(null)
+	const [showHelp, setShowHelp] = useState(false)
+
+	useInput((input) => {
+		if (input === 'h') {
+			setShowHelp(!showHelp)
+		}
+	})
 
 	const menuLists = [
 		{
@@ -64,31 +75,42 @@ export default function App({ login, register }) {
 				</Box>
 			) : (
 				<>
-					<Box flexDirection='row'>
-						<Box flexDirection='column' borderDimColor width={36}>
-							<Menu id='menu' returnValue={(value) => setSelectedMenu(value)} />
-							{homepageLoading ? (
-								<Spinner type='dots' label='loading' />
-							) : (
-								<List
-									id='list'
-									menuLists={menuLists}
-									selectedMenu={selectedMenu}
-									returnId={(id) => setPlaylistId(id)}
-								/>
-							)}
+					{!showHelp ? (
+						<>
+							<Box flexDirection='row'>
+								<Box flexDirection='column' borderDimColor width={36}>
+									<Menu
+										id='menu'
+										returnValue={(value) => setSelectedMenu(value)}
+									/>
+									{homepageLoading ? (
+										<Spinner type='dots' label='loading' />
+									) : (
+										<List
+											id='list'
+											menuLists={menuLists}
+											selectedMenu={selectedMenu}
+											returnId={(id) => setPlaylistId(id)}
+										/>
+									)}
+								</Box>
+								{playlistLoading ? (
+									<Spinner type='dots' label='loading' />
+								) : (
+									<Simulation
+										id='simulation'
+										data={simulationData?.songs}
+										returnPlaySongId={(id) => setPlayingSongId(id)}
+										songFinished={songFinished}
+									/>
+								)}
+							</Box>
+						</>
+					) : (
+						<Box flexDirection='row' width={Infinity}>
+							<HelpBox />
 						</Box>
-						{playlistLoading ? (
-							<Spinner type='dots' label='loading' />
-						) : (
-							<Simulation
-								id='simulation'
-								data={simulationData?.songs}
-								returnPlaySongId={(id) => setPlayingSongId(id)}
-								songFinished={songFinished}
-							/>
-						)}
-					</Box>
+					)}
 					<Progress
 						playingSongId={playingSongId}
 						simulationData={simulationData?.songs}
