@@ -8,9 +8,9 @@
 - Api key based interaction with [Sparklines-Backend](https://github.com/samay15jan/sparklines-backend).
 - Non stop playing.
 - A Clean Playback bar.
+- Custom Shortcuts and help menu.
 - Search Songs, Albums and Artists. [TODO]
 - Recommendations. [TODO]
-- Custom Shortcuts [TODO]
 - Loop and shuffle [TODO]
 
 ## Installation
