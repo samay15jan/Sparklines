@@ -1,5 +1,7 @@
 import React from 'react'
 import { Box, Text } from 'ink'
+import Gradient from 'ink-gradient'
+import BigText from 'ink-big-text'
 
 const HelpBox = () => {
 	return (
@@ -11,42 +13,77 @@ const HelpBox = () => {
 			borderColor='#c69a67'
 			width='100%'
 		>
-			<Box
-	 			flexDirection='flex'
-				alignItems='center'
-			>
-      	<Text bold align="center">
-      	  ____ ___  ____ ____ _  _ _    _ _  _ ____ ____
-      	</Text>
-      	<Text bold align="center">
-      	  [__  |__] |__| |__/ |_/  |    | |\ | |___ [__
-      	</Text>
-      	<Text bold align="center">
-      	  ___] |    |  | |  \ | \_ |___ | | \| |___ ___]
-      	</Text>
-				<Box borderStyle='round'>
-      	<Text color="black" backgroundColor='#c69a67' dimColor>
-      	  The coolest way to stream your favorite music from terminal!
-      	</Text>
-				</Box>
-			</Box>
 			<Box flexDirection='flex' alignItems='center'>
-				<Text color='cyan'>`a` to focus on menu section</Text>
-				<Text color='cyan'>`s` to focus your playlists section</Text>
-				<Text color='cyan'>`d` to focus on simulation section.</Text>
-				<Text color='cyan'>`Tab` to navigate between sections.</Text>
-				<Text color='cyan'>`Spacebar` to toggle between play and pause.</Text>
-				<Text color='cyan'>`↑` and `↓`to navigate up and down between items.</Text>
-				<Text color='cyan'>`Enter` to select the selected item.</Text>
-				<Text color='cyan'>`]` to increase volume by 5.</Text>
-				<Text color='cyan'>`[` to decrease volume by 5.</Text>
-				<Text color='cyan'>`m` to mute/unmute the audio.</Text>
-				<Text color='cyan'>`Ctrl + Right Arrow` to seek forward 5 seconds.</Text>
-				<Text color='cyan'>`Ctrl + Left Arrow` to seek backward 5 seconds.</Text>
-				<Text color='cyan'>`Ctrl + Right Arrow` to increase speed by 0.2x.</Text>
-				<Text color='cyan'>`Ctrl + Left Arrow` to decrease speed by 0.2x.</Text>
-				<Text color="cyan">`h` to display/close this help menu.</Text>
-				<Text color='cyan'>`q` to quit the app.</Text>
+				<Gradient name='morning'>
+					<BigText text='Sparklines' font='tiny' />
+				</Gradient>
+				<Gradient name='morning'>
+					<Text color='black' backgroundColor='#c69a67' dimColor>
+						The coolest way to stream your favorite music from terminal!
+					</Text>
+				</Gradient>
+			</Box>
+			<Gradient name='morning'>
+				-----------------------------------------------------------
+			</Gradient>
+			<Box flexDirection='flex' alignItems='center'>
+				<Gradient name='morning'>
+					<Text>`a` to focus on menu section</Text>
+				</Gradient>
+				<Gradient name='morning'>
+					<Text>`s` to focus your playlists section</Text>
+				</Gradient>
+				<Gradient name='morning'>
+					<Text>`d` to focus on simulation section.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Tab` to navigate between sections.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Spacebar` to toggle between play and pause.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`↑` and `↓`to navigate up and down between items.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Enter` to select the selected item.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`]` or `[` to increase/decrease volume by 5.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`m` to mute/unmute the audio.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Ctrl + Right Arrow` to seek forward 5 seconds.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Ctrl + Left Arrow` to seek backward 5 seconds.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Ctrl + Right Arrow` to increase speed by 0.2x.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`Ctrl + Left Arrow` to decrease speed by 0.2x.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`h` to display/close this help menu.</Text>
+				</Gradient>
+
+				<Gradient name='morning'>
+					<Text>`q` to quit the app.</Text>
+				</Gradient>
 			</Box>
 		</Box>
 	)
