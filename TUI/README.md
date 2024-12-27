@@ -11,7 +11,9 @@
 - Custom Shortcuts and help menu.
 - Search Songs, Albums and Artists. [TODO]
 - Recommendations. [TODO]
-- Loop and shuffle [TODO]
+- Loop and shuffle. [TODO]
+- Queue.
+- Lyrics
 
 ## Installation
 
@@ -33,7 +35,6 @@ $ npm run dev
 
 ```
 $ TUI --help
-
   Usage
     $ TUI
 

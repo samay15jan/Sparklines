@@ -4,6 +4,8 @@ import { Box, Text } from 'ink'
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
+import figures from 'figures'
+import Gradient from 'ink-gradient'
 
 const Progress = ({ playingSongId, simulationData, isFinished }) => {
 	const startTimeRef = useRef('00:00:00')
@@ -97,22 +99,33 @@ const Progress = ({ playingSongId, simulationData, isFinished }) => {
 		<>
 			<Box flexDirection='row' justifyContent='space-between' width={Infinity}>
 				<Box marginLeft={2} marginTop={1}>
-					<Text>{playing ? scrollingText || 'Loading...' : 'Not Playing'}</Text>
+					<Gradient name='morning'>
+						<Text>{playing && figures.play}</Text>
+					</Gradient>
+					<Gradient name='morning'>
+						<Text>
+							{playing ? scrollingText || 'Loading...' : 'Not Playing'}
+						</Text>
+					</Gradient>
 				</Box>
 				<Box marginRight={2} marginTop={1}>
-					<Text>
-						{startTimeRef.current} - {endTimeRef.current} -{' '}
-						{`(${percentageRef.current})`}
-					</Text>
+					<Gradient name='morning'>
+						<Text>
+							{startTimeRef.current} - {endTimeRef.current} -{' '}
+							{`(${percentageRef.current})`}
+						</Text>
+					</Gradient>
 				</Box>
 			</Box>
 			<Box borderDimColor borderStyle={'round'}>
 				<ProgressBar value={progress} />
 			</Box>
 			{error && (
-				<Box marginTop={1}>
-					<Text color='red'>{error}</Text>
-				</Box>
+				<Gradient name='morning'>
+					<Box marginTop={1}>
+						<Text color='red'>{error}</Text>
+					</Box>
+				</Gradient>
 			)}
 		</>
 	)

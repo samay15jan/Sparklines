@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Box, useFocus } from 'ink'
+import { Box, Text, useFocus } from 'ink'
 import { Select } from '@inkjs/ui'
+import { hexColors, colors } from '../utils/colors.js'
+import Gradient from 'ink-gradient'
 
 const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 	const { isFocused } = useFocus({ id })
@@ -38,15 +40,23 @@ const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 	return (
 		<Box
 			flexDirection='column'
-			borderColor={isFocused ? '#c69a67' : ''}
+			borderColor={isFocused ? `${colors.primary}` : 'white'}
 			borderDimColor={!isFocused}
 			borderStyle='round'
 			width={Infinity}
 		>
+			<Box position='relative' marginTop='-1px' marginLeft='1px'>
+				<Gradient name='morning'>
+					<Text bold color={isFocused ? `${colors.primary}` : `white`}>
+						{hexColors.primary(' ' + 'Simulation' + ' ')}
+					</Text>
+				</Gradient>
+			</Box>
 			<Select
 				visibleOptionCount={20}
 				options={options}
 				isDisabled={!isFocused}
+				highlightText
 				onChange={(id) => setPlayingSongId(id)}
 			/>
 		</Box>

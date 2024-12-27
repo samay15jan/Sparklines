@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Box, useFocus } from 'ink'
+import { Box, Text, useFocus } from 'ink'
 import { Select } from '@inkjs/ui'
+import { hexColors, colors } from '../utils/colors.js'
+import Gradient from 'ink-gradient'
 
 const list = ({ id, menuLists, selectedMenu, returnId }) => {
 	const { isFocused } = useFocus({ id })
@@ -26,21 +28,31 @@ const list = ({ id, menuLists, selectedMenu, returnId }) => {
 		returnId(filteredData?.id)
 	}
 	return (
-		<Box
-			flexDirection='column'
-			borderColor={isFocused ? '#c69a67' : ''}
-			borderDimColor={!isFocused}
-			borderStyle='round'
-		>
-			<Select
-				visibleOptionCount={13}
-				options={options}
-				isDisabled={!isFocused}
-				onChange={(newId) => {
-					handleChange(newId)
-				}}
-			/>
-		</Box>
+		<>
+			<Box
+				flexDirection='column'
+				borderColor={isFocused ? `${colors.primary}` : 'white'}
+				borderDimColor={!isFocused}
+				borderStyle='round'
+			>
+				<Box position='relative' marginTop='-1px' marginLeft='1px'>
+				<Gradient name='morning'>
+					<Text bold color={isFocused ? `${colors.primary}` : 'white'}>
+					{hexColors.primary(' ' + 'Playlists' + ' ')}
+					</Text>
+					</Gradient>
+				</Box>
+				<Select
+					visibleOptionCount={13}
+					options={options}
+					isDisabled={!isFocused}
+					onChange={(newId) => {
+						handleChange(newId)
+					}}
+					defaultValue={options[0]?.value}
+				/>
+			</Box>
+		</>
 	)
 }
 

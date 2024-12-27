@@ -5,6 +5,7 @@ import axios from 'axios'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
+import Gradient from 'ink-gradient'
 
 const auth = ({ handleMenu }) => {
 	const { exit } = useApp()
@@ -116,9 +117,15 @@ const auth = ({ handleMenu }) => {
 
 	return (
 		<Box flexDirection='column' alignItems='center'>
-			<Text bold>Welcome to Sparklines!</Text>
-			<Text>Embrace the Rhythm of Your Soul</Text>
-			<Text>[{handleMenu}]</Text>
+			<Gradient name='morning'>
+				<Text bold>Welcome to Sparklines!</Text>
+			</Gradient>
+			<Gradient name='morning'>
+				<Text>Embrace the Rhythm of Your Soul</Text>
+			</Gradient>
+			<Gradient name='morning'>
+				<Text>[{handleMenu}]</Text>
+			</Gradient>
 			<Newline />
 			<Box
 				borderDimColor
@@ -147,13 +154,17 @@ const auth = ({ handleMenu }) => {
 			</Box>
 			<>
 				{errorMessage === null ? (
-					<Text color='red' bold>
-						{errorMessage}
-					</Text>
+					<Gradient name='morning'>
+						<Text color='red' bold>
+							{errorMessage}
+						</Text>
+					</Gradient>
 				) : (
-					<Text color='green' bold>
-						{successMessage}
-					</Text>
+					<Gradient name='morning'>
+						<Text color='green' bold>
+							{successMessage}
+						</Text>
+					</Gradient>
 				)}
 			</>
 		</Box>

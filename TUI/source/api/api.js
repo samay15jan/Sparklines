@@ -13,6 +13,41 @@ const handleAPI = async (params, endpoint, key) => {
 	})
 }
 
+const SearchData = ({ returnResponse, isLoading, type, query, page }) => {
+	const { exit } = useApp()
+	const key = apiKey()
+
+	async function fetchSearchData() {
+		try {
+			if (!type && !query) {
+				return
+			}
+			if (type !== 'songs' || 'albums' || 'artists' || 'playlists') {
+				return
+			}
+			isLoading(true)
+			const params = {
+				page: page || 1,
+				query: query,
+			}
+			const endpoint = `/api/search/${type}`
+			const apiResponse = await handleAPI(params, endpoint, key)
+			returnResponse(apiResponse?.data?.data)
+			isLoading(false)
+		} catch (error) {
+			console.error(
+				'Error fetching homepage data',
+				error?.response?.data?.message
+			)
+			exit()
+		}
+	}
+
+	useEffect(() => {
+		fetchSearchData()
+	}, [])
+}
+
 const PlaylistData = ({ playlistId, returnResponse, isLoading }) => {
 	if (!playlistId) return
 	const { exit } = useApp()
@@ -53,7 +88,10 @@ const HomepageData = ({ returnResponse, isLoading, defaultPlaylistId }) => {
 			isLoading(false)
 			defaultPlaylistId(apiResponse?.data?.data?.playlists[0].id)
 		} catch (error) {
-			console.error('Error fetching homepage data', error?.response?.data?.message)
+			console.error(
+				'Error fetching homepage data',
+				error?.response?.data?.message
+			)
 			exit()
 		}
 	}
@@ -63,4 +101,4 @@ const HomepageData = ({ returnResponse, isLoading, defaultPlaylistId }) => {
 	}, [])
 }
 
-export { HomepageData, PlaylistData }
+export { HomepageData, PlaylistData, SearchData }
