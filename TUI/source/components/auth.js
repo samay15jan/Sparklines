@@ -7,7 +7,7 @@ import os from 'os'
 import path from 'path'
 import Gradient from 'ink-gradient'
 
-const auth = ({ handleMenu }) => {
+const auth = ({ handleMenu, setShowAuth }) => {
 	const { exit } = useApp()
 	const [type, setType] = useState(true)
 	const [email, setEmail] = useState('')
@@ -49,6 +49,7 @@ const auth = ({ handleMenu }) => {
 					)
 					setSuccessMessage(loggedInUser.data.message)
 					saveDataToFile({ token: apiToken.data.data.apiKey })
+					setShowAuth(false)
 				}
 			} else {
 				setErrorMessage('Error: Failed to create account')
@@ -88,6 +89,7 @@ const auth = ({ handleMenu }) => {
 				)
 				setSuccessMessage(loggedInUser.data.message)
 				saveDataToFile({ apiKey: apiToken.data.data.apiKey })
+				setShowAuth(false)
 			}
 		} catch (error) {
 			setErrorMessage('Error: ', error)
@@ -116,7 +118,7 @@ const auth = ({ handleMenu }) => {
 	}
 
 	return (
-		<Box flexDirection='column' alignItems='center'>
+		<Box flexDirection='column' borderDimColor padding={2} alignItems='center'>
 			<Gradient name='morning'>
 				<Text bold>Welcome to Sparklines!</Text>
 			</Gradient>
@@ -133,6 +135,7 @@ const auth = ({ handleMenu }) => {
 				width={30}
 				flexDirection='column'
 				padding={0}
+				borderColor='#c69a67'
 			>
 				{type ? (
 					<EmailInput
@@ -152,21 +155,11 @@ const auth = ({ handleMenu }) => {
 					/>
 				)}
 			</Box>
-			<>
-				{errorMessage === null ? (
-					<Gradient name='morning'>
-						<Text color='red' bold>
-							{errorMessage}
-						</Text>
-					</Gradient>
-				) : (
-					<Gradient name='morning'>
-						<Text color='green' bold>
-							{successMessage}
-						</Text>
-					</Gradient>
-				)}
-			</>
+			<Gradient name='morning'>
+				<Text bold>
+					{errorMessage === null ? errorMessage : successMessage}
+				</Text>
+			</Gradient>
 		</Box>
 	)
 }

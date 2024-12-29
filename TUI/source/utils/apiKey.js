@@ -11,11 +11,11 @@ const apiKey = () => {
 		if (!configPath) {
 			exit()
 		}
-		const apiKey = fs.readFileSync(configPath, 'utf8')
-    const token = JSON.parse(apiKey)
-		return token?.token
+		const key = fs.readFileSync(configPath, 'utf8')
+    const token = JSON.parse(key)
+		return token?.apiKey
 	} catch (error) {
-    console.log('Unable to find api Key')
+    console.log('Unable to find api Key. Read help menu for more details with `sparklines -h`')
   }
 }
 

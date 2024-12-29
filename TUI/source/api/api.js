@@ -1,7 +1,10 @@
 import axios from 'axios'
 import apiKey from '../utils/apiKey.js'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useApp } from 'ink'
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
 
 const handleAPI = async (params, endpoint, key) => {
 	return await axios.get(`https://sparklines-backend.vercel.app${endpoint}`, {
@@ -11,41 +14,6 @@ const handleAPI = async (params, endpoint, key) => {
 			'Content-Type': 'application/json',
 		},
 	})
-}
-
-const SearchData = ({ returnResponse, isLoading, type, query, page }) => {
-	const { exit } = useApp()
-	const key = apiKey()
-
-	async function fetchSearchData() {
-		try {
-			if (!type && !query) {
-				return
-			}
-			if (type !== 'songs' || 'albums' || 'artists' || 'playlists') {
-				return
-			}
-			isLoading(true)
-			const params = {
-				page: page || 1,
-				query: query,
-			}
-			const endpoint = `/api/search/${type}`
-			const apiResponse = await handleAPI(params, endpoint, key)
-			returnResponse(apiResponse?.data?.data)
-			isLoading(false)
-		} catch (error) {
-			console.error(
-				'Error fetching homepage data',
-				error?.response?.data?.message
-			)
-			exit()
-		}
-	}
-
-	useEffect(() => {
-		fetchSearchData()
-	}, [])
 }
 
 const PlaylistData = ({ playlistId, returnResponse, isLoading }) => {
@@ -75,14 +43,43 @@ const PlaylistData = ({ playlistId, returnResponse, isLoading }) => {
 
 const HomepageData = ({ returnResponse, isLoading, defaultPlaylistId }) => {
 	const { exit } = useApp()
+	const [languages, setLanguages] = useState([])
 	const key = apiKey()
+
+	const configPath = path.join(os.homedir(), '.sparklines', 'config')
+
+	function loadLanguagesFromFile() {
+		fs.readFile(configPath, 'utf8', (err, fileData) => {
+			if (err) {
+				console.error('Error reading config file:', err)
+				exit()
+				return
+			}
+
+			let currentConfig
+			try {
+				currentConfig = JSON.parse(fileData)
+			} catch (error) {
+				console.error('Error parsing config file:', error)
+				exit()
+				return
+			}
+
+			setLanguages(currentConfig.languages || [])
+		})
+	}
 
 	async function fetchHomepageData() {
 		try {
 			isLoading(true)
-			const language = 'punjabi'
-			const params = { language: language.toLowerCase() }
+
+			if (languages.length === 0) {
+				setLanguages(['english'])
+			}
+
+			const params = { language: languages.join(',').toLowerCase() }
 			const endpoint = '/modules'
+
 			const apiResponse = await handleAPI(params, endpoint, key)
 			returnResponse(apiResponse?.data?.data)
 			isLoading(false)
@@ -97,8 +94,16 @@ const HomepageData = ({ returnResponse, isLoading, defaultPlaylistId }) => {
 	}
 
 	useEffect(() => {
-		fetchHomepageData()
+		loadLanguagesFromFile()
 	}, [])
+
+	useEffect(() => {
+		if (languages.length > 0) {
+			fetchHomepageData()
+		}
+	}, [languages])
+
+	return null
 }
 
-export { HomepageData, PlaylistData, SearchData }
+export { HomepageData, PlaylistData }

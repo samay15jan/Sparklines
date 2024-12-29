@@ -15,13 +15,15 @@
        width="250">
 </p>
 
+<a href='https://asciinema.org/a/696484'>
+	<p align="center">
+  	<img src="TUI/demo.png" 
+       style="display: inline-block; margin: 0 2px; border-radius: 10px;" 
+       alt="project-screenshot" 
+       width="500">
+	</p>
+</a>
 
-<p align="center">
- <img src="TUI/demo.png" 
-  style="display: inline-block; margin: 0 2px; border-radius: 10px;" 
-  alt="project-screenshot" 
-  width="500">
-</p>
 <h2>🧐 Features</h2>
 
 Here're some of the project's best features:

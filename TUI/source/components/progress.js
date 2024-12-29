@@ -7,7 +7,13 @@ import os from 'os'
 import figures from 'figures'
 import Gradient from 'ink-gradient'
 
-const Progress = ({ playingSongId, simulationData, isFinished }) => {
+const Progress = ({
+	homeSongId,
+	searchSongId,
+	simulationData,
+	isFinished,
+	searchData,
+}) => {
 	const startTimeRef = useRef('00:00:00')
 	const endTimeRef = useRef('00:00:00')
 	const percentageRef = useRef('0%')
@@ -15,7 +21,15 @@ const Progress = ({ playingSongId, simulationData, isFinished }) => {
 	const [progress, setProgress] = useState(0)
 	const [scrollingText, setScrollingText] = useState('')
 	const [playing, setPlaying] = useState(false)
-	const playingSong = simulationData?.find((song) => song?.id === playingSongId)
+	const [playingSong, setPlayingSong] = useState('')
+
+	useEffect(() => {
+		setPlayingSong(searchData)
+	}, [searchData, searchSongId])
+
+	useEffect(() => {
+		setPlayingSong(simulationData?.find((song) => song?.id === homeSongId))
+	}, [simulationData, homeSongId])
 
 	// Log file processing to timestamps
 	useEffect(() => {
@@ -59,11 +73,11 @@ const Progress = ({ playingSongId, simulationData, isFinished }) => {
 	// Scroll text
 	useEffect(() => {
 		const text =
-			(playingSong?.name || playingSong?.title || 'unknown') +
+			(playingSong?.name?.split('(')[0] || playingSong?.title || 'unknown') +
 			' - ' +
-			(playingSong?.primaryArtists || 'unknown') +
+			(playingSong?.primaryArtists?.split(', ')[0] || 'unknown') +
 			' - ' +
-			(playingSong?.album?.name || 'unknown')
+			(playingSong?.album?.name.split('(')[0] || 'unknown')
 
 		function scrollText(text, maxWidth, delay) {
 			let index = 0
