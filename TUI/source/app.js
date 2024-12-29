@@ -12,19 +12,23 @@ import Menu from './components/menu.js'
 import HelpBox from './components/helpBox.js'
 import { ThemeProvider } from '@inkjs/ui'
 import customTheme from './utils/customTheme.js'
+import Toggleable from './components/Toggleable.js'
+import Language from './components/language.js'
 
 const HandleFocus = () => {
 	const { focus } = useFocusManager()
 	const { exit } = useApp()
 
-	useInput((input) => {
-		if (input === 'a') {
+	useInput((input, key) => {
+		if (key.ctrl && input === 'a') {
 			focus('menu')
-		} else if (input === 's') {
+		} else if (key.ctrl && input === 's') {
 			focus('list')
-		} else if (input === 'd') {
+		} else if (key.ctrl && input === 'd') {
 			focus('simulation')
-		} else if (input === 'q') {
+		} else if (key.ctrl && input === 'f') {
+			focus('toggleable')
+		} else if (key.escape) {
 			exit()
 		}
 	})
@@ -32,19 +36,22 @@ const HandleFocus = () => {
 	return null
 }
 
-export default function App({ login, register }) {
+export default function App({ login, register, lang }) {
 	const [homepageData, setHomepageData] = useState(null)
+	const [showAuth, setShowAuth] = useState(true)
 	const [simulationData, setSimulationData] = useState(null)
 	const [selectedMenu, setSelectedMenu] = useState('playlists')
-	const [playingSongId, setPlayingSongId] = useState(null)
+	const [homeSongId, setHomeSongId] = useState(null)
+	const [searchSongId, setSearchSongId] = useState(null)
 	const [homepageLoading, setHomepageLoading] = useState(true)
 	const [playlistLoading, setPlaylistLoading] = useState(true)
 	const [selectedPlaylistId, setPlaylistId] = useState(null)
 	const [songFinished, isSongFinished] = useState(null)
 	const [showHelp, setShowHelp] = useState(false)
+	const [searchData, setSearchData] = useState(null)
 
-	useInput((input) => {
-		if (input === 'h') {
+	useInput((input, key) => {
+		if (key.meta && input === 'h') {
 			setShowHelp(!showHelp)
 		}
 	})
@@ -66,22 +73,39 @@ export default function App({ login, register }) {
 
 	return (
 		<ThemeProvider theme={customTheme}>
-			<Box flexDirection='column' borderDimColor width={Infinity} padding={2}>
+			<Box
+				flexDirection='column'
+				borderDimColor
+				width={Infinity}
+				padding={2}
+				height='100%'
+			>
 				{register || login ? (
 					<Box
 						borderStyle='round'
 						flexDirection='column'
 						borderDimColor
 						padding={2}
+						borderColor='#c69a67'
+						width='100%'
+						height='100%'
+						alignItems='center'
 					>
-						<Auth handleMenu={login ? 'login' : 'register'} />
+						{showAuth ? (
+							<Auth
+								handleMenu={login ? 'login' : 'register'}
+								setShowAuth={(bool) => setShowAuth(bool)}
+							/>
+						) : (
+							<Language />
+						)}
 					</Box>
 				) : (
 					<>
 						{!showHelp ? (
 							<>
 								<Box flexDirection='row'>
-									<Box flexDirection='column' borderDimColor width={36}>
+									<Box flexDirection='column' borderDimColor width='40%'>
 										<Menu
 											id='menu'
 											returnValue={(value) => setSelectedMenu(value)}
@@ -97,16 +121,23 @@ export default function App({ login, register }) {
 											/>
 										)}
 									</Box>
-									{playlistLoading ? (
-										<Spinner type='dots' label='loading' />
-									) : (
-										<Simulation
-											id='simulation'
-											data={simulationData?.songs}
-											returnPlaySongId={(id) => setPlayingSongId(id)}
-											songFinished={songFinished}
+									<Box flexDirection='row' borderDimColor width='60%'>
+										{playlistLoading ? (
+											<Spinner type='dots' label='loading' />
+										) : (
+											<Simulation
+												id='simulation'
+												data={simulationData?.songs}
+												returnPlaySongId={(id) => setHomeSongId(id)}
+												songFinished={songFinished}
+											/>
+										)}
+										<Toggleable
+											id='toggleable'
+											returnSongId={(id) => setSearchSongId(id)}
+											returnSongData={(data) => setSearchData(data)}
 										/>
-									)}
+									</Box>
 								</Box>
 							</>
 						) : (
@@ -115,27 +146,34 @@ export default function App({ login, register }) {
 							</Box>
 						)}
 						<Progress
-							playingSongId={playingSongId}
+							homeSongId={homeSongId}
+							searchSongId={searchSongId}
 							simulationData={simulationData?.songs}
 							isFinished={(value) => isSongFinished(value)}
+							searchData={searchData}
 						/>
 					</>
 				)}
-
-				<Playback
-					playingSongId={playingSongId}
-					simulationData={simulationData?.songs}
-				/>
-				<PlaylistData
-					playlistId={selectedPlaylistId}
-					returnResponse={(data) => setSimulationData(data)}
-					isLoading={(boolean) => setPlaylistLoading(boolean)}
-				/>
-				<HomepageData
-					returnResponse={(data) => setHomepageData(data)}
-					isLoading={(boolean) => setHomepageLoading(boolean)}
-					defaultPlaylistId={(id) => setPlaylistId(id)}
-				/>
+				{!(register || login) && (
+					<>
+						<Playback
+							homeSongId={homeSongId}
+							searchSongId={searchSongId}
+							simulationData={simulationData?.songs}
+							searchData={searchData}
+						/>
+						<PlaylistData
+							playlistId={selectedPlaylistId}
+							returnResponse={(data) => setSimulationData(data)}
+							isLoading={(boolean) => setPlaylistLoading(boolean)}
+						/>
+						<HomepageData
+							returnResponse={(data) => setHomepageData(data)}
+							isLoading={(boolean) => setHomepageLoading(boolean)}
+							defaultPlaylistId={(id) => setPlaylistId(id)}
+						/>
+					</>
+				)}
 				<HandleFocus />
 			</Box>
 		</ThemeProvider>

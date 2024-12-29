@@ -15,7 +15,6 @@
        width="250">
 </p>
 
-
 <a href='https://asciinema.org/a/696484'>
 	<p align="center">
   	<img src="TUI/demo.png" 

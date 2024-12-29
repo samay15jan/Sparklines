@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
 import { exec } from 'child_process'
 import fs from 'fs'
-import path from 'path'
-import os from 'os'
 import { useInput } from 'ink'
+import os from 'os'
+import path from 'path'
+import React, { useEffect, useRef, useState } from 'react'
 
 const socketPath = `${os.homedir()}/.sparklines/socket.sock`
 const logFileLocation = path.join(
@@ -19,16 +19,23 @@ const ensureLogDirectory = (dir) => {
 	}
 }
 
-const Playback = ({ playingSongId, simulationData }) => {
+const Playback = ({ homeSongId, searchSongId, simulationData, searchData }) => {
 	const pidRef = useRef(null)
-	const playingSong = simulationData?.find((song) => song?.id === playingSongId)
-
+	const [playingSong, setPlayingSong] = useState()
 	const url =
 		playingSong?.downloadUrl[4]?.link ||
 		playingSong?.downloadUrl[3]?.link ||
 		playingSong?.downloadUrl[2]?.link ||
 		playingSong?.downloadUrl[1]?.link ||
 		playingSong?.downloadUrl[0]?.link
+
+	useEffect(() => {
+		setPlayingSong(searchData)
+	}, [searchData, searchSongId])
+
+	useEffect(() => {
+		setPlayingSong(simulationData?.find((song) => song?.id === homeSongId))
+	}, [simulationData, homeSongId])
 
 	useEffect(() => {
 		ensureLogDirectory(path.dirname(logFileLocation))
@@ -93,7 +100,7 @@ const Playback = ({ playingSongId, simulationData }) => {
 			} else if (input === '[') {
 				const command = `echo '{"command": ["add", "volume", -5]}' | socat - UNIX-CONNECT:${socketPath}`
 				exec(command)
-			} else if (input === 'm') {
+			} else if (key.ctrl && input === 'm') {
 				const command = `echo '{"command": ["cycle", "mute"]}' | socat - UNIX-CONNECT:${socketPath}`
 				exec(command)
 			} else if (key.ctrl && key.rightArrow) {
