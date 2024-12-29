@@ -1,24 +1,32 @@
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
-import { MdOutlineLyrics, MdClose } from 'react-icons/md'
+import { MdOutlineLyrics, MdIosShare, MdClose } from 'react-icons/md'
+import { TbCornerRightUp } from 'react-icons/tb'
 import { artistDetails, lyrics } from '../../../api/apiMethods'
-import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { QueueList, QueueScreen } from './QueueScreen'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
+const LyricsScreen = lazy(() => import('./LyricsScreen'))
 const Skeleton = lazy(() => import('./Skeleton'))
+const Options = lazy(() => import('../routeTypes/components/Options'))
+const ShareScreen = lazy(() => import('./ShareScreen'))
 
-const ArtistsScreen = () => {
-  const [currentSong, setcurrentSong] = useRQGlobalState('currentSong', null)
+const ArtistsScreen = ({ isPublic }) => {
+  const [currentSong] = useRQGlobalState('currentSong', null)
+  const [playbackDetails] = useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
   const [currentLyrics, setCurrentLyrics] = useState(null)
-  const [isLyrics, showLyrics] = useState(false)
+  const [selectedScreen, setSelectedScreen] = useRQGlobalState(
+    'contentPlay',
+    'nowPlaying'
+  )
   const data = currentSong?.data
   const navigate = useNavigate()
 
   function handleMenu(type, id) {
     navigate(`/dashboard/${type}/${id}`)
   }
-
 
   useEffect(() => {
     const listId = data && data?.primaryArtistsId
@@ -35,7 +43,9 @@ const ArtistsScreen = () => {
       setArtistsData(getArtistData)
       if (data?.name && data?.primaryArtists) {
         const name = data?.name?.replaceAll(' ', '+')
-        const artistName = data?.primaryArtists?.split(",")[0]?.replaceAll(' ', '+')
+        const artistName = data?.primaryArtists
+          ?.split(',')[0]
+          ?.replaceAll(' ', '+')
         const getLyrics = await lyrics(name, artistName)
         setCurrentLyrics(getLyrics)
       }
@@ -44,81 +54,171 @@ const ArtistsScreen = () => {
 
   return (
     <AnimatePresence>
-      <div className='overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4'>
-        {isLyrics
-          ? <motion.div
-            key="lyrics"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Lyrics
-              lyricsData={currentLyrics}
-              songData={data}
-              isLyrics={isLyrics}
-              showLyrics={(e) => showLyrics(e)}
-            />
-          </motion.div>
-          : <motion.div
-            key="details"
+      <div
+        className={
+          isPublic
+            ? 'overflow-scroll bg-[#0f0f0f] rounded-lg h-auto col-span-4 select-none'
+            : 'overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'
+        }
+      >
+        {/* display nowPlaying screen*/}
+        {selectedScreen?.data === 'nowPlaying' && (
+          <motion.div
+            key='details'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             {data ? (
-              <div className='p-4'>
-                <SongDetails
-                  handleMenu={(type, id) => handleMenu(type, id)}
-                  songData={data}
-                  isLyrics={isLyrics}
-                  showLyrics={(e) => showLyrics(e)}
-                />
-                {artistsData?.data &&
-                  <ArtistDetails
+              <div className={!isPublic && 'p-4'}>
+                {!isPublic && (
+                  <SongDetails
                     handleMenu={(type, id) => handleMenu(type, id)}
-                    artistData={artistsData?.data}
+                    songData={data}
+                    showMenu={(type) => setSelectedScreen(type)}
+                  />
+                )}
+                <div className={isPublic && 'max-h-[50vh] overflow-y-scroll'}>
+                  {artistsData?.data && (
+                    <ArtistDetails
+                      handleMenu={(type, id) => handleMenu(type, id)}
+                      artistData={artistsData?.data}
+                      songData={data}
+                      isPublic={isPublic}
+                    />
+                  )}
+                  <Credits
+                    handleMenu={(type, id) => handleMenu(type, id)}
                     songData={data}
                   />
-                }
-                <Credits
-                  handleMenu={(type, id) => handleMenu(type, id)}
-                  songData={data}
-                />
+                  <NextQueue
+                    showMenu={(type) => setSelectedScreen(type)}
+                    queueData={playbackDetails?.data}
+                    handleMenu={(type, id) => handleMenu(type, id)}
+                  />
+                </div>
               </div>
             ) : (
               <Skeleton />
             )}
           </motion.div>
-        }
+        )}
+
+        {/* display lyrics screen*/}
+        {selectedScreen?.data === 'lyrics' && (
+          <motion.div
+            key='lyrics'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <LyricsScreen
+              lyricsData={currentLyrics}
+              songData={data}
+              showMenu={(type) => setSelectedScreen(type)}
+              isPublic={isPublic}
+            />
+          </motion.div>
+        )}
+
+        {/* display queue screen*/}
+        {selectedScreen?.data === 'queue' && (
+          <motion.div
+            key='lyrics'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <QueueScreen
+              showMenu={(type) => setSelectedScreen(type)}
+              handleMenu={(type, id) => handleMenu(type, id)}
+              isPublic={isPublic}
+            />
+          </motion.div>
+        )}
       </div>
+
+      {/* handle recently played automatically */}
+      {!isPublic && currentSong?.data && (
+        <Options
+          type='recentlyPlayed'
+          autoUpdate={true}
+          id={currentSong?.data?.id}
+          image={currentSong?.data?.image[2]?.link}
+          name={currentSong?.data?.name}
+          artist={currentSong?.data?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+          artistId={
+            currentSong?.data?.primaryArtistsId
+              ?.replaceAll(' ', '')
+              ?.split(',')[0]
+          }
+          album={currentSong?.data?.album?.name}
+          albumId={currentSong?.data?.album?.id}
+          duration={currentSong?.data?.duration}
+        />
+      )}
     </AnimatePresence>
   )
 }
 
-const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
-  const artist = songData?.primaryArtists?.split(',')
+const SongDetails = ({ handleMenu, songData, showMenu }) => {
+  const [showQR, setShowQR] = useState(false)
+  const [url, setUrl] = useState(
+    'https://sparklines.vercel.app/'
+  )
+  const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
+
+  useEffect(() => {
+    setUrl(
+      `https://sparklines.vercel.app/public/${songData?.id}`
+    )
+  }, [songData])
+
   return (
     <>
-      <h1
-        className='text-lg font-bold mb-4 hover:underline cursor-pointer'
-        onClick={() => handleMenu('album', songData?.album?.id)}
-      >
-        {songData?.album?.name}
-      </h1>
+      <div className='flex justify-between'>
+        <h1
+          className='text-lg font-bold mb-4 hover:underline cursor-pointer'
+          onClick={() => handleMenu('album', songData?.album?.id)}
+        >
+          {songData?.album?.name}
+        </h1>
+        <button
+          onClick={() => setShowQR(!showQR)}
+          className='mb-4 bg-[#0f0f0f]'
+        >
+          {showQR ? <MdClose size={28} /> : <MdIosShare size={28} />}
+        </button>
+      </div>
+      {showQR ? <ShareScreen newURL={url} /> : null}
       <img
-        className='rounded-lg'
+        className={showQR ? 'rounded-lg opacity-50' : 'rounded-lg'}
         src={songData?.image[2]?.link}
         alt=''
       />
+      {showQR && (
+        <div className='flex justify-center text-xl font-semibold opacity-80 mt-4'>
+          <div
+            className='cursor-pointer hover:opacity-50 opacity-100 underline'
+            onClick={() => navigator.clipboard.writeText(url)}
+          >
+            Copy
+          </div>
+          <h1 className='ml-1'>or Scan the QR Code</h1>
+          <TbCornerRightUp size={28} />
+        </div>
+      )}
+
       <div className='flex justify-between my-2'>
         <div>
           <h1
             className='text-3xl font-bold mt-4 hover:underline cursor-pointer'
             onClick={() => handleMenu('track', songData?.id)}
           >
-            {songData?.name}</h1>
-          <h1 className=' flex gap-1 text-sm font-medium opacity-80 mt-1'>
+            {songData?.name}
+          </h1>
+          <h1 className='flex gap-1 text-sm font-medium opacity-80 mt-1'>
             {artist.map((name, index) => (
               <h1
                 className='hover:underline cursor-pointer'
@@ -130,9 +230,35 @@ const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
             ))}
           </h1>
         </div>
-        <div className='mt-8'>
+        <div className='flex mt-8'>
+          <Options
+            type='liked'
+            id={songData?.id}
+            image={songData?.image[2]?.link}
+            name={songData?.name}
+            artist={songData?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+            artistId={
+              songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]
+            }
+            album={songData?.album?.name}
+            albumId={songData?.album?.id}
+            duration={songData?.duration}
+          />
+          <Options
+            type='customPlaylists'
+            id={songData?.id}
+            image={songData?.image[2]?.link}
+            name={songData?.name}
+            artist={songData?.primaryArtists?.split(',')?.slice(0, 1)[0]}
+            artistId={
+              songData?.primaryArtistsId?.replaceAll(' ', '')?.split(',')[0]
+            }
+            album={songData?.album?.name}
+            albumId={songData?.album?.id}
+            duration={songData?.duration}
+          />
           <button
-            onClick={() => showLyrics(!isLyrics)}
+            onClick={() => showMenu('lyrics')}
             className='mr-5 bg-[#0f0f0f]'
           >
             <MdOutlineLyrics className='pt-1' size={28} />
@@ -144,7 +270,7 @@ const SongDetails = ({ handleMenu, songData, isLyrics, showLyrics }) => {
   )
 }
 
-const DownloadURL = ({ songData }) => {
+export const DownloadURL = ({ songData, isPublic }) => {
   const name = songData?.name
   const fileUrl = songData?.downloadUrl[4]?.link
 
@@ -168,23 +294,27 @@ const DownloadURL = ({ songData }) => {
     }
   }
   return (
-    <button onClick={handleDownload}>
-      <LuDownload size={25} />
+    <button onClick={handleDownload} className={isPublic && 'mb-2'}>
+      <LuDownload size={isPublic ? 18 : 25} />
     </button>
   )
 }
 
-const ArtistDetails = ({ handleMenu, artistData, songData }) => {
-  const artist = songData?.primaryArtists?.split(',')
-  const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
+const ArtistDetails = ({ handleMenu, artistData, songData, isPublic }) => {
   return (
     <>
-      <div className='relative my-5 bg-[#242424] rounded-lg'>
+      <div
+        className={
+          isPublic
+            ? 'relative bg-[#242424] rounded-lg'
+            : 'relative my-5 bg-[#242424] rounded-lg'
+        }
+      >
         <h1 className='absolute z-10 m-5 text-md font-bold'>
           About the artist
         </h1>
         <img
-          className='rounded-t-lg inset-0 w-full h-72 object-cover object-center opacity-70'
+          className='rounded-t-lg z-10 inset-0 w-full h-72 object-cover object-center opacity-70'
           src={artistData?.image[2]?.link}
           alt=''
         />
@@ -195,10 +325,10 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
           {artistData?.name}
         </h1>
         <h1 className='text-sm font-medium opacity-80 mt-1 pl-4'>
-          {songData?.playCount.toLocaleString()} monthly listeners
+          {songData?.playCount?.toLocaleString()} monthly listeners
         </h1>
         <h1 className='text-sm font-medium opacity-80 mt-1 pl-4 pb-4'>
-          {artistData?.followerCount.toLocaleString()} followers
+          {artistData?.followerCount?.toLocaleString()} followers
         </h1>
       </div>
     </>
@@ -206,7 +336,7 @@ const ArtistDetails = ({ handleMenu, artistData, songData }) => {
 }
 
 const Credits = ({ handleMenu, songData }) => {
-  const artist = songData?.primaryArtists?.split(',')
+  const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
   return (
     <div className='relative my-5 bg-[#242424] rounded-lg'>
@@ -226,9 +356,7 @@ const Credits = ({ handleMenu, songData }) => {
         </div>
       </h1>
       <h1 className='p-4 pt-1'>
-        <div className='text-md font-semibold opacity-100'>
-          Release Date
-        </div>
+        <div className='text-md font-semibold opacity-100'>Release Date</div>
         <div className='text-sm font-medium opacity-80'>
           {songData?.releaseDate}
         </div>
@@ -243,63 +371,30 @@ const Credits = ({ handleMenu, songData }) => {
   )
 }
 
-const Lyrics = ({ lyricsData, songData, isLyrics, showLyrics }) => {
-  if (!lyricsData?.data?.lyrics) {
-    return (
-      <>
-        <button className='relative top-0 opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={30} /></button>
-        <div className='text-xl mt-80 text-center w-auto'>
-          Lyrics Not found !
-        </div>
-      </>
-    )
-  }
-
-  const formatLyrics = (lyrics) => {
-    const formattedLyrics = []
-    const verses = lyrics.split(/\[(.*?)\]/).filter(Boolean)
-
-    verses.forEach((verse, index) => {
-      if (index % 2 === 0) {
-        // Handle the label (Intro, Verse, Chorus, etc.)
-        formattedLyrics.push(<div className="mt-5 opacity-50" key={`verse-${index}`}><strong>{verse}</strong></div>)
-      } else {
-        // Handle the actual lyrics
-        const words = verse.trim().split(/\s+/)
-        let line = []
-
-        words.forEach((word, wordIndex) => {
-          line.push(word)
-          if (line.length >= 6) {
-            formattedLyrics.push(<div className="mt-2" key={`line-${index}-${wordIndex}`}>{line.join(' ')}</div>)
-            line = []
-          }
-        })
-
-        if (line.length > 0) {
-          formattedLyrics.push(<div className="mt-2" key={`line-${index}-end`}>{line.join(' ')}</div>)
-        }
-      }
-    })
-
-    return formattedLyrics
-  }
-
-  const lyrics = formatLyrics(lyricsData?.data?.lyrics)
-
+const NextQueue = ({ showMenu, queueData, handleMenu }) => {
+  if (!queueData[1]) return
   return (
     <>
-      {lyricsData?.data &&
-        <div>
-          <div className='py-2 bg-[#202020] font-semibold text-sm'>
-            <button className='absolute opacity-60 font-bold bg-[#202020]' onClick={() => showLyrics(!isLyrics)}><MdClose size={25} /></button>
-            <h1 className='text-center'>{songData?.name}</h1>
-          </div>
-          <div className='m-10 text-2xl mt-4 text-center'>
-            {lyrics}
-          </div>
+      <div className='relative pb-1 bg-[#242424] rounded-lg'>
+        <div className='flex justify-between'>
+          <h1 className='text-md font-bold p-4'>Next in queue</h1>
+          <h1
+            className='px-4 mt-5 text-sm font-bold opacity-60 hover:underline cursor-pointer'
+            onClick={() => showMenu('queue')}
+          >
+            Open queue
+          </h1>
         </div>
-      }
+        <QueueList
+          queueData={queueData}
+          artists={queueData[1]?.primaryArtists}
+          artistsIds={queueData[1]?.primaryArtistsId}
+          image={queueData[1].image[1]?.link}
+          id={queueData[1]?.id}
+          name={queueData[1]?.name}
+          handleMenu={handleMenu}
+        />
+      </div>
     </>
   )
 }

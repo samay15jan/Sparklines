@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { homepageData } from '../../../api/apiMethods'
@@ -6,7 +6,6 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { AnimatePresence, motion } from 'framer-motion'
 const Carousel = lazy(() => import('./Carousel'))
 const Skeleton = lazy(() => import('./Skeleton'))
-const UserProfile = lazy(() => import('../profile/UserProfile'))
 
 const Heading = styled.div`
   ${tw`mt-5 text-2xl font-bold`}
@@ -52,28 +51,25 @@ const Homepage = () => {
   return (
     <AnimatePresence>
       <motion.div
-        className='p-5'
-        key="homepage"
+        className='p-5 mt-10'
+        key='homepage'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
       >
-        <div className='relative'>
-          <UserProfile />
-        </div>
         {data
           ? types.map((type) => (
-            <div key={type.id}>
-              <Heading>{type.heading}</Heading>
-              <Carousel CarouselData={type.carouselData} typeId={type.id} />
-            </div>
-          ))
-          : fallback.map((type, index) => (
-            <div key={type}>
-              <Heading className='w-36 h-5 rounded-md bg-white animate-pulse opacity-20'></Heading>
-              <Skeleton />
-            </div>
-          ))}
+              <div key={type.id}>
+                <Heading>{type.heading}</Heading>
+                <Carousel CarouselData={type.carouselData} typeId={type.id} />
+              </div>
+            ))
+          : fallback.map((type) => (
+              <div key={type}>
+                <Heading className='w-36 h-5 rounded-md bg-white animate-pulse opacity-20'></Heading>
+                <Skeleton />
+              </div>
+            ))}
       </motion.div>
     </AnimatePresence>
   )

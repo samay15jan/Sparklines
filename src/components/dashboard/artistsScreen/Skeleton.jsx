@@ -1,10 +1,7 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { useLocation } from 'react-router-dom'
 
-const Container = styled.div`
-  ${tw`bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold`}
-`
 const SubContainer = styled.div`
   ${tw`grid grid-cols-1 p-2 rounded-lg opacity-20`}
 `
@@ -25,8 +22,12 @@ const IconSkeleton = styled.div`
 `
 
 const Skeleton = () => {
+  const location = useLocation()
+  let currentPath = location.pathname
+  let isPublic = currentPath.startsWith('/public/')
+
   return (
-    <Container>
+    <div className={isPublic ? 'm-2 rounded-lg grid col-span-4 overflow-scroll max-h-[50vh] text-sm font-bold' : 'bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold'}>
       <SubContainer>
         <HeadingSkeleton />
         <ImageSkeleton />
@@ -61,7 +62,7 @@ const Skeleton = () => {
           </div>
         </div>
       </SubContainer>
-    </Container>
+    </div>
   )
 }
 

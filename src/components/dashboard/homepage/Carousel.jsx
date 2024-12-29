@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { FaCirclePlay } from 'react-icons/fa6'
@@ -10,14 +10,11 @@ const Container = styled.div`
   ${tw`p-2 cursor-pointer grid grid-flow-col overflow-x-auto text-sm font-bold`}
 `
 const SubContainer = styled.div`
-  ${tw`grid grid-cols-1 p-5 w-48 rounded-xl`}
+  ${tw`grid grid-cols-1 w-48 rounded-xl`}
   transition: background 0.3s ease;
   &:hover {
     background: #2a2a2a;
   }
-`
-const Image = styled.img`
-  ${tw`rounded-xl`}
 `
 const Heading = styled.div`
   ${tw`px-1 pt-2`}
@@ -26,7 +23,7 @@ const SubHeading = styled.div`
   ${tw`px-1 opacity-50`}
 `
 
-const Carousel = ({ CarouselData, typeId }) => {
+const Carousel = ({ CarouselData, typeId, isArtistPage }) => {
   const navigate = useNavigate()
 
   function handleMenu(id) {
@@ -45,27 +42,41 @@ const Carousel = ({ CarouselData, typeId }) => {
     <Container>
       {CarouselData &&
         CarouselData?.map((data) => (
-          <SubContainer key={data.id} onClick={() => handleMenu(data.id)}>
+          <SubContainer
+            className={isArtistPage ? 'p-3' : 'p-5'}
+            key={data.id}
+            onClick={() => handleMenu(data.id)}
+          >
             <CarouselImage
               image={data.image}
               title={data.name || data.title}
               id={data.id}
               typeId={typeId}
               CarouselData={CarouselData}
+              isArtistPage={isArtistPage}
             />
             <CarouselTitle title={data.name || data.title} />
-            <CarouselArtists
-              artists={data.primaryArtists}
-              followers={data.subtitle}
-              typeId={typeId}
-            />
+            {isArtistPage ? (
+              <div className='flex font-medium p-1 opacity-60'>
+                {data?.year || data?.songCount + ' Songs'} &#128900;{' '}
+                {data?.type
+                  ? data?.type?.charAt(0).toUpperCase() + data?.type?.slice(1)
+                  : data?.label || data?.firstname}
+              </div>
+            ) : (
+              <CarouselArtists
+                artists={data.primaryArtists}
+                followers={data.subtitle}
+                typeId={typeId}
+              />
+            )}
           </SubContainer>
         ))}
     </Container>
   )
 }
 
-const CarouselImage = ({ image, title, id, typeId, CarouselData }) => {
+const CarouselImage = ({ image, id, typeId, CarouselData, isArtistPage }) => {
   const [show, setShow] = useState(false)
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 
@@ -85,14 +96,20 @@ const CarouselImage = ({ image, title, id, typeId, CarouselData }) => {
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
-      <Image
+      <img
+        className={isArtistPage ? 'w-60 rounded-md' : 'rounded-xl'}
         src={
           image[1]?.link ||
           'https://www.jiosaavn.com/_i/3.0/artist-default-music.png'
         }
-        alt={title + "'s Image"}
       />
-      <div className={show ? '' : 'hidden'} onClick={(e) => { e.stopPropagation(); handleClick(id) }}>
+      <div
+        className={show ? '' : 'hidden'}
+        onClick={(e) => {
+          e.stopPropagation()
+          handleClick(id)
+        }}
+      >
         <FaCirclePlay
           size={40}
           color='#1ed760'
@@ -128,7 +145,7 @@ const CarouselArtists = ({ artists, followers, typeId }) => {
       shortedNames = artists
     }
   }
-  
+
   return (
     <SubHeading>
       {artists ? (shortedNames ? shortedNames : 'Unknown Artist') : followers}

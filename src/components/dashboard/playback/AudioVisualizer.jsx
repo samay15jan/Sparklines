@@ -1,7 +1,23 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Audio } from 'react-loader-spinner'
+import useRQGlobalState from '../../../utils/useRQGlobalState'
 
-const AudioVisualizer = ({ show }) => {
+const AudioVisualizer = () => {
+  const [playerRef] = useRQGlobalState('playerRef', null)
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playerRef?.data?.paused) {
+        setShow(false)
+      } else {
+        setShow(true)
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+  })
+
   return (
     <>
       {show ? (

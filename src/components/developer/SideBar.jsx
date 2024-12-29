@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { RiAiGenerate } from 'react-icons/ri'
