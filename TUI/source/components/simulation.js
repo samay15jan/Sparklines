@@ -4,6 +4,12 @@ import { Select } from '@inkjs/ui'
 import { hexColors, colors } from '../utils/colors.js'
 import Gradient from 'ink-gradient'
 
+export function formatLabel (name, artist) {
+	const formattedName = name?.split('(')[0]
+	const formattedArtist = artist?.split(', ')[0]
+	return `${formattedName} - ${formattedArtist}`
+}
+
 const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 	const { isFocused } = useFocus({ id })
 	const [options, setOptions] = useState([])
@@ -16,12 +22,9 @@ const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 	useEffect(() => {
 		if (data) {
 			const updatedOptions = data.map((song) => ({
-				label:
-					song?.name + ' - ' + song?.primaryArtists?.slice(0, 28) ||
-					song?.title + ' - ' + song?.primaryArtists?.slice(0, 28),
+				label: formatLabel(song?.name || song?.title, song?.primaryArtists),
 				value: song.id,
 			}))
-
 			setOptions(updatedOptions)
 		}
 	}, [data])
@@ -43,7 +46,7 @@ const Simulation = ({ id, data, returnPlaySongId, songFinished }) => {
 			borderColor={isFocused ? `${colors.primary}` : 'white'}
 			borderDimColor={!isFocused}
 			borderStyle='round'
-			width={Infinity}
+			width='100%'
 		>
 			<Box position='relative' marginTop='-1px' marginLeft='1px'>
 				<Gradient name='morning'>
