@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { LineWave } from 'react-loader-spinner'
@@ -25,7 +25,7 @@ const Loading = () => {
       const number = Math.floor(Math.random() * 6)
       setSelected(quotes[number])
     }, 50)
-  }, [])
+  })
 
   return (
     <Container>

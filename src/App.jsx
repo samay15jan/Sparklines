@@ -1,17 +1,31 @@
-import React, { Suspense, lazy } from 'react'
+import { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from '@tanstack/react-query'
-import Loading from './utils/Loading'
-import Playlist from './components/dashboard/routeTypes/Playlist'
-import Artist from './components/dashboard/routeTypes/Artist'
-import Track from './components/dashboard/routeTypes/Track'
-import Album from './components/dashboard/routeTypes/Album'
-import Search from './components/dashboard/searchMenu/Search'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
+import Loading from './utils/Loading'
+import Playlists from './components/dashboard/routeTypes/Playlists'
+const LikedSongs = lazy(
+  () => import('./components/dashboard/routeTypes/LikedSongs')
+)
+const Discography = lazy(
+  () => import('./components/dashboard/routeTypes/components/Discography')
+)
+const Playlist = lazy(
+  () => import('./components/dashboard/routeTypes/Playlist')
+)
+const Artist = lazy(() => import('./components/dashboard/routeTypes/Artist'))
+const Track = lazy(() => import('./components/dashboard/routeTypes/Track'))
+const Album = lazy(() => import('./components/dashboard/routeTypes/Album'))
+const Search = lazy(() => import('./components/dashboard/searchMenu/Search'))
+const RecentlyPlayed = lazy(
+  () => import('./components/dashboard/routeTypes/RecentlyPlayed')
+)
 const Landing = lazy(() => import('./pages/Landing'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Authentication = lazy(() => import('./pages/Authentication'))
+const Public = lazy(() => import('./pages/Public'))
 const Developer = lazy(() => import('./pages/Developer'))
 const API = lazy(() => import('./components/developer/API'))
 const Playground = lazy(() => import('./components/developer/Playground'))
@@ -28,57 +42,77 @@ const router = createBrowserRouter([
     element: <Authentication />,
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     element: <Dashboard />,
     children: [
       {
-        path: "/dashboard/playlist/:id",
+        path: 'playlist/:id',
         element: <Playlist />,
       },
       {
-        path: "/dashboard/artist/:id",
+        path: 'artist/:id',
         element: <Artist />,
       },
       {
-        path: "/dashboard/track/:id",
+        path: 'artist/:id/discography',
+        element: <Discography />,
+      },
+      {
+        path: 'track/:id',
         element: <Track />,
       },
       {
-        path: "/dashboard/album/:id",
+        path: 'album/:id',
         element: <Album />,
       },
       {
-        path: "/dashboard/search",
+        path: 'search',
         element: <Search />,
       },
       {
-        path: "/dashboard/search/:query",
+        path: 'search/:query',
         element: <Search />,
       },
-    ]
+      {
+        path: 'recently-played',
+        element: <RecentlyPlayed />,
+      },
+      {
+        path: 'liked',
+        element: <LikedSongs />,
+      },
+      {
+        path: 'playlists',
+        element: <Playlists />,
+      },
+    ],
   },
   {
-    path: "/developer",
+    path: '/developer',
     element: <Developer />,
     children: [
       {
-        path: "/developer/api",
+        path: 'api',
         element: <API />,
       },
       {
-        path: "/developer/playground",
+        path: 'playground',
         element: <Playground />,
       },
       {
-        path: "/developer/docs",
+        path: 'docs',
         element: <Docs />,
       },
       {
-        path: "/developer/settings",
+        path: 'settings',
         element: <Settings />,
       },
-    ]
-  }
+    ],
+  },
+  {
+    path: '/public/:id',
+    element: <Public />,
+  },
 ])
 
 const App = () => {
@@ -88,6 +122,7 @@ const App = () => {
       <HelmetProvider context={helmetContext}>
         <Suspense fallback={<Loading />}>
           <QueryClientProvider client={queryClient}>
+            {/* <ReactQueryDevtools /> */}
             <RouterProvider router={router} />
           </QueryClientProvider>
         </Suspense>

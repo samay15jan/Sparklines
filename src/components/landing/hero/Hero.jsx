@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 import { GoArrowUpRight } from 'react-icons/go'
@@ -6,7 +6,7 @@ const Player = lazy(() => import('./Player'))
 const ArrowDesign = lazy(() => import('./ArrowDesign'))
 
 const Heading = styled.span`
-  ${tw`drop-shadow-xl text-8xl font-black opacity-80`}
+  ${tw`drop-shadow-xl text-sm lg:text-8xl font-black opacity-80`}
   font-family: 'Courier New', monospace;
   font-weight: 1000;
   text-shadow:

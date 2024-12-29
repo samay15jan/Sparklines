@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaCirclePlay } from 'react-icons/fa6'
 import { songDetails } from '../../../../api/apiMethods'
 import useRQGlobalState from '../../../../utils/useRQGlobalState'
@@ -7,7 +6,7 @@ const PlayIcon = ({ songs, id }) => {
   const [data, setData] = useRQGlobalState('playbackQueue', null)
 
   const handleClick = async () => {
-    if(id){
+    if (id) {
       const { data } = await songDetails(id)
       setData(data)
     }

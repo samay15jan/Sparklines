@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -20,8 +19,9 @@ const Bar1 = ({ response }) => {
       {finalData &&
         finalData.map((song) => (
           <Logo
+            key={song?.id}
             className='transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none'
-            src={song.primaryArtists[0]?.image[2]?.link}
+            src={song?.primaryArtists[0]?.image[2]?.link}
           />
         ))}
     </div>

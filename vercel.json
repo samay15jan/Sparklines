@@ -1,6 +1,52 @@
 {
-    "rewrites": [
-        { "source": "/api/:path(.*)", "destination": "http://sparklines-backend.vercel.app/:path" },
-        { "source": "/(.*)", "destination": "/index.html" }
-    ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/user/profile",
+      "destination": "/api/proxy/user-profile"
+    },
+    {
+      "source": "/api/:path(.*)",
+      "destination": "http://sparklines-backend.vercel.app/:path"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Authorization, Content-Type, *"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=300, stale-while-revalidate"
+        },
+        {
+          "key": "Author",
+          "value": "Samay Kumar"
+        },
+        {
+          "key": "Github",
+          "value": "https://github.com/samay15jan/sparklines"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        }
+      ]
+    }
+  ]
 }

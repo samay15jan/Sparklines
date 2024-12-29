@@ -15,7 +15,7 @@ const AutoNavigate = ({ location }) => {
     ) {
       navigate(location)
     }
-  }, [navigate])
+  }, [navigate, location])
 
   return null
 }
