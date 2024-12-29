@@ -13,7 +13,7 @@ const list = ({ id, menuLists, selectedMenu, returnId }) => {
 			.filter((item) => item?.id === selectedMenu)
 			.flatMap((item) => item?.data || [])
 			.map((itemData) => ({
-				label: itemData?.name?.slice(0, 30) || itemData?.title?.slice(0, 30),
+				label: itemData?.name || itemData?.title,
 				value: itemData.id,
 			}))
 
@@ -43,7 +43,7 @@ const list = ({ id, menuLists, selectedMenu, returnId }) => {
 					</Gradient>
 				</Box>
 				<Select
-					visibleOptionCount={13}
+					visibleOptionCount={15}
 					options={options}
 					isDisabled={!isFocused}
 					onChange={(newId) => {

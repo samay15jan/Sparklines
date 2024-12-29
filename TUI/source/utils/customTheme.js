@@ -26,6 +26,28 @@ const customTheme = extendTheme(defaultTheme, {
 				},
 			},
 		},
+		MultiSelect: {
+			styles: {
+				selectedIndicator: () => ({
+					color: colors.primary,
+				}),
+				focusIndicator: () => ({
+					color: colors.primary,
+				}),
+				label({ isFocused, isSelected }) {
+					let color
+					let backgroundColor
+					if (isSelected) {
+						color = colors.primary
+					}
+					if (isFocused) {
+						color = 'black'
+						backgroundColor = 'gray'
+					}
+					return { color, backgroundColor }
+				},
+			},
+		},
 		ProgressBar: {
 			styles: {
 				completed: () => ({
