@@ -7,22 +7,22 @@ import { songDetails } from '../../../api/apiMethods'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 
 const Container = styled.div`
-  ${tw`mt-[-50px] ml-28 w-96 h-32 rounded-full bg-gray-200 opacity-90 drop-shadow-sm`}
+  ${tw`-mt-5 lg:mt-[-50px] -ml-10 lg:ml-28 w-72 lg:w-96 h-28 lg:h-32 rounded-full bg-gray-200 opacity-90 drop-shadow-sm`}
 `
 const Controller = styled.div`
-  ${tw`absolute top-12 left-12 text-gray-100`}
+  ${tw`absolute top-10 lg:top-12 left-10 lg:left-12 text-gray-100`}
 `
 const Image = styled.img`
-  ${tw`absolute top-4 left-4 w-24 h-24 border-4 border-white rounded-full`}
+  ${tw`absolute top-4 left-4 w-20 h-20 lg:w-24 lg:h-24 border-4 border-white rounded-full`}
 `
 const DetailsContainer = styled.div`
-  ${tw`absolute top-8 left-32 grid grid-rows-2`}
+  ${tw`absolute top-8 left-28 lg:left-32 grid grid-rows-2`}
 `
 const Heading = styled.div`
-  ${tw`font-extrabold text-2xl`}
+  ${tw`font-extrabold text-lg lg:text-2xl`}
 `
 const SubHeading = styled.div`
-  ${tw`font-medium text-lg`}
+  ${tw`font-medium text-sm lg:text-lg`}
 `
 
 const Player = ({ apiResponse }) => {

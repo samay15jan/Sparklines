@@ -13,14 +13,14 @@ export default defineConfig({
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-        configure: (proxy) => {
-          proxy.on('proxyReq', (proxyReq, req) => {
-           const token = sessionStorage.getItem('authToken') || '';
-           if (token) {
-             proxyReq.setHeader('Authorization', `Bearer ${token}`);
-           }
-         });
-        },
+        // configure: (proxy) => {
+        //   proxy.on('proxyReq', (proxyReq, req) => {
+        //    const token = sessionStorage.getItem('authToken') || '';
+        //    if (token) {
+        //      proxyReq.setHeader('Authorization', `Bearer ${token}`);
+        //    }
+        //  });
+        // },
       },
     },
   },
