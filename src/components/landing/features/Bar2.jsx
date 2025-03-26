@@ -4,7 +4,7 @@ import { SiTailwindcss, SiMongodb } from 'react-icons/si'
 
 const Bar2 = () => {
   return (
-    <div className='flex text-center text-sm font-bold text-white w-96 mb-6 px-5 h-16 rounded-full bg-[#020f14]'>
+    <div className='flex text-center text-sm font-medium lg:font-bold text-white w-auto lg:w-96 mb-6 px-2 lg:px-5 h-16 rounded-full bg-[#020f14]'>
       <RiReactjsLine
         size={55}
         className='mt-1 hover:animate-spin text-[#17b2b3]'
@@ -13,7 +13,7 @@ const Bar2 = () => {
         size={55}
         className='mt-1 ml-1 hover:animate-spin text-[#00694a]'
       />
-      <div className='mx-5 mt-3'>
+      <div className='lg:mx-3 mt-3'>
         Discover Your Sound with Cutting-Edge Technologies
       </div>
       <FaNodeJs

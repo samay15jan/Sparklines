@@ -15,7 +15,7 @@ const Bar1 = ({ response }) => {
   let finalData = filteredSongs?.slice(1, 8)
 
   return (
-    <div className='flex p-2 mt-20 w-96 justify-center -space-x-4 overflow-hidden mb-5 h-20 rounded-full bg-[#dad4f1]'>
+    <div className='flex p-2 mt-20 w-full lg:w-96 justify-center -space-x-4 overflow-hidden mb-5 h-20 rounded-full bg-[#dad4f1]'>
       {finalData &&
         finalData.map((song) => (
           <Logo

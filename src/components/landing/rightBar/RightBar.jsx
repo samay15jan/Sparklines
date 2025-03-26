@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { GoArrowDownRight } from 'react-icons/go'
 
 const Container = styled.span`
-  ${tw`lg:block hidden relative z-50 shadow-xl font-bold text-3xl flex justify-center mt-[-10px] opacity-90 w-20 bg-black h-auto`}
+  ${tw`relative select-none z-50 shadow-xl font-bold text-3xl flex justify-center mt-[-10px] opacity-90 w-10 lg:w-20 bg-black h-auto`}
   writing-mode: vertical-rl;
   font-family: 'Courier New', monospace;
 `
@@ -25,7 +25,7 @@ const RightBar = () => {
 
   return (
     <Container>
-      <div className='mr-6 flex gap-10 text-gray-200'>
+      <div className='mr-2 lg:mr-6 flex gap-10 lg:gap-10 text-gray-200'>
         {headings.map((index) => (
           <Heading key={index} />
         ))}

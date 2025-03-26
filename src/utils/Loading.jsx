@@ -4,10 +4,10 @@ import tw from 'twin.macro'
 import { LineWave } from 'react-loader-spinner'
 
 const Container = styled.div`
-  ${tw`w-full h-screen flex flex-col items-center justify-center`}
+  ${tw`w-screen h-screen flex flex-col items-center justify-center pl-5`}
 `
 const Text = styled.div`
-  ${tw`text-xl`}
+  ${tw`justify-center text-center text-xl pr-7`}
 `
 
 const Loading = () => {
@@ -21,11 +21,13 @@ const Loading = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      const number = Math.floor(Math.random() * 6)
+    const timeout = setTimeout(() => {
+      const number = Math.floor(Math.random() * 5) + 1
       setSelected(quotes[number])
     }, 50)
-  })
+
+    return () => clearTimeout(timeout)
+  }, []) 
 
   return (
     <Container>

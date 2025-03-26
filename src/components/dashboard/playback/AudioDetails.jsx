@@ -5,7 +5,7 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { useNavigate } from 'react-router-dom'
 
 const Image = styled.img`
-  ${tw`w-16 h-16 rounded-lg p-1 ml-[6px] mr-1 pointer-events-none`}
+  ${tw`w-16 h-16 rounded-lg p-1 ml-[6px] mr-1 pointer-events-none select-none`}
 `
 const Heading = styled.div`
   ${tw`px-1 mt-3 opacity-80 cursor-pointer`}

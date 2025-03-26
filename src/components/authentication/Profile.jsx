@@ -122,8 +122,8 @@ const Profile = ({ data, onNext, alreadyLoggedIn }) => {
             <div
               className={
                 alreadyLoggedIn
-                  ? 'absolute mt-3 flex justify-center pointer-events-none'
-                  : 'absolute mt-14 flex justify-center pointer-events-none'
+                  ? 'absolute mt-3 flex justify-center pointer-events-none select-none'
+                  : 'absolute mt-14 flex justify-center pointer-events-none select-none'
               }
             >
               {loading ? loadingComponent : ''}

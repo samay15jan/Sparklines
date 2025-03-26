@@ -18,7 +18,7 @@ const Button = ({ lang, onClick }) => {
         setBorder(!border)
       }}
     >
-      <div className='select-none'>{lang}</div>
+      <div className='pointer-events-none select-none'>{lang}</div>
     </ButtonUI>
   )
 }

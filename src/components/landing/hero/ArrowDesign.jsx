@@ -2,7 +2,7 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  ${tw`mb-5 ml-2 flex gap-4`}
+  ${tw`w-2/3 lg:w-full mb-5 ml-0 lg:ml-2 flex gap-4`}
   overflow: hidden; /* Prevent overflow during animation */
 `;
 
