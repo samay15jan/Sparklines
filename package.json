@@ -19,7 +19,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.7.1",
     "@uidotdev/usehooks": "^2.4.1",
-    "axios": "^1.7.4",
+    "axios": "^1.8.2",
     "colorthief": "^2.4.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.3.4",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.33.2",
@@ -50,6 +50,6 @@
     "prettier": "3.3.2",
     "tailwindcss": "^3.4.1",
     "twin.macro": "^3.4.1",
-    "vite": "^5.4.14"
+    "vite": "^6.2.3"
   }
 }
