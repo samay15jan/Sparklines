@@ -32,14 +32,26 @@ export class App {
     this.initializeRouteFallback()
     this.initializeErrorHandling()
   }
-
+  
   private initializeMiddlewares() {
+    const allowedOrigins = [
+      'https://sparklines.vercel.app',
+      'https://sparklines.samay15jan.xyz',
+      'http://localhost:3000'
+    ];
+  
     this.app.use(morgan(this.config.log.format))
     this.app.use(cors({
-      origin: 'https://sparklines.vercel.app',
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, origin);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       methods: ['GET', 'POST', 'OPTIONS'],
-      credentials: false,
-      allowedHeaders: ['Content-Type', 'userId', 'Authorization', 'Referer'],
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'userId', 'Authorization'],
     }))
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))

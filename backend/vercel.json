@@ -6,12 +6,8 @@
       "source": "(.*)",
       "headers": [
         {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
           "key": "Access-Control-Allow-Headers",
-          "value": "userid, Authorization, Content-Type, *"
+          "value": "userid, Authorization, Content-Type"
         },
         {
           "key": "Access-Control-Allow-Methods",
@@ -28,10 +24,6 @@
         {
           "key": "Github",
           "value": "https://github.com/samay15jan/sparklines"
-        },
-        {
-          "key": "Access-Control-Allow-Credentials",
-          "value": "true"
         }
       ]
     }
