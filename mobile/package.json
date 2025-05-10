@@ -45,7 +45,8 @@
     "react-native-webview": "13.13.5",
     "tailwindcss": "^3.4.17",
     "zustand": "^5.0.4",
-    "expo-dev-client": "~5.1.8"
+    "expo-dev-client": "~5.1.8",
+    "expo-build-properties": "~0.14.6"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
