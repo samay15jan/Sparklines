@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "sparklines-mobile",
-    "slug": "sparklines-mobile",
+    "name": "sparklines",
+    "slug": "Sparklines",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/music.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,13 +14,18 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/music.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#1B1B1E",
+          "dark": {
+            "image": "./assets/images/music.png",
+            "backgroundColor": "#1B1B1E"
+          }
         }
       ],
-      "expo-audio"
+      "expo-audio",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -28,6 +33,22 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "5abccdaa-a48b-4e1c-a9f3-c63560856525"
+      }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.samay15jan.sparklines"
+    },
+    "ios": {
+      "bundleIdentifier": "com.samay15jan.sparklines",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     }
   }

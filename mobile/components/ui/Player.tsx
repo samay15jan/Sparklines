@@ -6,10 +6,13 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { useAudioPlayback } from '@/hooks/useAudioPlayback';
 import { Colors } from '@/constants/Colors';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { BlurView } from 'expo-blur';
 
 const blurhash = '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 export default function Player() {
+  const router = useRouter()
   const [togglePlayback, setTogglePlayback] = useState(false);
   const [toggleMenus, setToggleMenus] = useState(false);
   const { currentSong, currentTime, duration } = useAudioPlayback();
@@ -24,8 +27,21 @@ export default function Player() {
   ];
 
   return (
-    <>
-      <View style={{ backgroundColor: '#1B1B1E' }} className="w-full shadow-xl border-2 py-2 border-white">
+    <TouchableOpacity onPress={() => router.navigate('/player')}>
+      <Image
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
+        source={{
+          uri: currentSong?.image?.[0]?.link || 'https://picsum.photos/seed/696/3000/2000',
+        }}
+        contentFit="cover"
+      />
+      <BlurView className='absolute' style={{ width: '100%', height: '100%' }} intensity={100} />
+
+      <View className="w-full shadow-xl border-2 py-2">
         <View className="flex-row justify-between items-center w-full">
           {/* Song Info */}
           <View style={{ width: 280 }}>
@@ -91,6 +107,6 @@ export default function Player() {
           }}
         />
       </View>
-    </>
+    </TouchableOpacity>
   );
 }

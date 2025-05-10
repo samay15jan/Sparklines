@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { useAudioPlayer } from 'expo-audio';
+import { useAudioPlayer, setAudioModeAsync } from 'expo-audio';
 import { getSongDetails } from "@/hooks/api";
 import { useAudioStore } from "@/store/useAudioStore";
 
 export function useAudioPlayback() {
   const player = useAudioPlayer();
+  setAudioModeAsync({
+    playsInSilentMode: true,
+    shouldPlayInBackground: false,
+  })
 
   const currentSong = useAudioStore((state) => state.currentSong);
   const setCurrentSong = useAudioStore((state) => state.setCurrentSong);

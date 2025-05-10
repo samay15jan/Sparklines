@@ -1,0 +1,49 @@
+name: Build Unsigned iOS Dev Client
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          npm install -g expo-cli
+          npm install
+
+      - name: Prebuild native code
+        run: npx expo prebuild --platform ios
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
+      - name: Build iOS App (unsigned)
+        run: |
+          cd ios
+          xcodebuild -workspace sparklines.xcworkspace -scheme sparklines -sdk iphoneos -configuration Debug -derivedDataPath build
+
+      - name: Export .ipa
+        run: |
+          mkdir -p Payload
+          cp -r build/Build/Products/Debug-iphoneos/sparklines.app Payload/
+          zip -r sparklines.ipa Payload
+          mv sparklines.ipa ../
+        working-directory: ios
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: sparklines-ipa
+          path: sparklines.ipa
