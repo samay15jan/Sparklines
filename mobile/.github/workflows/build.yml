@@ -5,46 +5,51 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install Dependencies
+      - name: Install Expo & dependencies
         run: |
           npm install -g expo-cli
-          npm install
+          npm ci
 
-      - name: Prebuild native code
-        run: npx expo prebuild --platform ios
+      - name: Run Expo prebuild
+        run: npx expo prebuild --platform ios --clean
 
-      - name: Build iOS App (unsigned)
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods -v 1.15.2
+          cd ios
+          pod install
+
+      - name: Build iOS .app (unsigned)
         run: |
           cd ios
           xcodebuild -workspace sparklines.xcworkspace \
             -scheme sparklines \
+            -configuration Release \
             -sdk iphoneos \
-            -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY=""
 
-      - name: Export .ipa
+      - name: Package .ipa
         run: |
           mkdir -p Payload
-          cp -r build/Build/Products/Debug-iphoneos/sparklines.app Payload/
+          cp -r ios/build/Build/Products/Release-iphoneos/sparklines.app Payload/
           zip -r sparklines.ipa Payload
-          mv sparklines.ipa ../
-        working-directory: ios
+          mv sparklines.ipa $GITHUB_WORKSPACE
 
-      - name: Upload IPA
+      - name: Upload .ipa
         uses: actions/upload-artifact@v4
         with:
           name: sparklines-ipa
