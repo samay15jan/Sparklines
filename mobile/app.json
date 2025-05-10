@@ -24,14 +24,19 @@
           }
         }
       ],
-      "expo-audio",
-      "expo-secure-store",
       "expo-build-properties",
       {
+        "android": {
+          "compileSdkVersion": 35,
+          "targetSdkVersion": 35,
+          "buildToolsVersion": "35.0.0"
+        },
         "ios": {
-          "deploymentTarget": "12.0"
+          "deploymentTarget": "15.1"
         }
-      }
+      },
+      "expo-audio",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
