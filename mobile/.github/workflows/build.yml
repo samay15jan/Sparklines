@@ -1,10 +1,10 @@
-name: Build Unsigned iOS Dev Client
+name: Build Unsigned IPA
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-ios:
     runs-on: macos-14
 
     steps:
@@ -24,34 +24,18 @@ jobs:
       - name: Run Expo prebuild
         run: npx expo prebuild --platform ios --clean
 
-      - name: Install CocoaPods
+      - name: Install Ruby & Fastlane
         run: |
-          sudo gem install cocoapods -v 1.15.2
-          cd ios
-          pod install
+          sudo gem install fastlane
+          cd ios && pod install
 
-      - name: Build iOS .app (unsigned)
+      - name: Run Fastlane
         run: |
           cd ios
-          xcodebuild -workspace sparklines.xcworkspace \
-            -scheme sparklines \
-            -configuration Debug \
-            -sdk iphoneos \
-            -destination "generic/platform=iOS" \
-            -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
-
-      - name: Package .ipa
-        run: |
-          mkdir -p Payload
-          cp -r ios/build/Build/Products/Release-iphoneos/sparklines.app Payload/
-          zip -r sparklines.ipa Payload
-          mv sparklines.ipa $GITHUB_WORKSPACE
+          fastlane build_unsigned
 
       - name: Upload .ipa
         uses: actions/upload-artifact@v4
         with:
           name: sparklines-ipa
-          path: sparklines.ipa
+          path: ios/build/*.ipa
