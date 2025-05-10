@@ -24,15 +24,17 @@ jobs:
       - name: Prebuild native code
         run: npx expo prebuild --platform ios
 
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          pod install
-
       - name: Build iOS App (unsigned)
         run: |
           cd ios
-          xcodebuild -workspace sparklines.xcworkspace -scheme sparklines -sdk iphoneos -configuration Debug -derivedDataPath build
+          xcodebuild -workspace sparklines.xcworkspace \
+            -scheme sparklines \
+            -sdk iphoneos \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
 
       - name: Export .ipa
         run: |
