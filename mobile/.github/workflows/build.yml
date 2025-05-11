@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repo
@@ -29,7 +29,7 @@ jobs:
 
       - name: Create ExportOptions.plist
         run: |
-          cat <<EOF > ExportOptions.plist
+          cat <<EOF > ios/ExportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
           "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -46,35 +46,30 @@ jobs:
           </dict>
           </plist>
           EOF
-          
-      - name: Patch AutoSizingStack.swift
-        run: |
-          sed -i '' '/\.onGeometryChange/d' node_modules/expo-modules-core/ios/Core/Views/SwiftUI/AutoSizingStack.swift
 
-      - name: List Scheme
+      - name: Patch AutoSizingStack.swift (disable onGeometryChange)
         run: |
-          cd ios
-          xcodebuild -list -workspace sparklines.xcworkspace
+          sed -i '' 's/\.onGeometryChange([^)]*)/.onAppear {}/' node_modules/expo-modules-core/ios/Core/Views/SwiftUI/AutoSizingStack.swift      
       
       - name: Build iOS archive (unsigned)
         run: |
           xcodebuild \
-            -workspace sparklines.xcworkspace \
+            -workspace ios/sparklines.xcworkspace \
             -scheme sparklines \
             -configuration Release clean archive \
             -sdk iphoneos \
-            -archivePath ../build/sparklines.xcarchive \
+            -archivePath build/sparklines.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_IDENTITY=""
 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
-            -archivePath ../build/sparklines.xcarchive \
+            -archivePath build/sparklines.xcarchive \
             -exportOptionsPlist ios/ExportOptions.plist \
             -exportPath build/IPAExport
-          mv build/IPAExport/sparklines.ipa $GITHUB_WORKSPACE/
+          mv build/IPAExport/*.ipa $GITHUB_WORKSPACE/sparklines.ipa
 
       - name: Upload .ipa
         uses: actions/upload-artifact@v4
