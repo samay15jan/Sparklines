@@ -1,4 +1,3 @@
-
 name: Build Unsigned iOS Dev Client
 
 on:
@@ -21,33 +20,56 @@ jobs:
         run: |
           npm install -g expo-cli
           npm ci
-          npx expo prebuild --platform ios --clean
 
-      - name: Install CocoaPods
+      - name: Prebuild and Install CocoaPods
         run: |
-          sudo gem install cocoapods -v 1.15.2
+          npx expo prebuild --platform ios --clean
           cd ios
           pod install
 
-      - name: Build iOS .app (unsigned)
+      - name: Create ExportOptions.plist
+        run: |
+          cat <<EOF > ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+          "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>development</string>
+              <key>signingStyle</key>
+              <string>automatic</string>
+              <key>stripSwiftSymbols</key>
+              <true/>
+              <key>compileBitcode</key>
+              <false/>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Build iOS archive (unsigned)
         run: |
           cd ios
-          xcodebuild -workspace sparklines.xcworkspace \
+          xcodebuild archive \
+            -workspace sparklines.xcworkspace \
             -scheme sparklines \
             -configuration Release \
             -sdk iphoneos \
-            -destination "generic/platform=iOS" \
-            -derivedDataPath build \
+            -allowProvisioningUpdates \
+            -destination 'generic/platform=iOS' \
+            -archivePath ../build/sparklines.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            EXCLUDED_ARCHS=arm64
+            -quiet
 
-      - name: Package .ipa
+      - name: Export IPA
         run: |
-          mkdir -p Payload
-          cp -r ios/build/Build/Products/Release-iphoneos/sparklines.app Payload/
-          zip -r sparklines.ipa Payload
-          mv sparklines.ipa $GITHUB_WORKSPACE
+          xcodebuild -exportArchive \
+            -archivePath build/sparklines.xcarchive \
+            -exportOptionsPlist ios/ExportOptions.plist \
+            -exportPath build/IPAExport
+          mv build/IPAExport/sparklines.ipa $GITHUB_WORKSPACE/
 
       - name: Upload .ipa
         uses: actions/upload-artifact@v4
