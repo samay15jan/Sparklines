@@ -50,27 +50,28 @@ jobs:
       - name: Patch AutoSizingStack.swift
         run: |
           sed -i '' '/\.onGeometryChange/d' node_modules/expo-modules-core/ios/Core/Views/SwiftUI/AutoSizingStack.swift
+
+      - name: List Scheme
+        run: |
+          cd ios
+          xcodebuild -list -project sparklines.xcworkspace
       
       - name: Build iOS archive (unsigned)
         run: |
-          cd ios
-          xcodebuild archive \
+          xcodebuild \
             -workspace sparklines.xcworkspace \
             -scheme sparklines \
-            -configuration Release \
+            -configuration Release clean archive \
             -sdk iphoneos \
-            -allowProvisioningUpdates \
-            -destination 'generic/platform=iOS' \
             -archivePath ../build/sparklines.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            -quiet
 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
-            -archivePath build/sparklines.xcarchive \
+            -archivePath ../build/sparklines.xcarchive \
             -exportOptionsPlist ios/ExportOptions.plist \
             -exportPath build/IPAExport
           mv build/IPAExport/sparklines.ipa $GITHUB_WORKSPACE/
