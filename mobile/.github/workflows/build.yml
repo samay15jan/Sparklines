@@ -69,12 +69,12 @@ jobs:
 
       - name: Export IPA
         run: |
-          xcodebuild -exportArchive \
-            -archivePath build/sparklines.xcarchive \
-            -exportOptionsPlist ios/ExportOptions.plist \
-            -exportPath build/IPAExport
-          mv build/IPAExport/*.ipa $GITHUB_WORKSPACE/sparklines.ipa
-
+          cd build/sparklines.xcarchive/Products/Applications
+          mkdir -p Payload
+          cp -r Sparklines.app Payload/
+          zip -r sparklines.ipa Payload
+          mv sparklines.ipa $GITHUB_WORKSPACE/
+      
       - name: Upload .ipa
         uses: actions/upload-artifact@v4
         with:
