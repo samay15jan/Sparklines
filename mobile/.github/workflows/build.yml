@@ -54,7 +54,7 @@ jobs:
       - name: List Scheme
         run: |
           cd ios
-          xcodebuild -list -project sparklines.xcworkspace
+          xcodebuild -list -workspace sparklines.xcworkspace
       
       - name: Build iOS archive (unsigned)
         run: |
