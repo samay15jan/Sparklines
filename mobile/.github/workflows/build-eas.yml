@@ -1,0 +1,25 @@
+name: Build Unsigned iOS Dev Client
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Expo & dependencies
+        run: |
+          npm install -g expo-cli
+          npm ci
+
+      - name: Building
+        run: npx expo run:ios --device
