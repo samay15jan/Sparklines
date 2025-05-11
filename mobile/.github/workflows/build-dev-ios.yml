@@ -1,4 +1,4 @@
-name: Build Unsigned iOS Dev Client
+name: Build iOS Dev Client
 
 on:
   workflow_dispatch:
@@ -25,42 +25,21 @@ jobs:
           npm install -g expo-cli
           npm ci
 
+      - name: Add expo-dev-client
+        run: npx expo install expo-dev-client
+        
       - name: Prebuild and Install CocoaPods
         run: |
           npx expo prebuild --platform ios --clean
           cd ios
           pod install
-
-      - name: Create ExportOptions.plist
-        run: |
-          cat <<EOF > ios/ExportOptions.plist
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-          "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-              <key>method</key>
-              <string>development</string>
-              <key>signingStyle</key>
-              <string>automatic</string>
-              <key>stripSwiftSymbols</key>
-              <true/>
-              <key>compileBitcode</key>
-              <false/>
-          </dict>
-          </plist>
-          EOF
-
-      # - name: Patch AutoSizingStack.swift (disable onGeometryChange)
-      #   run: |
-      #     sed -i '' 's/\.onGeometryChange([^)]*)/.onAppear {}/' node_modules/expo-modules-core/ios/Core/Views/SwiftUI/AutoSizingStack.swift      
       
       - name: Build iOS archive (unsigned)
         run: |
           xcodebuild \
             -workspace ios/sparklines.xcworkspace \
             -scheme sparklines \
-            -configuration Release clean archive \
+            -configuration Debug clean archive \
             -sdk iphoneos \
             -archivePath build/sparklines.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
