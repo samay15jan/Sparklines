@@ -46,7 +46,11 @@ jobs:
           </dict>
           </plist>
           EOF
-
+          
+      - name: Patch AutoSizingStack.swift
+        run: |
+          sed -i '' '/\.onGeometryChange/d' node_modules/expo-modules-core/ios/Core/Views/SwiftUI/AutoSizingStack.swift
+      
       - name: Build iOS archive (unsigned)
         run: |
           cd ios
