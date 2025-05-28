@@ -21,16 +21,13 @@
       # Runs when a workspace restarted
       onStart = {
         android = ''
-          echo -e "\033[1;33mWaiting for Android emulator to be ready...\033[0m"
-          # Wait for the device connection command to finish
-          adb -s emulator-5554 wait-for-device && \
-          npm run android -- --tunnel
+          npm run dev
         '';
       };
     };
     # Enable previews and customize configuration
     previews = {
-      enable = true;
+      enable = false;
       previews = {
         web = {
           command = [ "npm" "run" "web" "--" "--port" "$PORT" ];

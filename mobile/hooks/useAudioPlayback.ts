@@ -5,17 +5,22 @@ import { useAudioStore } from "@/store/useAudioStore";
 
 export function useAudioPlayback() {
   const player = useAudioPlayer();
-  setAudioModeAsync({
-    playsInSilentMode: true,
-    shouldPlayInBackground: false,
-  })
+
+  useEffect(() => {
+    setAudioModeAsync({
+      playsInSilentMode: true,
+      shouldPlayInBackground: false,
+    });
+  }, []);
 
   const currentSong = useAudioStore((state) => state.currentSong);
+  const currentTime = useAudioStore((state) => state.currentTime);
+  const duration = useAudioStore((state) => state.duration);
+  const status = useAudioStore((state) => state.status);
   const setCurrentSong = useAudioStore((state) => state.setCurrentSong);
   const setCurrentTime = useAudioStore((state) => state.setCurrentTime);
   const setDuration = useAudioStore((state) => state.setDuration);
-  const currentTime = useAudioStore((state) => state.currentTime);
-  const duration = useAudioStore((state) => state.duration);
+  const setStatus = useAudioStore((state) => state.setStatus);
 
   const prevCurrentTime = useRef(currentTime);
   const rafId = useRef<number>(-1);
@@ -47,7 +52,7 @@ export function useAudioPlayback() {
       if (response?.status === 'SUCCESS' && audioSource) {
         setCurrentSong(response.data[0]);
         player.replace(audioSource);
-        player.play();
+        player.play()
 
         setTimeout(() => {
           const dur = player.duration ?? 0;
@@ -59,10 +64,42 @@ export function useAudioPlayback() {
     }
   };
 
+  useEffect(() => {
+    if (!player) return;
+  
+    const controlPlayback = () => {
+      try {
+        if (status === 'paused') {
+           player.pause();
+        } else if (status === 'playing') {
+           player.play();
+        }
+      } catch (err) {
+        console.error('Playback control failed:', err);
+      }
+    };
+  
+    controlPlayback();
+  }, [status, player]);
+  
+
+  const togglePlayPause =  (action: 'play' | 'pause') => {
+    if (!player || !currentSong) return;
+
+    if (action === 'pause') {
+      setStatus("paused");
+    }
+    if (action === 'play') {
+      setStatus("playing");
+    }
+  };
+
   return {
     currentSong,
     currentTime,
     duration,
+    status,
     setNewSong,
+    togglePlayPause,
   };
 }

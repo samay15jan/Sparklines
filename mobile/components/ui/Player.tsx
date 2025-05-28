@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -13,9 +13,9 @@ const blurhash = '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWX
 
 export default function Player() {
   const router = useRouter()
-  const [togglePlayback, setTogglePlayback] = useState(false);
+  const [togglePlayback, setTogglePlayback] = useState(true);
   const [toggleMenus, setToggleMenus] = useState(false);
-  const { currentSong, currentTime, duration } = useAudioPlayback();
+  const { currentSong, currentTime, duration, togglePlayPause } = useAudioPlayback();
 
   const progress = (duration && currentTime)
     ? Math.min(Math.max((currentTime / duration) * 100, 0), 100)
@@ -25,6 +25,16 @@ export default function Player() {
     { id: '1', data: currentSong },
     { id: '2', data: currentSong }
   ];
+
+  useEffect(() => {
+    if (!currentSong) return;
+  
+    if (togglePlayback) {
+      togglePlayPause('play');
+    } else {
+      togglePlayPause('pause');
+    }
+  }, [togglePlayback]);
 
   return (
     <TouchableOpacity onPress={() => router.navigate('/player')}>

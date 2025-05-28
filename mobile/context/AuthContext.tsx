@@ -30,15 +30,16 @@ export const AuthProvider = ({ children }: any) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await handleLogin(email, password);
-      if (response?.apiToken) {
-        await SecureStore.setItemAsync('userToken', response.apiToken);
-        setUserToken(response.apiToken);
-        setError(null);
-        router.replace('/');
-      } else {
-        return setError(response.errors)
-      }
+      router.replace('/');
+      // const response = await handleLogin(email, password);
+      // if (response?.apiToken) {
+      //   await SecureStore.setItemAsync('userToken', response.apiToken);
+      //   setUserToken(response.apiToken);
+      //   setError(null);
+      //   router.replace('/');
+      // } else {
+      //   return setError(response.errors)
+      // }
     } catch (e) {
       console.error('Login failed:', e);
     }
