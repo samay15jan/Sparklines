@@ -23,9 +23,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { gethomepageData } from '@/hooks/api';
 import { Artists } from '@/components/ui/Artists';
 import Cards from '@/components/ui/Cards';
-import Player from '@/components/ui/Player';
 import PullToSearch from '@/components/Search';
-import { Colors } from '@/constants/Colors';
+import { useRouter } from 'expo-router';
 
 const INITIAL_INPUT_Y = -50;
 const DELAY_RESET = 2000;
@@ -42,6 +41,7 @@ type HomePageData = {
 };
 
 export default function HomeScreen() {
+  const router = useRouter()
   const [homePageData, setHomepageData] = React.useState<HomePageData>({
     songs: [],
     albums: [],
@@ -122,7 +122,7 @@ export default function HomeScreen() {
           >
             <View className="flex-row py-4 justify-between items-center px-[24px]">
               <View className="flex-row gap-4">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.navigate('/setting')}>
                   <Image
                     className="w-14 h-14 rounded-full"
                     source={require('@/assets/images/profile-logo.png')}
@@ -153,10 +153,6 @@ export default function HomeScreen() {
             <Cards title="Charts" data={homePageData?.charts} />
           </Animated.ScrollView>
         </KeyboardAvoidingView>
-
-        <View className="absolute w-full justify-center bottom-0">
-          <Player />
-        </View>
       </SafeAreaView>
     </GestureDetector>
   );

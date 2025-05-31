@@ -6,7 +6,7 @@ export default function Background({ url }: any) {
   return (
     <>
       <Image
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
+        style={{ position: 'absolute', width: '100%', height: '100%', }}
         source={{ uri: url || 'https://picsum.photos/seed/696/3000/2000' }}
         contentFit="cover"
       />

@@ -28,7 +28,7 @@ export default function Player() {
 
   useEffect(() => {
     if (!currentSong) return;
-  
+
     if (togglePlayback) {
       togglePlayPause('play');
     } else {
@@ -37,86 +37,90 @@ export default function Player() {
   }, [togglePlayback]);
 
   return (
-    <TouchableOpacity onPress={() => router.navigate('/player')}>
-      <Image
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-        }}
-        source={{
-          uri: currentSong?.image?.[0]?.link || 'https://picsum.photos/seed/696/3000/2000',
-        }}
-        contentFit="cover"
-      />
-      <BlurView className='absolute' style={{ width: '100%', height: '100%' }} intensity={100} />
+    <>
+      {currentTime != 0 &&
+        <TouchableOpacity onPress={() => router.navigate('/player')}>
+          <Image
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+            }}
+            source={{
+              uri: currentSong?.image?.[0]?.link || 'https://picsum.photos/seed/696/3000/2000',
+            }}
+            contentFit="cover"
+          />
+          <BlurView className='absolute' style={{ width: '100%', height: '100%' }} intensity={100} />
 
-      <View className="w-full shadow-xl border-2 py-2">
-        <View className="flex-row justify-between items-center w-full">
-          {/* Song Info */}
-          <View style={{ width: 280 }}>
-            <View className="flex-row items-center gap-4">
-              <Image
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 8,
-                  backgroundColor: '#0553',
-                  marginLeft: 20,
-                }}
-                source={currentSong?.image?.[2]?.link || 'https://picsum.photos/seed/696/3000/2000'}
-                placeholder={{ blurhash }}
-                contentFit="cover"
-                transition={1000}
-              />
-              <FlatList
-                data={songsData}
-                keyExtractor={(item) => item.id}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <View style={{ width: 210 }}>
-                    <Text className="text-white text-lg font-semibold">
-                      {item?.data?.name?.slice(0, 28) || 'Track Name'}
-                    </Text>
-                    <Text className="text-white text-sm">
-                      {item?.data?.primaryArtists?.slice(0, 20) || 'Artist'}
-                    </Text>
-                  </View>
-                )}
-              />
+          <View className="w-full shadow-xl border-2 py-2">
+            <View className="flex-row justify-between items-center w-full">
+              {/* Song Info */}
+              <View style={{ width: 280 }}>
+                <View className="flex-row items-center gap-4">
+                  <Image
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 8,
+                      backgroundColor: '#0553',
+                      marginLeft: 20,
+                    }}
+                    source={currentSong?.image?.[2]?.link || 'https://picsum.photos/seed/696/3000/2000'}
+                    placeholder={{ blurhash }}
+                    contentFit="cover"
+                    transition={1000}
+                  />
+                  <FlatList
+                    data={songsData}
+                    keyExtractor={(item) => item.id}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                      <View style={{ width: 210 }}>
+                        <Text className="text-white text-lg font-semibold">
+                          {item?.data?.name?.slice(0, 28) || 'Track Name'}
+                        </Text>
+                        <Text className="text-white text-sm">
+                          {item?.data?.primaryArtists?.slice(0, 20) || 'Artist'}
+                        </Text>
+                      </View>
+                    )}
+                  />
+                </View>
+              </View>
+
+              {/* Playback Controls */}
+              <View className="flex-row items-center gap-4" style={{ marginRight: 20 }}>
+                <TouchableOpacity onPress={() => setToggleMenus(!toggleMenus)}>
+                  {toggleMenus ? (
+                    <FontAwesome6 name="shuffle" size={24} color="white" />
+                  ) : (
+                    <Entypo name="loop" size={24} color="white" />
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setTogglePlayback(!togglePlayback)}>
+                  {togglePlayback ? (
+                    <FontAwesome5 name="pause" size={24} color="white" />
+                  ) : (
+                    <FontAwesome5 name="play" size={24} color="white" />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-
-          {/* Playback Controls */}
-          <View className="flex-row items-center gap-4" style={{ marginRight: 20 }}>
-            <TouchableOpacity onPress={() => setToggleMenus(!toggleMenus)}>
-              {toggleMenus ? (
-                <FontAwesome6 name="shuffle" size={24} color="white" />
-              ) : (
-                <Entypo name="loop" size={24} color="white" />
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setTogglePlayback(!togglePlayback)}>
-              {togglePlayback ? (
-                <FontAwesome5 name="pause" size={24} color="white" />
-              ) : (
-                <FontAwesome5 name="play" size={24} color="white" />
-              )}
-            </TouchableOpacity>
+          <View style={{ height: 1, backgroundColor: Colors.colors.background, width: '100%' }}>
+            <View
+              style={{
+                height: 1,
+                width: `${progress}%`,
+                backgroundColor: Colors.colors.text,
+              }}
+            />
           </View>
-        </View>
-      </View>
-      <View style={{ height: 1, backgroundColor: Colors.colors.background, width: '100%' }}>
-        <View
-          style={{
-            height: 1,
-            width: `${progress}%`,
-            backgroundColor: Colors.colors.text,
-          }}
-        />
-      </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
+      }
+    </>
   );
 }

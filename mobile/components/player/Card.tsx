@@ -1,6 +1,12 @@
-import React from "react";
-import { Image } from "expo-image";
-import { Animated as BasicAnimated, Text, TouchableWithoutFeedback, View } from "react-native";
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Animated as RNAnimated,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -12,152 +18,183 @@ import {
   GestureDetector,
   Gesture,
 } from 'react-native-gesture-handler';
-import { Ionicons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
+import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { useRouter } from 'expo-router';
 
-export default function Card({ handleTap, scale, scaleAnim, opacity, showLiked, fadeAnim, translateY, likedIcon, item, currentSong, ITEM_WIDTH, SPACING }: any) {
+export default function Card({
+  handleTap,
+  scale,
+  scaleAnim,
+  opacity,
+  showLiked,
+  fadeAnim,
+  translateY,
+  likedIcon,
+  item,
+  currentSong,
+  ITEM_WIDTH,
+  SPACING,
+}: any) {
   return (
     <TouchableWithoutFeedback onPress={handleTap}>
-      <BasicAnimated.View
+      <RNAnimated.View
         style={{
           width: ITEM_WIDTH,
           marginRight: SPACING,
           height: 500,
-          transform: [{ scale: BasicAnimated.multiply(scale, scaleAnim) }],
+          transform: [{ scale: RNAnimated.multiply(scale, scaleAnim) }],
           opacity,
           alignItems: 'center',
         }}
       >
-        <LikeHandler fadeAnim={fadeAnim} translateY={translateY} likedIcon={likedIcon} showLiked={showLiked} />
+        <LikeHandler
+          fadeAnim={fadeAnim}
+          translateY={translateY}
+          likedIcon={likedIcon}
+          showLiked={showLiked}
+        />
         <CustomImageStyle item={item?.data} />
         <HandleDetails currentSong={currentSong} />
-      </BasicAnimated.View>
+      </RNAnimated.View>
     </TouchableWithoutFeedback>
-  )
+  );
 }
 
 function CustomImageStyle({ item }: any) {
   const rotate = useSharedValue(0);
-  const [flipped, setFlipped] = React.useState(false);
+  const [flipped, setFlipped] = useState(false);
 
-  const frontAnimatedStyle = useAnimatedStyle(() => {
-    const rotation = interpolate(rotate.value, [0, 180], [0, 180]);
+  const frontStyle = useAnimatedStyle(() => {
+    const rotateY = interpolate(rotate.value, [0, 180], [0, 180]);
     return {
-      transform: [{ rotateY: `${rotation}deg` }],
+      transform: [{ rotateY: `${rotateY}deg` }],
       backfaceVisibility: 'hidden',
     };
   });
 
-  const backAnimatedStyle = useAnimatedStyle(() => {
-    const rotation = interpolate(rotate.value, [0, 180], [180, 360]);
+  const backStyle = useAnimatedStyle(() => {
+    const rotateY = interpolate(rotate.value, [0, 180], [180, 360]);
     return {
-      transform: [{ rotateY: `${rotation}deg` }],
+      transform: [{ rotateY: `${rotateY}deg` }],
+      backfaceVisibility: 'hidden',
       position: 'absolute',
       top: 0,
-      backfaceVisibility: 'hidden',
+      left: 0,
     };
   });
 
   const flipCard = () => {
-    if (flipped) {
-      rotate.value = withTiming(0, { duration: 400 });
-    } else {
-      rotate.value = withTiming(180, { duration: 400 });
-    }
-    setFlipped(!flipped);
+    rotate.value = withTiming(flipped ? 0 : 180, { duration: 400 });
+    runOnJS(setFlipped)(!flipped);
   };
 
-  const holdGesture = Gesture.LongPress()
-    .minDuration(200)
-    .onStart(() => {
-      runOnJS(flipCard)();
-    });
+  const longPress = Gesture.LongPress().minDuration(200).onStart(() => {
+    runOnJS(flipCard)();
+  });
+
+  const imageUri = item?.image?.[2]?.link || 'https://picsum.photos/seed/696/3000/2000';
 
   return (
-    <GestureDetector gesture={holdGesture}>
-      <View >
-        <Animated.View className='w-full h-full flex-row justify-center items-center z-4' style={[{ zIndex: 1 }, frontAnimatedStyle]}>
+    <GestureDetector gesture={longPress}>
+      <View
+        style={{
+          paddingTop: 40,
+          width: '100%',
+          height: '80%',
+          position: 'relative',
+        }}
+      >
+        {/* Front */}
+        <Animated.View style={[frontStyle, { width: '100%', height: '100%' }]}>
           <Image
+            source={{ uri: imageUri }}
             style={{
               width: '100%',
-              height: '80%',
+              height: '100%',
               borderRadius: 12,
-              backgroundColor: '#0553',
+              resizeMode: 'cover',
+              backgroundColor: '#ccc',
             }}
-            source={{
-              uri: item?.image?.[2]?.link || 'https://picsum.photos/seed/696/3000/2000',
-            }}
-            contentFit="cover"
-            transition={500}
           />
         </Animated.View>
-        <Animated.View className='w-full h-full flex-row justify-center items-center z-2' style={[backAnimatedStyle]}>
+
+        {/* Back */}
+        <Animated.View style={[backStyle, { width: '100%', height: '100%', marginTop: 40, }]}>
           <Image
+            source={{ uri: imageUri }}
             style={{
               width: '100%',
-              height: '80%',
+              height: '100%',
               borderRadius: 12,
-              backgroundColor: '#0553',
+              resizeMode: 'cover',
+              backgroundColor: '#ccc',
             }}
-            source={{
-              uri: item?.image?.[2]?.link || 'https://picsum.photos/seed/696/3000/2000',
-            }}
-            contentFit="cover"
-            transition={500}
           />
           <BlurView
-            className='absolute'
             style={{
+              position: 'absolute',
               width: '100%',
-              height: '80%',
+              height: '100%',
               borderRadius: 12,
             }}
             intensity={40}
           />
-          <View className="absolute text-center max-w-full h-full justify-center items-center flex-col">
-            <Text className="text-white">{item?.name}</Text>
-            <Text className="text-white">{item?.primaryArtists}</Text>
-            <Text className="text-white">{item?.album?.name}</Text>
-            <Text className="text-white">{item?.label}</Text>
-            <Text className="text-white">{item?.year}</Text>
+          <View
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}
+          >
+            <Text style={{ color: '#fff' }}>{item?.name}</Text>
+            <Text style={{ color: '#fff' }}>{item?.primaryArtists}</Text>
+            <Text style={{ color: '#fff' }}>{item?.album?.name}</Text>
+            <Text style={{ color: '#fff' }}>{item?.label}</Text>
+            <Text style={{ color: '#fff' }}>{item?.year}</Text>
           </View>
         </Animated.View>
       </View>
     </GestureDetector>
-  )
+  );
 }
 
 function LikeHandler({ fadeAnim, translateY, likedIcon, showLiked }: any) {
+  if (!showLiked) return null;
+
   return (
-    <>
-      {showLiked && (
-        <BasicAnimated.View
-          className="absolute z-10 justify-center items-center w-full h-full"
-          style={{
-            opacity: fadeAnim,
-            transform: [{ translateY }],
-          }}
-        >
-          <Ionicons
-            name={likedIcon}
-            size={55}
-            color='red'
-          />
-        </BasicAnimated.View>
-      )}
-    </>
-  )
+    <RNAnimated.View
+      style={{
+        position: 'absolute',
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        opacity: fadeAnim,
+        transform: [{ translateY }],
+      }}
+    >
+      <Ionicons name={likedIcon} size={55} color="red" />
+    </RNAnimated.View>
+  );
 }
 
 function HandleDetails({ currentSong }: any) {
+  const router = useRouter();
   return (
     <View style={{ marginVertical: 10 }}>
-      <Text className="text-white text-center text-2xl font-semibold">
+      <Text style={{ color: '#fff', fontSize: 20, fontWeight: '600', textAlign: 'center' }}>
         {currentSong?.name || 'Track Name'}
       </Text>
-      <Text className="text-white text-center text-lg">
-        {currentSong?.primaryArtists || 'Artist'}
-      </Text>
+      <TouchableOpacity onPress={() => router.navigate('/artist')}>
+        <Text style={{ color: '#fff', fontSize: 16, textAlign: 'center' }}>
+          {currentSong?.primaryArtists || 'Artist'}
+        </Text>
+      </TouchableOpacity>
     </View>
-  )
+  );
 }
