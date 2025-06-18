@@ -11,7 +11,7 @@
     "build": "retype build"
   },
   "dependencies": {
-    "retypeapp": "0.2.0"
+    "retypeapp": "^3.10.1"
   }
 }
 
