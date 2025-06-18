@@ -12,13 +12,13 @@ Search songs by query -
 HTTP
 
 ```bash
-https://saavn.me/search/songs?query=kun+faya+kun&page=1&limit=2
+https://sparklines-backend.samay15jan.xyz/search/songs?query=kun+faya+kun&page=1&limit=2
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/search/songs?query=kun+faya+kun&page=1&limit=2' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/search/songs?query=kun+faya+kun&page=1&limit=2' \
  -H 'content-type: application/json'
 ```
 

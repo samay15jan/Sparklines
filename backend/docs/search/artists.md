@@ -12,13 +12,13 @@ Search artists by query.
 HTTP
 
 ```bash
-https://saavn.me/search/artists?query=imagine+dragons
+https://sparklines-backend.samay15jan.xyz/search/artists?query=imagine+dragons
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/search/artists?query=imagine+dragons' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/search/artists?query=imagine+dragons' \
  -H 'content-type: application/json'
 ```
 

@@ -12,13 +12,13 @@ icon: play
 HTTP
 
 ```bash
-https://saavn.me/songs?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc
+https://sparklines-backend.samay15jan.xyz/songs?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/songs?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/songs?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc' \
  -H 'content-type: application/json'
 ```
 
@@ -105,13 +105,13 @@ curl -X GET 'https://saavn.me/songs?link=https://www.jiosaavn.com/song/thundercl
 HTTP
 
 ```bash
-https://saavn.me/songs?id=5WXAlMNt
+https://sparklines-backend.samay15jan.xyz/songs?id=5WXAlMNt
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/songs?id=5WXAlMNt' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/songs?id=5WXAlMNt' \
  -H 'content-type: application/json'
 ```
 
@@ -194,14 +194,14 @@ You can also pass multiple comma seperated song IDs in a single request.
 +++ Request
 
 ```bash
-https://saavn.me/songs?id=5WXAlMNt,csaEsVWV
+https://sparklines-backend.samay15jan.xyz/songs?id=5WXAlMNt,csaEsVWV
 
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/songs?id=5WXAlMNt,csaEsVWV
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/songs?id=5WXAlMNt,csaEsVWV
 ' \
  -H 'content-type: application/json'
 ```

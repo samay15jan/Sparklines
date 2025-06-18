@@ -5,7 +5,7 @@ icon: rocket
 
 # Introduction
 
-[Saavn.me](https://saavn.me) is an unofficial API for JioSaavn for downloading high-quality songs for free.
+[Sparklines Backend](https://sparklines-backend.samay15jan.xyz) is an unofficial API for JioSaavn for downloading high-quality songs for free build by [Sumit Kohle](https://github.com/sumitkolhe). I just modified and added more endpoints on top of it.
 
 ## Features
 
@@ -17,6 +17,7 @@ icon: rocket
 - ❤️ Open-Source
 - ☁️ Lightweight and has minimal dependencies.
 - 🌈 Host your own instance.
+- Secured with token based authentication.
 
 ## Local development
 
@@ -29,29 +30,34 @@ icon: rocket
 - Clone the Repo
 
   ```sh
-  git clone https://github.com/sumitkolhe/jiosaavn-api
+  git clone https://github.com/sanay15jan/sparklines-backend
 
-  cd jiosaavn-api
+  cd sparklines-backend
   ```
 
 - Install the dependencies
 
   ```sh
-  yarn install
+  npm install
   ```
 
 - Start development server
 
   ```sh
-  yarn dev
+  npm run dev
   ```
 
 ## Host your own instance
 
-You can host your own instance of JioSaavn API on vercel with a click of a button.
+You can host your own instance of Sparklines-Backend on vercel with a click of a button.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sumitkolhe/jiosaavn-api)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sanay15jan/sparklines-backend)
 
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/sumitkolhe/jiosaavn-api/blob/main/LICENSE) file for details.
+
+## NOTE
+
+There may be incorrections in this documentations.  
+Refer the actual codebase if needed :)

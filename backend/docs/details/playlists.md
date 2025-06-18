@@ -12,13 +12,13 @@ icon: log
 HTTP
 
 ```bash
-https://saavn.me/playlists?id=159144718
+https://sparklines-backend.samay15jan.xyz/playlists?id=159144718
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/playlists?id=159144718' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/playlists?id=159144718' \
  -H 'content-type: application/json'
 ```
 

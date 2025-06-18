@@ -12,13 +12,13 @@ icon: stack
 HTTP
 
 ```bash
-https://saavn.me/albums?link=https://www.jiosaavn.com/album/night-visions/xe6Gx7Sg12U_
+https://sparklines-backend.samay15jan.xyz/albums?link=https://www.jiosaavn.com/album/night-visions/xe6Gx7Sg12U_
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/albums?link=https://www.jiosaavn.com/album/night-visions/xe6Gx7Sg12U_' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/albums?link=https://www.jiosaavn.com/album/night-visions/xe6Gx7Sg12U_' \
  -H 'content-type: application/json'
 ```
 
@@ -839,13 +839,13 @@ curl -X GET 'https://saavn.me/albums?link=https://www.jiosaavn.com/album/night-v
 HTTP
 
 ```bash
-https://saavn.me/albums?id=1142502
+https://sparklines-backend.samay15jan.xyz/albums?id=1142502
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/albums?id=1142502' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/albums?id=1142502' \
  -H 'content-type: application/json'
 ```
 

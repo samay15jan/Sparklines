@@ -1,0 +1,132 @@
+{
+  "version": "3.6.0",
+  "created": "2025-06-18T01:28:49Z",
+  "files": [
+    {
+      "path": ".nojekyll"
+    },
+    {
+      "path": "404.html"
+    },
+    {
+      "path": "actions/generatetoken/index.html"
+    },
+    {
+      "path": "actions/imageuploader/index.html"
+    },
+    {
+      "path": "actions/likedmusic/index.html"
+    },
+    {
+      "path": "actions/recentlyplayed/index.html"
+    },
+    {
+      "path": "actions/updatefollowing/index.html"
+    },
+    {
+      "path": "auth/login/index.html"
+    },
+    {
+      "path": "auth/register/index.html"
+    },
+    {
+      "path": "CNAME"
+    },
+    {
+      "path": "details/albums/index.html"
+    },
+    {
+      "path": "details/artists/index.html"
+    },
+    {
+      "path": "details/playlists/index.html"
+    },
+    {
+      "path": "details/songs/index.html"
+    },
+    {
+      "path": "index.html"
+    },
+    {
+      "path": "lyrics/index.html"
+    },
+    {
+      "path": "modules/index.html"
+    },
+    {
+      "path": "playlist/createplaylist/index.html"
+    },
+    {
+      "path": "playlist/updateplaylist/index.html"
+    },
+    {
+      "path": "resources/css/retype.css"
+    },
+    {
+      "path": "resources/fonts/Inter-italic-latin-var.woff2"
+    },
+    {
+      "path": "resources/fonts/Inter-roman-latin-var.woff2"
+    },
+    {
+      "path": "resources/js/config.js"
+    },
+    {
+      "path": "resources/js/lunr.js"
+    },
+    {
+      "path": "resources/js/prism.js"
+    },
+    {
+      "path": "resources/js/retype.js"
+    },
+    {
+      "path": "resources/js/search.json"
+    },
+    {
+      "path": "resources/lunr.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/mermaid.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/prism.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/retype.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/retype.LICENSE.txt"
+    },
+    {
+      "path": "robots.txt"
+    },
+    {
+      "path": "search/albums/index.html"
+    },
+    {
+      "path": "search/all/index.html"
+    },
+    {
+      "path": "search/artists/index.html"
+    },
+    {
+      "path": "search/playlists/index.html"
+    },
+    {
+      "path": "search/songs/index.html"
+    },
+    {
+      "path": "sitemap.xml.gz"
+    },
+    {
+      "path": "user/addlanguage/index.html"
+    },
+    {
+      "path": "user/fetchprofile/index.html"
+    },
+    {
+      "path": "user/updatedata/index.html"
+    }
+  ]
+}

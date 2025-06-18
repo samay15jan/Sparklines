@@ -12,13 +12,13 @@ Search albums by query.
 HTTP
 
 ```bash
-https://saavn.me/search/albums?query=rockstar
+https://sparklines-backend.samay15jan.xyz/search/albums?query=rockstar
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/search/albums?query=rockstar' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/search/albums?query=rockstar' \
  -H 'content-type: application/json'
 ```
 

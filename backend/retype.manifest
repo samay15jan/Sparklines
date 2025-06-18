@@ -1,0 +1,138 @@
+{
+  "version": "3.6.0",
+  "created": "2025-06-18T01:26:44Z",
+  "files": [
+    {
+      "path": ".nojekyll"
+    },
+    {
+      "path": "404.html"
+    },
+    {
+      "path": "docs/actions/generatetoken/index.html"
+    },
+    {
+      "path": "docs/actions/imageuploader/index.html"
+    },
+    {
+      "path": "docs/actions/likedmusic/index.html"
+    },
+    {
+      "path": "docs/actions/recentlyplayed/index.html"
+    },
+    {
+      "path": "docs/actions/updatefollowing/index.html"
+    },
+    {
+      "path": "docs/auth/login/index.html"
+    },
+    {
+      "path": "docs/auth/register/index.html"
+    },
+    {
+      "path": "docs/details/albums/index.html"
+    },
+    {
+      "path": "docs/details/artists/index.html"
+    },
+    {
+      "path": "docs/details/playlists/index.html"
+    },
+    {
+      "path": "docs/details/songs/index.html"
+    },
+    {
+      "path": "docs/index.html"
+    },
+    {
+      "path": "docs/lyrics/index.html"
+    },
+    {
+      "path": "docs/modules/index.html"
+    },
+    {
+      "path": "docs/playlist/createplaylist/index.html"
+    },
+    {
+      "path": "docs/playlist/updateplaylist/index.html"
+    },
+    {
+      "path": "docs/search/albums/index.html"
+    },
+    {
+      "path": "docs/search/all/index.html"
+    },
+    {
+      "path": "docs/search/artists/index.html"
+    },
+    {
+      "path": "docs/search/playlists/index.html"
+    },
+    {
+      "path": "docs/search/songs/index.html"
+    },
+    {
+      "path": "docs/user/addlanguage/index.html"
+    },
+    {
+      "path": "docs/user/fetchprofile/index.html"
+    },
+    {
+      "path": "docs/user/updatedata/index.html"
+    },
+    {
+      "path": "favicon.ico"
+    },
+    {
+      "path": "index.html"
+    },
+    {
+      "path": "public/favicon.ico"
+    },
+    {
+      "path": "resources/css/retype.css"
+    },
+    {
+      "path": "resources/fonts/Inter-italic-latin-var.woff2"
+    },
+    {
+      "path": "resources/fonts/Inter-roman-latin-var.woff2"
+    },
+    {
+      "path": "resources/js/config.js"
+    },
+    {
+      "path": "resources/js/lunr.js"
+    },
+    {
+      "path": "resources/js/prism.js"
+    },
+    {
+      "path": "resources/js/retype.js"
+    },
+    {
+      "path": "resources/js/search.json"
+    },
+    {
+      "path": "resources/lunr.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/mermaid.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/prism.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/retype.js.LICENSE.txt"
+    },
+    {
+      "path": "resources/retype.LICENSE.txt"
+    },
+    {
+      "path": "robots.txt"
+    },
+    {
+      "path": "sitemap.xml.gz"
+    }
+  ]
+}

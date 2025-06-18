@@ -1,15 +1,15 @@
 input: .
 output: ./public
-url: https://docs.saavn.me
+url: https://docs.sparklines-backend.samay15jan.xyz
 branding:
   title: Sparklines
   label: Docs
 links:
   - text: API
-    link: https://saavn.me
+    link: https://docs.sparklines-backend.samay15jan.xyz
   - text: Github
     link: https://github.com/samay15jan/sparklines
   - text: Author
-    link: https://codedbysamay.onrender.com
+    link: https://samay15jan.xyz
 footer:
   copyright: '&copy; Copyright {{ year }}. All rights reserved.'
