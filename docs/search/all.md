@@ -12,13 +12,13 @@ Search songs, albums, playlists, artists, etc with a query.
 HTTP
 
 ```bash
-https://saavn.me/search/all?query=imagine+dragons
+https://sparklines-backend.samay15jan.xyz/search/all?query=imagine+dragons
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/search/all?query=imagine+dragons' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/search/all?query=imagine+dragons' \
  -H 'content-type: application/json'
 ```
 

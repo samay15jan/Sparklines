@@ -14,13 +14,13 @@ Get launch data from <https://jiosaavn.com> homepage for different modules such 
 HTTP
 
 ```bash
-https://saavn.me/modules?language=hindi,english
+https://sparklines-backend.samay15jan.xyz/modules?language=hindi,english
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/modules?language=hindi,english' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/modules?language=hindi,english' \
  -H 'content-type: application/json'
 ```
 

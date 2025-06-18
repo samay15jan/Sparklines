@@ -12,13 +12,13 @@ Search artists by query.
 HTTP
 
 ```bash
-https://saavn.me/search/playlists?query=sia
+https://sparklines-backend.samay15jan.xyz/search/playlists?query=sia
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/search/playlists?query=sia' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/search/playlists?query=sia' \
  -H 'content-type: application/json'
 ```
 

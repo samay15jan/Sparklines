@@ -1,27 +1,27 @@
 ---
-order: 1
-icon: note
+order: 210
+icon: lyrics
 ---
 
-# Lyrics
+# Get Lyrics
 
-## Song lyrics by song ID
+### Fetch lyrics for a specific song
 
-> Lyrics are only available for a limited set of songs.
+Returns the lyrics for a song based on its name and optional artist name.
 
 +++ Request
 
 HTTP
 
 ```bash
-https://saavn.me/lyrics?id=mPTrDSun
+GET https://sparklines-backend.samay15jan.xyz/lyrics?songName=Kesariya&artistName=Arijit%20Singh
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/lyrics?id=mPTrDSun' \
- -H 'content-type: application/json'
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/lyrics?songName=Kesariya&artistName=Arijit%20Singh' \
+ -H 'Content-Type: application/json'
 ```
 
 +++ Response
@@ -29,17 +29,18 @@ curl -X GET 'https://saavn.me/lyrics?id=mPTrDSun' \
 ```json
 {
   "status": "SUCCESS",
-  "message": null,
+  "message": "Lyrics fetched successfully",
   "data": {
-    "lyrics": "Teri-meri galaan ho gayi mashahoor Kar na kabhi tu mujhe nazron se door Kitthe challie? Tu kitthe challie? Tu kitthe challie? (kitthe challie?)  Jaanda ae dil, ye to jaandi ae tu Tere bina main na rahoon, mere bina tu Kitthe challie? Tu kitthe challie? Tu kitthe challie? (kitthe challie)  Kaatoon kaise raataan, o, saanware? Jeeya nahin jaata, sun baavre  Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re  Cham-cham-cham ambraan de taare kahinde ne, sajjna Tu hi chann mere is dil da, mann lai ve, sajjna Tere bina mera hove na guzaara Chadd ke na jaavin mainu, tu hi hai sahaara  Kaatoon kaise raataan, o, saanware? Jeeya nahin jaata, sun baavre  Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re  Teri-meri galaan ho gayi mashahoor Kar na kabhi tu mainu nazron se door Picche challie, tere picche challie, tere picche challie  Jaanda ae dil, ye to jaandi ae tu Tere bina main na rahoon, mere bina tu Kitthe challie? Tu kitthe challie? Tu kitthe challie? (kitthe challie?)  Kaatoon kaise raataan, o, saanware? Jeeya nahin jaata, sun baavre  Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re  Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re Ki raataan lambiaan-lambiaan re Katein tere sangi aan, sangi aa re",
-    "snippet": "Ki raataan lambiaan-lambiaan re",
-    "copyright": "Writer(s): Tanishk Baagchi Daas, Renuka Panwar<br>Lyrics powered by www.musixmatch.com"
+    "lyrics": "Kesariya tera ishq hai piya...",
+    "songName": "Kesariya",
+    "artistName": "Arijit Singh"
   }
 }
 ```
 
 +++
 
-| Query Paramter                                | Description                           | Required                               |
-| --------------------------------------- | ------------------------------------- | -------------------------------------- |
-| [!badge variant="contrast" text="id"] | Song ID | [!badge variant="primary" text="True"] |
+| Query Parameter                                  | Description                          | Required                                |
+| ------------------------------------------------ | ------------------------------------ | --------------------------------------- |
+| [!badge variant="contrast" text="songName"]      | Name of the song                     | [!badge variant="primary" text="True"]  |
+| [!badge variant="contrast" text="artistName"]    | Name of the artist (optional)        | [!badge variant="primary" text="False"] |

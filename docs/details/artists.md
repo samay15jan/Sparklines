@@ -12,13 +12,13 @@ icon: person-fill
 HTTP
 
 ```bash
-https://saavn.me/artists?link=https://www.jiosaavn.com/artist/sia-/C4hxFiXrHws_
+https://sparklines-backend.samay15jan.xyz/artists?link=https://www.jiosaavn.com/artist/sia-/C4hxFiXrHws_
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/artists?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/artists?link=https://www.jiosaavn.com/song/thunderclouds/RT8zcBh9eUc' \
  -H 'content-type: application/json'
 ```
 
@@ -86,13 +86,13 @@ curl -X GET 'https://saavn.me/artists?link=https://www.jiosaavn.com/song/thunder
 HTTP
 
 ```bash
-https://saavn.me/artists?id=568707
+https://sparklines-backend.samay15jan.xyz/artists?id=568707
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/artists?id=568707' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/artists?id=568707' \
  -H 'content-type: application/json'
 ```
 
@@ -160,13 +160,13 @@ curl -X GET 'https://saavn.me/artists?id=568707' \
 HTTP
 
 ```bash
-https://saavn.me/artists/568707/songs?page=1
+https://sparklines-backend.samay15jan.xyz/artists/568707/songs?page=1
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/artists/568707/songs?page=1' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/artists/568707/songs?page=1' \
  -H 'content-type: application/json'
 ```
 
@@ -794,13 +794,13 @@ curl -X GET 'https://saavn.me/artists/568707/songs?page=1' \
 HTTP
 
 ```bash
-https://saavn.me/artists/568707/albums?page=1
+https://sparklines-backend.samay15jan.xyz/artists/568707/albums?page=1
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/artists/568707/albums?page=1' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/artists/568707/albums?page=1' \
  -H 'content-type: application/json'
 ```
 
@@ -1950,13 +1950,13 @@ Note: Song ID is required to get the recommendations based on the song.
 HTTP
 
 ```bash
-https://saavn.me/artists/568707/recommendations/zikdtWU6
+https://sparklines-backend.samay15jan.xyz/artists/568707/recommendations/zikdtWU6
 ```
 
 CURL
 
 ```bash
-curl -X GET 'https://saavn.me/artists/568707/recommendations/zikdtWU6' \
+curl -X GET 'https://sparklines-backend.samay15jan.xyz/artists/568707/recommendations/zikdtWU6' \
  -H 'content-type: application/json'
 ```
 
