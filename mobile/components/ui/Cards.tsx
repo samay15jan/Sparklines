@@ -18,7 +18,7 @@ export default function Cards({ title, data }: any) {
               pathname: '/content',
               params: { baseSongData: JSON.stringify(item) },
             })}
-            >
+          >
             <Image
               style={{
                 width: 100,

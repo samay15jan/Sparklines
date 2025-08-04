@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 interface HandleAPIParams {
   params: Record<string, string | number>
@@ -140,10 +140,107 @@ async function handleRegistration(email: string, password: string): Promise<{ ap
   }
 }
 
+async function artistDetails(artistId: string) {
+  try {
+    if (!artistId) return
+    const endpoint = '/artists'
+    const params = { id: artistId }
+    const apiResponse = await handleAPI({ params, endpoint, key })
+    return apiResponse?.data
+  } catch (error) {
+    // console.error('Error fetching song details:', error);
+    return null;
+  }
+}
+
+async function artistSongs(artistId: string, page: any, category: any, sort: any) {
+  try {
+    if (!artistId) return
+    const endpoint = `/artists/${artistId}/songs`
+    const params: any = {
+      page: page || 1,
+      category: category || null, // alphabetical or latest
+      sort: sort || null, // asc or desc
+    }
+    const apiResponse = await handleAPI({ params, endpoint, key })
+    return apiResponse?.data
+  } catch (error) {
+    // console.error('Error fetching song details:', error);
+    return null;
+  }
+}
+
+async function artistAlbums(artistId: string, page: any, category: any, sort: any) {
+  try {
+    if (!artistId) return
+    const endpoint = `/artists/${artistId}/albums`
+    const params: any = {
+      page: page || 1,
+      category: category || null, // alphabetical or latest
+      sort: sort || null, // asc or desc
+    }
+    const apiResponse = await handleAPI({ params, endpoint, key })
+    return apiResponse?.data
+  } catch (error) {
+    // console.error('Error fetching song details:', error);
+    return null;
+  }
+}
+
+async function recommendedSongs(songId: string) {
+  try {
+    if (!songId) return
+    const endpoint = '/songs/recommendations'
+    const params = { id: songId }
+    const apiResponse = await handleAPI({ params, endpoint, key })
+    return apiResponse?.data
+  } catch (error) {
+    // console.error('Error fetching song details:', error);
+    return null;
+  }
+}
+
+async function contentsForSongs(songId: string, artistId: string) {
+  try {
+    const artistBaseDataRes = await artistDetails(artistId);
+    const artistSongsRes = await artistSongs(artistId, 1, null, null);
+    const artistAlbumsRes = await artistAlbums(artistId, 1, null, null); 
+    const recommendedSongsRes = await recommendedSongs(songId);
+    // Format ArtistData
+    const formattedArtistData =
+      artistBaseDataRes?.status === 'SUCCESS'
+        ? {
+          baseData: artistBaseDataRes?.data,
+          songs: artistSongsRes?.status === 'SUCCESS'
+            ? artistSongsRes?.data?.results?.slice(0, 10)
+            : [],
+          albums: artistAlbumsRes?.status === 'SUCCESS'
+            ? artistAlbumsRes?.data?.results?.slice(0, 10)
+            : [],
+        }
+        : null;
+
+    // Format RecommendedSongs
+    const formattedRecommendedSongs =
+      recommendedSongsRes?.status === 'SUCCESS' && Array.isArray(recommendedSongsRes?.data)
+        ? recommendedSongsRes?.data?.slice(0, 10)
+        : [];
+
+    return {
+      artistData: formattedArtistData,
+      recommendedSongs: formattedRecommendedSongs,
+    };
+  } catch (error) {
+    // console.error('Error fetching song details:', error);
+    return null;
+  }
+}
+
 export {
   gethomepageData,
   getSongDetails,
   PlaylistData,
+  contentsForSongs,
   handleLogin,
   handleRegistration
 }

@@ -17,7 +17,7 @@ export const useAudioStore = create<AudioStore>((set) => ({
   currentSong: null,
   currentTime: 0,
   duration: 0,
-  status: 'playing',
+  status: 'paused',
   setCurrentSong: (song) => set({ currentSong: song }),
   setCurrentTime: (time) => set({ currentTime: time }),
   setDuration: (duration) =>
