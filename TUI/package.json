@@ -2,9 +2,9 @@
 	"name": "sparklines-tui",
 	"version": "1.0.0",
 	"repository": {
-    "type": "git",
-    "url": "https://github.com/samay15jan/sparklines.git"
-  },
+		"type": "git",
+		"url": "https://github.com/samay15jan/sparklines.git"
+	},
 	"license": "MIT",
 	"bin": "dist/cli.js",
 	"type": "module",
