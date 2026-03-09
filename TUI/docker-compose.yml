@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+
+  tui-server:
+    image: node:20-alpine
+    container_name: tui-websocket
+    working_dir: /app
+
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    command: sh -c "npm install && node server/server.js"
+
+    ports:
+      - "8080:8080"
+
+  web:
+    image: python:3.12-alpine
+    container_name: tui-web
+
+    working_dir: /app/public
+
+    volumes:
+      - ./public:/app/public
+
+    command: python3 -m http.server 3000
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      - tui-server

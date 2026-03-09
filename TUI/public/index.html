@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+}
+
+#terminal {
+  height: 100vh;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="terminal"></div>
+
+<script>
+
+const term = new Terminal({
+  cursorBlink: true
+});
+
+term.open(document.getElementById("terminal"));
+
+const ws = new WebSocket("ws://localhost:8080");
+
+term.onData(data => {
+  ws.send(data);
+});
+
+ws.onmessage = (event) => {
+  term.write(event.data);
+};
+
+</script>
+
+</body>
+</html>
