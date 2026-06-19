@@ -3,46 +3,230 @@
 <head>
 
 <link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
-
+  href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
 <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
 
 <style>
+
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  background: black;
+  background: #0b0b0b;
+  font-family: monospace;
+  overflow: hidden;
 }
+
+.header {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: #111;
+  border-bottom: 1px solid #222;
+}
+
+.title { color: #ddd; font-size: 16px; }
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* audio button */
+#audioBtn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 10px;
+  transition: background 0.15s, color 0.15s;
+}
+#audioBtn:hover { background: #222; color: #fff; }
+#audioBtn.active { border-color: #27c93f; color: #27c93f; }
+#audioBtn.error  { border-color: #ff5f56; color: #ff5f56; }
+
+.buttons { display: flex; gap: 8px; }
+
+.btn {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.red    { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green  { background: #27c93f; }
 
 #terminal {
-  height: 100vh;
+  height: calc(100vh - 42px);
+  width: 100%;
 }
+
 </style>
-
 </head>
-
 <body>
+
+<div class="header">
+
+  <div class="title">Sparklines-TUI Showcase</div>
+
+  <div class="right">
+
+    <button id="audioBtn" title="Stream audio from TUI">
+      🔇 Enable Audio
+    </button>
+
+    <div class="buttons">
+      <div class="btn red"    onclick="window.open('https://samay15jan.com')"></div>
+      <div class="btn yellow" onclick="window.open('https://github.com/samay15jan')"></div>
+      <div class="btn green"  onclick="window.open('https://blog.samay15jan.com')"></div>
+    </div>
+
+  </div>
+</div>
 
 <div id="terminal"></div>
 
 <script>
 
+/* ─── Terminal setup ─────────────────────────────────── */
+
 const term = new Terminal({
-  cursorBlink: true
+  cursorBlink: false,
+  fontSize: 16,
+  theme: {
+    background:    "#000000", foreground:    "#d0d0d0",
+    black:         "#000000", red:           "#ff6b6b",
+    green:         "#8ccf7e", yellow:        "#ffd166",
+    blue:          "#5ca9ff", magenta:       "#d291ff",
+    cyan:          "#66d9ef", white:         "#d0d0d0",
+    brightBlack:   "#808080", brightRed:     "#ff8787",
+    brightGreen:   "#a6e3a1", brightYellow:  "#ffe08a",
+    brightBlue:    "#7abaff", brightMagenta: "#e3a6ff",
+    brightCyan:    "#8be9fd", brightWhite:   "#ffffff",
+    cursor: "#ffffff", selection: "#444444"
+  }
 });
 
+const fitAddon = new FitAddon.FitAddon();
+term.loadAddon(fitAddon);
 term.open(document.getElementById("terminal"));
+fitAddon.fit();
 
-const ws = new WebSocket("ws://localhost:8080");
+/* ─── WebSocket ──────────────────────────────────────── */
+
+const ws = new WebSocket(`ws://${location.host}`);
+
+function sendResize() {
+  if (ws.readyState !== WebSocket.OPEN) return;
+  ws.send(JSON.stringify({ type: "resize", cols: term.cols, rows: term.rows }));
+}
+
+ws.onopen = () => { console.log("WS connected"); sendResize(); };
+
+window.addEventListener("resize", () => { fitAddon.fit(); sendResize(); });
+term.onResize(({ cols, rows }) => {
+  if (ws.readyState === WebSocket.OPEN)
+    ws.send(JSON.stringify({ type: "resize", cols, rows }));
+});
 
 term.onData(data => {
-  ws.send(data);
+  if (ws.readyState === WebSocket.OPEN)
+    ws.send(JSON.stringify({ type: "terminal", data }));
 });
 
-ws.onmessage = (event) => {
-  term.write(event.data);
+ws.onmessage = async (event) => {
+  try {
+    const msg = JSON.parse(event.data);
+    if (msg.type === "terminal") { term.write(msg.data); }
+    if (msg.type === "webrtc-answer") { await handleAnswer(msg.answer); }
+    if (msg.type === "ice") { await handleRemoteIce(msg.candidate); }
+  } catch {
+    term.write(event.data);
+  }
 };
 
-</script>
+ws.onclose = () => term.write("\r\n[connection closed]\r\n");
+ws.onerror = () => term.write("\r\n[WebSocket error]\r\n");
 
+/* ─── WebRTC audio ───────────────────────────────────── */
+
+let pc = null;
+const audioBtn = document.getElementById("audioBtn");
+
+audioBtn.addEventListener("click", async () => {
+  if (pc) return; // already started
+  try {
+    await startWebRTC();
+  } catch (err) {
+    console.error("WebRTC failed:", err);
+    audioBtn.textContent = "⚠ Audio Error";
+    audioBtn.classList.add("error");
+  }
+});
+
+async function startWebRTC() {
+  audioBtn.textContent = "⏳ Connecting…";
+
+  pc = new RTCPeerConnection({
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+  });
+
+  /* When the server's audio track arrives, play it */
+  pc.ontrack = (event) => {
+    console.log("Got remote audio track");
+    const audio = new Audio();
+    audio.srcObject = event.streams[0];
+    audio.play().then(() => {
+      audioBtn.textContent = "🔊 Audio On";
+      audioBtn.classList.add("active");
+    }).catch(err => {
+      console.error("Audio play failed:", err);
+      audioBtn.textContent = "⚠ Autoplay blocked";
+      audioBtn.classList.add("error");
+    });
+  };
+
+  pc.onicecandidate = ({ candidate }) => {
+    if (candidate && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: "ice", candidate }));
+    }
+  };
+
+  pc.onconnectionstatechange = () => {
+    console.log("WebRTC:", pc.connectionState);
+    if (pc.connectionState === "failed" || pc.connectionState === "disconnected") {
+      audioBtn.textContent = "⚠ Audio Lost";
+      audioBtn.classList.remove("active");
+      audioBtn.classList.add("error");
+    }
+  };
+
+  // We only receive audio, but we need a transceiver to negotiate
+  pc.addTransceiver("audio", { direction: "recvonly" });
+
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+
+  ws.send(JSON.stringify({ type: "webrtc-offer", offer: pc.localDescription }));
+}
+
+async function handleAnswer(answer) {
+  if (!pc) return;
+  await pc.setRemoteDescription(new RTCSessionDescription(answer));
+}
+
+async function handleRemoteIce(candidate) {
+  if (!pc) return;
+  try { await pc.addIceCandidate(candidate); }
+  catch (err) { console.error("ICE error:", err); }
+}
+
+</script>
 </body>
 </html>
