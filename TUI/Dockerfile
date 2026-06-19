@@ -1,31 +1,40 @@
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 
-# system dependencies
-RUN apk add --no-cache mpv socat
+# system deps - add pulseaudio for audio support
+RUN apt-get update \
+ && apt-get install -y mpv ffmpeg socat alsa-utils pulseaudio \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/sparklines
 
 # copy project
 COPY . .
 
-# install node dependencies
+# install dependencies
 RUN npm install --omit=dev
 
-# create non-root user
-RUN adduser -D appuser
+# create user
+RUN useradd -m appuser
 
-# create config directory
+# sparklines config directory
 RUN mkdir -p /home/appuser/.sparklines
 
-# copy demo config
-COPY demo-config /home/appuser/.sparklines/config
+COPY config/demo-config /home/appuser/.sparklines/config
 
-# set ownership
-RUN chown -R appuser:appuser /home/appuser/.sparklines
+# mpv configuration - use PulseAudio for audio output
+RUN mkdir -p /home/appuser/.config/mpv \
+ && printf "ao=pulse\nno-video\n" \
+ > /home/appuser/.config/mpv/mpv.conf \
+ && chown -R appuser:appuser /home/appuser/.config \
+ && chown -R appuser:appuser /home/appuser/.sparklines
 
-# install CLI globally
+# install CLI
 RUN npm install -g .
+
+# entrypoint
+COPY config/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 USER appuser
 
-CMD ["sparklines-tui"]
+CMD ["/entrypoint.sh"]
