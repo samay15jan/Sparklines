@@ -73,6 +73,7 @@ async function startAudioPipeline(fifoPath, audioSource) {
     let audioChunks = 0;
 
     stream.on("data", (chunk) => {
+      console.log("[audio] received", chunk.length, "bytes");
       pending = Buffer.concat([pending, chunk]);
 
       while (pending.length >= CHUNK_BYTES) {
@@ -127,7 +128,10 @@ wss.on("connection", async (ws) => {
 
   try {
     createFifo(fifoPath);
-    container = await createContainer(fifoPath);
+    container = await createContainer(
+      TEMP_DIR,
+      sessionId
+    );
     console.log("[ws] Container created:", container.id);
   } catch (err) {
     console.error("[ws] Container creation failed:", err.message);
@@ -185,7 +189,7 @@ wss.on("connection", async (ws) => {
           h: data.rows,
           w: data.cols
         });
-      } catch {}
+      } catch { }
     }
 
     /* WEBRTC AUDIO */
@@ -195,11 +199,11 @@ wss.on("connection", async (ws) => {
 
       try {
         if (pc) {
-          try { pc.close(); } catch {}
+          try { pc.close(); } catch { }
         }
 
         if (audioStream) {
-          try { audioStream.destroy(); } catch {}
+          try { audioStream.destroy(); } catch { }
         }
 
         pc = new wrtc.RTCPeerConnection({
@@ -232,7 +236,7 @@ wss.on("connection", async (ws) => {
         }));
 
         console.log("[webrtc] Answer sent. Starting audio pipeline in 1 second...");
-        
+
         // Start reading audio from FIFO
         await new Promise(r => setTimeout(r, 1000));
         audioStream = await startAudioPipeline(fifoPath, audioSource);
@@ -268,10 +272,10 @@ wss.on("connection", async (ws) => {
   ws.on("close", async () => {
     console.log("[ws] user disconnected");
 
-    try { if (pc) pc.close(); } catch {}
-    try { if (audioStream) audioStream.destroy(); } catch {}
-    try { if (termStream) termStream.destroy(); } catch {}
-    try { await container.kill(); } catch {}
+    try { if (pc) pc.close(); } catch { }
+    try { if (audioStream) audioStream.destroy(); } catch { }
+    try { if (termStream) termStream.destroy(); } catch { }
+    try { await container.kill(); } catch { }
     removeFifo(fifoPath);
   });
 });

@@ -1,40 +1,48 @@
 FROM node:20-bookworm-slim
 
-# system deps - add pulseaudio for audio support
+# System packages
 RUN apt-get update \
- && apt-get install -y mpv ffmpeg socat alsa-utils pulseaudio \
+ && apt-get install -y \
+    mpv \
+    ffmpeg \
+    socat \
+    alsa-utils \
+    pulseaudio \
+    util-linux \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/sparklines
 
-# copy project
+# Copy project
 COPY . .
 
-# install dependencies
+# Install dependencies
 RUN npm install --omit=dev
 
-# create user
+# Create user
 RUN useradd -m appuser
 
-# sparklines config directory
+# Sparklines config
 RUN mkdir -p /home/appuser/.sparklines
-
 COPY config/demo-config /home/appuser/.sparklines/config
 
-# mpv configuration - use PulseAudio for audio output
+# MPV config
 RUN mkdir -p /home/appuser/.config/mpv \
  && printf "ao=pulse\nno-video\n" \
- > /home/appuser/.config/mpv/mpv.conf \
- && chown -R appuser:appuser /home/appuser/.config \
- && chown -R appuser:appuser /home/appuser/.sparklines
+ > /home/appuser/.config/mpv/mpv.conf
 
-# install CLI
+# Fix ownership
+RUN chown -R appuser:appuser /home/appuser
+
+# Install CLI
 RUN npm install -g .
 
-# entrypoint
-COPY config/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Entrypoints
+COPY config/root-entrypoint.sh /root-entrypoint.sh
+COPY config/app-entrypoint.sh /app-entrypoint.sh
 
-USER appuser
+RUN chmod +x /root-entrypoint.sh \
+ && chmod +x /app-entrypoint.sh
 
-CMD ["/entrypoint.sh"]
+# Start as root
+CMD ["/root-entrypoint.sh"]
