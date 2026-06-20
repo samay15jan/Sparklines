@@ -8,28 +8,33 @@ const docker = new Docker({ socketPath: "/var/run/docker.sock" });
 // Create FIFO on host for audio streaming
 function ensureAudioFifo(fifoPath) {
   if (fs.existsSync(fifoPath)) {
-    // Remove old FIFO
     try {
       fs.unlinkSync(fifoPath);
     } catch {}
   }
-  
-  // Create FIFO using mkfifo
+
   try {
     execSync(`mkfifo ${fifoPath}`);
+
+    // allow appuser inside container to write
+    fs.chmodSync(fifoPath, 0o666);
+
     console.log(`[docker] Created FIFO at ${fifoPath}`);
   } catch (err) {
     console.error(`[docker] Failed to create FIFO: ${err.message}`);
   }
 }
-
-export async function createContainer(audioFifoPath) {
+export async function createContainer(fifoDir, sessionId) {
   // Ensure FIFO directory and file exist on host
-  const fifoDir = path.dirname(audioFifoPath);
   if (!fs.existsSync(fifoDir)) {
     fs.mkdirSync(fifoDir, { recursive: true });
   }
 
+
+  const audioFifoPath = path.join(
+    fifoDir,
+    `audio-${sessionId}.fifo`
+  );
   // Create FIFO on host
   ensureAudioFifo(audioFifoPath);
 
