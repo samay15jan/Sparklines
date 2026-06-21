@@ -66,14 +66,12 @@ function removeFifo(fifoPath) {
 
 async function startAudioPipeline(fifoPath, audioSource) {
   return new Promise((resolve, reject) => {
-    console.log("[audio] Opening FIFO for reading:", fifoPath);
 
     const stream = createReadStream(fifoPath, { highWaterMark: 4096 });
     let pending = Buffer.alloc(0);
     let audioChunks = 0;
 
     stream.on("data", (chunk) => {
-      console.log("[audio] received", chunk.length, "bytes");
       pending = Buffer.concat([pending, chunk]);
 
       while (pending.length >= CHUNK_BYTES) {
@@ -234,8 +232,6 @@ wss.on("connection", async (ws) => {
           type: "webrtc-answer",
           answer: pc.localDescription
         }));
-
-        console.log("[webrtc] Answer sent. Starting audio pipeline in 1 second...");
 
         // Start reading audio from FIFO
         await new Promise(r => setTimeout(r, 1000));

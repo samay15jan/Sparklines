@@ -1,7 +1,7 @@
 services:
-  tui-server:
+  sparklines-tui:
     build: .
-    container_name: tui-websocket
+    container_name: sparklines-tui
 
     user: root
 

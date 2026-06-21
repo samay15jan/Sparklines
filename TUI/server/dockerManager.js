@@ -40,15 +40,15 @@ export async function createContainer(fifoDir, sessionId) {
 
   // Verify the image exists before trying to create a container
   try {
-    await docker.getImage("tui-tui-server").inspect();
+    await docker.getImage("sparklines-tui").inspect();
   } catch (err) {
     throw new Error(
-      `Image 'tui-tui-server' not found. Build it first with: docker build -t tui-tui-server .`
+      `Image 'sparklines-tui' not found. Build it first with: docker build -t sparklines-tui .`
     );
   }
 
   const container = await docker.createContainer({
-    Image: "tui-tui-server",
+    Image: "sparklines-tui",
     Tty: true,
     OpenStdin: true,
     StdinOnce: false,
