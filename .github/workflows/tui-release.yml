@@ -1,6 +1,8 @@
 name: Sparklines TUI Release
 
 on:
+  workflow_dispatch:
+  
   push:
     tags:
       - 'tui-v*'
