@@ -1,0 +1,68 @@
+name: Sparklines TUI Release
+
+on:
+  push:
+    tags:
+      - 'tui-v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: TUI
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build || true
+
+      - name: Create Release Archive
+        run: |
+          cd ..
+          zip -r \
+            sparklines-tui-${{ github.ref_name }}.zip \
+            TUI \
+            -x "TUI/node_modules/*" \
+            -x "TUI/.git/*"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            sparklines-tui-${{ github.ref_name }}.zip
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -f TUI/Dockerfile \
+            -t ghcr.io/${{ github.repository_owner }}/sparklines-tui:latest \
+            -t ghcr.io/${{ github.repository_owner }}/sparklines-tui:${{ github.ref_name }} \
+            .
+
+      - name: Push Docker Image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/sparklines-tui:latest
+          docker push ghcr.io/${{ github.repository_owner }}/sparklines-tui:${{ github.ref_name }}
