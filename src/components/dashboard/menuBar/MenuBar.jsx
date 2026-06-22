@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
-import { MdOutlineHome, MdHome } from 'react-icons/md'
+import { MdFavorite, MdHome, MdOutlineHome } from 'react-icons/md'
 import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
 import { LuLibrary } from 'react-icons/lu'
+import { PiPlaylistFill } from 'react-icons/pi'
 import { useLocation, Link, useParams, useNavigate } from 'react-router-dom'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 
+const likedCover =
+  'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
+const playlistsCover =
+  'https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
+
 const MenuBar = () => {
   const [menu, changeMenu] = useState('home')
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
   const location = useLocation()
   const currentPath = location.pathname
   let { query } = useParams()
@@ -16,6 +23,7 @@ const MenuBar = () => {
 
   function navigateArtist(id) {
     navigate(`/dashboard/artist/${id}`)
+    setIsLibraryOpen(false)
   }
 
   //based on location
@@ -29,7 +37,7 @@ const MenuBar = () => {
     if (query && currentPath === `/dashboard/search/${query}`) {
       changeMenu('search')
     }
-  }, [currentPath])
+  }, [currentPath, query])
 
   // Manual user Interation
   function handleMenu1() {
@@ -44,74 +52,174 @@ const MenuBar = () => {
     }
   }
 
+  const isHome = menu === 'home'
+  const isSearch = menu === 'search'
+  const isLiked = currentPath === '/dashboard/liked'
+  const isPlaylists = currentPath === '/dashboard/playlists'
+
   return (
-    <div className='flex flex-col h-auto m-2 mr-1 rounded-lg'>
-      <div className='bg-[#0f0f0f] mb-2 rounded-lg flex-none p-5'>
-        {menu === 'home' && (
-          <div>
-            <Link to='/dashboard'>
+    <>
+      <aside className='hidden h-auto flex-col rounded-lg lg:m-2 lg:mr-1 lg:flex'>
+        <nav
+          className='mb-2 flex-none rounded-lg bg-[#0f0f0f] p-5'
+          aria-label='Primary navigation'
+        >
+          <Link
+            to='/dashboard'
+            aria-label='Home'
+            className='flex min-h-11 min-w-11 items-center justify-center'
+          >
+            {isHome ? (
               <MdHome size={30} onClick={handleMenu2} />
-            </Link>
-            <Link to='/dashboard/search'>
-              <RiSearchLine
-                size={28}
-                className='opacity-70 mt-5'
-                onClick={handleMenu1}
-              />
-            </Link>
-          </div>
-        )}
-        {menu === 'search' && (
-          <div>
-            <Link to='/dashboard'>
+            ) : (
               <MdOutlineHome
                 size={30}
-                className='opacity-70 mb-5'
+                className='opacity-70'
                 onClick={handleMenu2}
               />
-            </Link>
-            <Link to='/dashboard/search'>
+            )}
+          </Link>
+          <Link
+            to='/dashboard/search'
+            aria-label='Search'
+            className='mt-5 flex min-h-11 min-w-11 items-center justify-center'
+          >
+            {isSearch ? (
               <RiSearchFill size={28} onClick={handleMenu1} />
-            </Link>
-          </div>
-        )}
-      </div>
-      <div className='bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto'>
-        <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
-        <Link to='/dashboard/liked'>
-          <div className='w-10 mb-4 mx-4' onClick={handleMenu1}>
-            <img
-              className='rounded-lg'
-              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
-              alt=''
-            />
-          </div>
-        </Link>
-        <Link to='/dashboard/playlists'>
-          <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
-            <img
-              className='rounded-lg'
-              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
-              alt=''
-            />
-          </div>
-        </Link>
+            ) : (
+              <RiSearchLine
+                size={28}
+                className='opacity-70'
+                onClick={handleMenu1}
+              />
+            )}
+          </Link>
+        </nav>
+        <nav
+          className='grow overflow-y-auto rounded-lg bg-[#0f0f0f] py-5'
+          aria-label='Library navigation'
+        >
+          <LuLibrary size={30} className='mb-5 ml-5 opacity-70' />
+          <Link
+            to='/dashboard/liked'
+            aria-label='Liked songs'
+            className='mb-4 flex min-h-11 min-w-11 items-center justify-center lg:mx-4'
+            onClick={handleMenu1}
+          >
+            <img className='size-11 rounded-lg' src={likedCover} alt='' />
+          </Link>
+          <Link
+            to='/dashboard/playlists'
+            aria-label='Playlists'
+            className='mb-2 flex min-h-11 min-w-11 items-center justify-center lg:mx-4'
+            onClick={handleMenu1}
+          >
+            <img className='size-11 rounded-lg' src={playlistsCover} alt='' />
+          </Link>
 
-        <div className='h-auto overflow-y-scroll grid grid-cols-1 px-3'>
-          {following &&
-            following?.data &&
-            following.data?.map((item, index) => (
-              <img
-                className='w-10 ml-1 my-2 border-gray-800 hover:border-2 rounded-full cursor-pointer'
+          <div className='grid h-auto grid-cols-1 overflow-y-scroll px-3'>
+            {following?.data?.map((item, index) => (
+              <button
+                className='my-2 flex min-h-11 min-w-11 items-center justify-center rounded-full border-gray-800 hover:border-2'
                 key={index}
                 onClick={() => navigateArtist(item?.id)}
-                src={item?.image}
-                alt=''
-              />
+                aria-label={`Open ${item?.name || 'artist'}`}
+                type='button'
+              >
+                <img
+                  className='size-11 rounded-full'
+                  src={item?.image}
+                  alt=''
+                />
+              </button>
             ))}
+          </div>
+        </nav>
+      </aside>
+
+      {isLibraryOpen && (
+        <div className='fixed inset-x-3 bottom-20 z-40 max-h-[55vh] overflow-y-auto rounded-2xl bg-[#0f0f0f] p-4 shadow-2xl lg:hidden'>
+          <div className='mb-3 flex items-center justify-between'>
+            <h2 className='text-sm font-semibold'>Followed artists</h2>
+            <button
+              type='button'
+              className='min-h-11 min-w-11 rounded-full text-sm opacity-70'
+              aria-label='Close library'
+              onClick={() => setIsLibraryOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+          <div className='grid grid-cols-4 gap-3'>
+            {following?.data?.map((item, index) => (
+              <button
+                className='flex min-h-11 min-w-11 flex-col items-center gap-2 rounded-lg p-1 text-xs'
+                key={index}
+                onClick={() => navigateArtist(item?.id)}
+                aria-label={`Open ${item?.name || 'artist'}`}
+                type='button'
+              >
+                <img
+                  className='size-11 rounded-full'
+                  src={item?.image}
+                  alt=''
+                />
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+
+      <nav
+        className='fixed inset-x-0 bottom-0 z-50 flex items-center justify-around border-t border-white/10 bg-[#0f0f0f]/95 px-3 py-2 backdrop-blur lg:hidden'
+        aria-label='Mobile navigation'
+      >
+        <Link
+          to='/dashboard'
+          aria-label='Home'
+          className='flex min-h-11 min-w-11 items-center justify-center rounded-full'
+          onClick={handleMenu2}
+        >
+          {isHome ? <MdHome size={28} /> : <MdOutlineHome size={28} />}
+        </Link>
+        <Link
+          to='/dashboard/search'
+          aria-label='Search'
+          className='flex min-h-11 min-w-11 items-center justify-center rounded-full'
+          onClick={handleMenu1}
+        >
+          {isSearch ? <RiSearchFill size={26} /> : <RiSearchLine size={26} />}
+        </Link>
+        <button
+          type='button'
+          aria-label='Library'
+          aria-expanded={isLibraryOpen}
+          className='flex min-h-11 min-w-11 items-center justify-center rounded-full'
+          onClick={() => setIsLibraryOpen((isOpen) => !isOpen)}
+        >
+          <LuLibrary size={26} />
+        </button>
+        <Link
+          to='/dashboard/liked'
+          aria-label='Liked songs'
+          className='flex min-h-11 min-w-11 items-center justify-center rounded-full'
+          onClick={() => setIsLibraryOpen(false)}
+        >
+          <MdFavorite size={26} className={isLiked ? '' : 'opacity-70'} />
+        </Link>
+        <Link
+          to='/dashboard/playlists'
+          aria-label='Playlists'
+          className='flex min-h-11 min-w-11 items-center justify-center rounded-full'
+          onClick={() => setIsLibraryOpen(false)}
+        >
+          <PiPlaylistFill
+            size={26}
+            className={isPlaylists ? '' : 'opacity-70'}
+          />
+        </Link>
+      </nav>
+    </>
   )
 }
 
