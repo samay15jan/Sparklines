@@ -7,12 +7,8 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 import Options from '../routeTypes/components/Options'
 import { DownloadURL } from '../artistsScreen/ArtistsScreen'
 
-
-const MenuButtons = ({ isPublic }) => {
-  const [selectedScreen, setSelectedScreen] = useRQGlobalState(
-    'contentPlay',
-    'nowPlaying'
-  )
+const MenuButtons = ({ isPublic, onOpenArtistsPanel }) => {
+  const [, setSelectedScreen] = useRQGlobalState('contentPlay', 'nowPlaying')
   const [isLike, setLiked] = useState(false)
   const [isShowNowPlaying, showNowPlaying] = useState(true)
   const [isShowLyrics, showLyrics] = useState(false)
@@ -30,18 +26,21 @@ const MenuButtons = ({ isPublic }) => {
       showLyrics(false)
       showQueue(false)
       setSelectedScreen('nowPlaying')
+      onOpenArtistsPanel?.()
     }
     if (type === 'lyrics') {
       showNowPlaying(false)
       showLyrics(!isShowLyrics)
       showQueue(false)
       setSelectedScreen('lyrics')
+      onOpenArtistsPanel?.()
     }
     if (type === 'queue') {
       showNowPlaying(false)
       showLyrics(false)
       showQueue(!isShowqueue)
       setSelectedScreen('queue')
+      onOpenArtistsPanel?.()
     }
     if (type === 'devices') {
       setDevices(!isDevices)
@@ -49,7 +48,13 @@ const MenuButtons = ({ isPublic }) => {
   }
 
   return (
-    <div className={isPublic ? 'mt-10 ml-44 flex justify-center gap-4 opacity-80' :'mt-6 ml-20 flex justify-center gap-4 opacity-70'}>
+    <div
+      className={
+        isPublic
+          ? 'mt-10 ml-44 flex justify-center gap-4 opacity-80'
+          : 'mt-2 flex justify-center gap-4 opacity-70 lg:mt-6 lg:ml-20'
+      }
+    >
       {!isPublic && (
         <Options
           type='liked'
@@ -92,7 +97,9 @@ const MenuButtons = ({ isPublic }) => {
           className='cursor-pointer'
         />
       )}
-      {isPublic && <DownloadURL songData={currentSong?.data} isPublic={isPublic}/>}
+      {isPublic && (
+        <DownloadURL songData={currentSong?.data} isPublic={isPublic} />
+      )}
     </div>
   )
 }
