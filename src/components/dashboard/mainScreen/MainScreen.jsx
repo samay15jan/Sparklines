@@ -11,11 +11,11 @@ const Discography = lazy(() => import('../routeTypes/components/Discography'))
 const LikedSongs = lazy(() => import('../routeTypes/LikedSongs'))
 const Playlists = lazy(() => import('../routeTypes/Playlists'))
 
-const MainScreen = ({ showMenu }) => {
+const MainScreen = ({ showMenu, onOpenArtistsPanel }) => {
   return (
-    <div className='bg-[#0f0f0f] overflow-y-auto h-auto my-2 mx-1 rounded-lg col-span-8'>
+    <div className='w-full overflow-y-auto bg-[#0f0f0f] h-[calc(100vh-8rem)] lg:h-[calc(100vh-5rem)] my-2 mx-1 rounded-lg lg:col-span-8'>
       <div className='relative '>
-        <Header />
+        <Header onOpenArtistsPanel={onOpenArtistsPanel} />
       </div>
       {showMenu === 'search' && <Search />}
       {showMenu === 'home' && <Homepage />}

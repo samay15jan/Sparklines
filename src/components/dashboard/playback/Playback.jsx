@@ -15,12 +15,12 @@ const Container = styled.div`
   ${tw`bg-black w-screen p-1 text-sm font-semibold`}
 `
 const SubContainer = styled.div`
-  ${tw`grid grid-cols-3 justify-between`}
+  ${tw`grid grid-cols-2 items-center gap-2 lg:grid-cols-3 lg:justify-between`}
 `
 
 const Player = () => {
   const audioRef = useRef()
-  const [playerRef, setPlayerRef] = useRQGlobalState('playerRef', null)
+  const [, setPlayerRef] = useRQGlobalState('playerRef', null)
   const [playbackDetails, setPlaybackDetails] =
     useRQGlobalState('playbackQueue')
   const [currentSong, setCurrentSong] = useRQGlobalState('currentSong', null)
@@ -84,7 +84,10 @@ const Player = () => {
     }
 
     if (isPublic && albumsResponse?.data?.results) {
-      const updatedData = [playbackDetails?.data[0], ...albumsResponse?.data?.results]
+      const updatedData = [
+        playbackDetails?.data[0],
+        ...albumsResponse.data.results,
+      ]
 
       setPlaybackDetails(updatedData)
     }
@@ -103,7 +106,7 @@ const Player = () => {
   )
 }
 
-const Playback = ({ isPublic }) => {
+const Playback = ({ isPublic, onOpenArtistsPanel }) => {
   const [currentSong] = useRQGlobalState('currentSong', null)
 
   // Set Webpage Title
@@ -118,13 +121,13 @@ const Playback = ({ isPublic }) => {
       {!isPublic && (
         <Container>
           <SubContainer>
-            <div className='flex'>
+            <div className='flex min-w-0'>
               <AudioDetails />
               <AudioVisualizer />
             </div>
             <AudioController />
-            <div className='flex'>
-              <MenuButtons />
+            <div className='col-span-2 flex justify-end lg:col-span-1'>
+              <MenuButtons onOpenArtistsPanel={onOpenArtistsPanel} />
               <VolumeController />
             </div>
           </SubContainer>
