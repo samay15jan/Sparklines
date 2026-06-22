@@ -1,10 +1,11 @@
 import { FaHistory } from 'react-icons/fa'
 import { FaGithub } from 'react-icons/fa6'
+import { MdQueueMusic } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import Buttons from './Buttons'
 import UserProfile from './profile/UserProfile'
 
-const Header = () => {
+const Header = ({ onOpenArtistsPanel }) => {
   const navigate = useNavigate()
 
   return (
@@ -27,6 +28,16 @@ const Header = () => {
         <button>
           <FaHistory
             onClick={() => navigate('/dashboard/recently-played')}
+            size={30}
+            className='p-1 opacity-80 bg-black rounded-full'
+          />
+        </button>
+        <button
+          aria-label='Open now playing panel'
+          className='lg:hidden'
+          onClick={onOpenArtistsPanel}
+        >
+          <MdQueueMusic
             size={30}
             className='p-1 opacity-80 bg-black rounded-full'
           />
