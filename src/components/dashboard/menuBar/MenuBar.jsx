@@ -58,23 +58,28 @@ const MenuBar = () => {
   const isPlaylists = currentPath === '/dashboard/playlists'
 
   return (
-    <>
-      <aside className='hidden h-auto flex-col rounded-lg lg:m-2 lg:mr-1 lg:flex'>
-        <nav
-          className='mb-2 flex-none rounded-lg bg-[#0f0f0f] p-5'
-          aria-label='Primary navigation'
-        >
-          <Link
-            to='/dashboard'
-            aria-label='Home'
-            className='flex min-h-11 min-w-11 items-center justify-center'
-          >
-            {isHome ? (
+    <div className='fixed bottom-0 left-0 right-0 z-50 flex h-16 flex-row m-0 rounded-none bg-black p-1 lg:static lg:z-auto lg:h-auto lg:flex-col lg:m-2 lg:mr-1 lg:rounded-lg lg:bg-transparent lg:p-0'>
+      <div className='bg-[#0f0f0f] mb-0 rounded-lg flex flex-1 items-center justify-center p-3 lg:mb-2 lg:block lg:flex-none lg:p-5'>
+        {menu === 'home' && (
+          <div className='flex items-center gap-6 lg:block'>
+            <Link to='/dashboard'>
               <MdHome size={30} onClick={handleMenu2} />
-            ) : (
+            </Link>
+            <Link to='/dashboard/search'>
+              <RiSearchLine
+                size={28}
+                className='opacity-70 lg:mt-5'
+                onClick={handleMenu1}
+              />
+            </Link>
+          </div>
+        )}
+        {menu === 'search' && (
+          <div className='flex items-center gap-6 lg:block'>
+            <Link to='/dashboard'>
               <MdOutlineHome
                 size={30}
-                className='opacity-70'
+                className='opacity-70 lg:mb-5'
                 onClick={handleMenu2}
               />
             )}
@@ -86,53 +91,28 @@ const MenuBar = () => {
           >
             {isSearch ? (
               <RiSearchFill size={28} onClick={handleMenu1} />
-            ) : (
-              <RiSearchLine
-                size={28}
-                className='opacity-70'
-                onClick={handleMenu1}
-              />
-            )}
-          </Link>
-        </nav>
-        <nav
-          className='grow overflow-y-auto rounded-lg bg-[#0f0f0f] py-5'
-          aria-label='Library navigation'
-        >
-          <LuLibrary size={30} className='mb-5 ml-5 opacity-70' />
-          <Link
-            to='/dashboard/liked'
-            aria-label='Liked songs'
-            className='mb-4 flex min-h-11 min-w-11 items-center justify-center lg:mx-4'
-            onClick={handleMenu1}
-          >
-            <img className='size-11 rounded-lg' src={likedCover} alt='' />
-          </Link>
-          <Link
-            to='/dashboard/playlists'
-            aria-label='Playlists'
-            className='mb-2 flex min-h-11 min-w-11 items-center justify-center lg:mx-4'
-            onClick={handleMenu1}
-          >
-            <img className='size-11 rounded-lg' src={playlistsCover} alt='' />
-          </Link>
-
-          <div className='grid h-auto grid-cols-1 overflow-y-scroll px-3'>
-            {following?.data?.map((item, index) => (
-              <button
-                className='my-2 flex min-h-11 min-w-11 items-center justify-center rounded-full border-gray-800 hover:border-2'
-                key={index}
-                onClick={() => navigateArtist(item?.id)}
-                aria-label={`Open ${item?.name || 'artist'}`}
-                type='button'
-              >
-                <img
-                  className='size-11 rounded-full'
-                  src={item?.image}
-                  alt=''
-                />
-              </button>
-            ))}
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className='hidden bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto lg:block'>
+        <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
+        <Link to='/dashboard/liked'>
+          <div className='w-10 mb-4 mx-4' onClick={handleMenu1}>
+            <img
+              className='rounded-lg'
+              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/wgp6vslfpkovzcivmegp?_a=BAMAGSRg0'
+              alt=''
+            />
+          </div>
+        </Link>
+        <Link to='/dashboard/playlists'>
+          <div className='w-10 mb-2 mx-4' onClick={handleMenu1}>
+            <img
+              className='rounded-lg'
+              src='https://res.cloudinary.com/sparklines/image/upload/c_fill,h_500,w_500/gkgkol3qvikb8byg2x6x?_a=BAMAGSRg0'
+              alt=''
+            />
           </div>
         </nav>
       </aside>
