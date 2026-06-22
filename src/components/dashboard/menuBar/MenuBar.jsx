@@ -45,28 +45,28 @@ const MenuBar = () => {
   }
 
   return (
-    <div className='flex flex-col h-auto m-2 mr-1 rounded-lg'>
-      <div className='bg-[#0f0f0f] mb-2 rounded-lg flex-none p-5'>
+    <div className='fixed bottom-0 left-0 right-0 z-50 flex h-16 flex-row m-0 rounded-none bg-black p-1 lg:static lg:z-auto lg:h-auto lg:flex-col lg:m-2 lg:mr-1 lg:rounded-lg lg:bg-transparent lg:p-0'>
+      <div className='bg-[#0f0f0f] mb-0 rounded-lg flex flex-1 items-center justify-center p-3 lg:mb-2 lg:block lg:flex-none lg:p-5'>
         {menu === 'home' && (
-          <div>
+          <div className='flex items-center gap-6 lg:block'>
             <Link to='/dashboard'>
               <MdHome size={30} onClick={handleMenu2} />
             </Link>
             <Link to='/dashboard/search'>
               <RiSearchLine
                 size={28}
-                className='opacity-70 mt-5'
+                className='opacity-70 lg:mt-5'
                 onClick={handleMenu1}
               />
             </Link>
           </div>
         )}
         {menu === 'search' && (
-          <div>
+          <div className='flex items-center gap-6 lg:block'>
             <Link to='/dashboard'>
               <MdOutlineHome
                 size={30}
-                className='opacity-70 mb-5'
+                className='opacity-70 lg:mb-5'
                 onClick={handleMenu2}
               />
             </Link>
@@ -76,7 +76,7 @@ const MenuBar = () => {
           </div>
         )}
       </div>
-      <div className='bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto'>
+      <div className='hidden bg-[#0f0f0f] rounded-lg py-5 grow overflow-y-auto lg:block'>
         <LuLibrary size={30} className='opacity-70 mb-5 ml-5' />
         <Link to='/dashboard/liked'>
           <div className='w-10 mb-4 mx-4' onClick={handleMenu1}>

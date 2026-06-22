@@ -12,7 +12,7 @@ const Skeleton = lazy(() => import('./Skeleton'))
 const Options = lazy(() => import('../routeTypes/components/Options'))
 const ShareScreen = lazy(() => import('./ShareScreen'))
 
-const ArtistsScreen = ({ isPublic }) => {
+const ArtistsScreen = ({ isPublic, isOpen = false, onClose }) => {
   const [currentSong] = useRQGlobalState('currentSong', null)
   const [playbackDetails] = useRQGlobalState('playbackQueue')
   const [artistsData, setArtistsData] = useState(null)
@@ -52,91 +52,126 @@ const ArtistsScreen = ({ isPublic }) => {
     }
   }
 
+  const panelContent = (
+    <>
+      {/* display nowPlaying screen*/}
+      {selectedScreen?.data === 'nowPlaying' && (
+        <motion.div
+          key='details'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {data ? (
+            <div className={!isPublic && 'p-4'}>
+              {!isPublic && (
+                <SongDetails
+                  handleMenu={(type, id) => handleMenu(type, id)}
+                  songData={data}
+                  showMenu={(type) => setSelectedScreen(type)}
+                />
+              )}
+              <div className={isPublic && 'max-h-[50vh] overflow-y-scroll'}>
+                {artistsData?.data && (
+                  <ArtistDetails
+                    handleMenu={(type, id) => handleMenu(type, id)}
+                    artistData={artistsData?.data}
+                    songData={data}
+                    isPublic={isPublic}
+                  />
+                )}
+                <Credits
+                  handleMenu={(type, id) => handleMenu(type, id)}
+                  songData={data}
+                />
+                <NextQueue
+                  showMenu={(type) => setSelectedScreen(type)}
+                  queueData={playbackDetails?.data}
+                  handleMenu={(type, id) => handleMenu(type, id)}
+                />
+              </div>
+            </div>
+          ) : (
+            <Skeleton />
+          )}
+        </motion.div>
+      )}
+
+      {/* display lyrics screen*/}
+      {selectedScreen?.data === 'lyrics' && (
+        <motion.div
+          key='lyrics'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <LyricsScreen
+            lyricsData={currentLyrics}
+            songData={data}
+            showMenu={(type) => setSelectedScreen(type)}
+            isPublic={isPublic}
+          />
+        </motion.div>
+      )}
+
+      {/* display queue screen*/}
+      {selectedScreen?.data === 'queue' && (
+        <motion.div
+          key='lyrics'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <QueueScreen
+            showMenu={(type) => setSelectedScreen(type)}
+            handleMenu={(type, id) => handleMenu(type, id)}
+            isPublic={isPublic}
+          />
+        </motion.div>
+      )}
+    </>
+  )
+
   return (
     <AnimatePresence>
       <div
         className={
           isPublic
             ? 'overflow-scroll bg-[#0f0f0f] rounded-lg h-auto col-span-4 select-none'
-            : 'overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-auto col-span-4 select-none'
+            : 'hidden overflow-scroll bg-[#0f0f0f] m-2 ml-1 rounded-lg h-[calc(100vh-5rem)] select-none lg:block lg:col-span-4'
         }
       >
-        {/* display nowPlaying screen*/}
-        {selectedScreen?.data === 'nowPlaying' && (
-          <motion.div
-            key='details'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {data ? (
-              <div className={!isPublic && 'p-4'}>
-                {!isPublic && (
-                  <SongDetails
-                    handleMenu={(type, id) => handleMenu(type, id)}
-                    songData={data}
-                    showMenu={(type) => setSelectedScreen(type)}
-                  />
-                )}
-                <div className={isPublic && 'max-h-[50vh] overflow-y-scroll'}>
-                  {artistsData?.data && (
-                    <ArtistDetails
-                      handleMenu={(type, id) => handleMenu(type, id)}
-                      artistData={artistsData?.data}
-                      songData={data}
-                      isPublic={isPublic}
-                    />
-                  )}
-                  <Credits
-                    handleMenu={(type, id) => handleMenu(type, id)}
-                    songData={data}
-                  />
-                  <NextQueue
-                    showMenu={(type) => setSelectedScreen(type)}
-                    queueData={playbackDetails?.data}
-                    handleMenu={(type, id) => handleMenu(type, id)}
-                  />
-                </div>
-              </div>
-            ) : (
-              <Skeleton />
-            )}
-          </motion.div>
-        )}
-
-        {/* display lyrics screen*/}
-        {selectedScreen?.data === 'lyrics' && (
-          <motion.div
-            key='lyrics'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <LyricsScreen
-              lyricsData={currentLyrics}
-              songData={data}
-              showMenu={(type) => setSelectedScreen(type)}
-              isPublic={isPublic}
-            />
-          </motion.div>
-        )}
-
-        {/* display queue screen*/}
-        {selectedScreen?.data === 'queue' && (
-          <motion.div
-            key='lyrics'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <QueueScreen
-              showMenu={(type) => setSelectedScreen(type)}
-              handleMenu={(type, id) => handleMenu(type, id)}
-              isPublic={isPublic}
-            />
-          </motion.div>
-        )}
+        {panelContent}
       </div>
+
+      {!isPublic && isOpen && (
+        <motion.div
+          className='fixed inset-0 z-50 bg-black/70 lg:hidden'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className='absolute bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-[#0f0f0f] p-4 shadow-2xl'
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+          >
+            <div className='mb-4 flex items-center justify-between'>
+              <h2 className='text-lg font-bold'>Now playing</h2>
+              <button
+                aria-label='Close now playing panel'
+                className='rounded-full bg-[#242424] p-2'
+                onClick={onClose}
+              >
+                <MdClose size={22} />
+              </button>
+            </div>
+            {panelContent}
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* handle recently played automatically */}
       {!isPublic && currentSong?.data && (
@@ -163,16 +198,12 @@ const ArtistsScreen = ({ isPublic }) => {
 
 const SongDetails = ({ handleMenu, songData, showMenu }) => {
   const [showQR, setShowQR] = useState(false)
-  const [url, setUrl] = useState(
-    'https://sparklines.vercel.app/'
-  )
+  const [url, setUrl] = useState('https://sparklines.vercel.app/')
   const artist = songData?.primaryArtists?.split(',').slice(0, 2)
   const artistId = songData?.primaryArtistsId?.replaceAll(' ', '').split(',')
 
   useEffect(() => {
-    setUrl(
-      `https://sparklines.vercel.app/public/${songData?.id}`
-    )
+    setUrl(`https://sparklines.vercel.app/public/${songData?.id}`)
   }, [songData])
 
   return (

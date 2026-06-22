@@ -12,11 +12,12 @@ const ArtistsScreen = lazy(
 )
 
 const Container = styled.div`
-  ${tw`overflow-y-hidden bg-black text-white w-screen h-auto`}
+  ${tw`overflow-hidden bg-black text-white w-screen min-h-screen`}
 `
 
 const Dashboard = () => {
   const [showMenu, setShowMenu] = useState('home')
+  const [showArtistsPanel, setShowArtistsPanel] = useState(false)
   var userId = localStorage.getItem('userId')
   const navigate = useNavigate()
   const location = useLocation()
@@ -75,16 +76,22 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <div>
-        <div className='grid grid-rows-8 w-screen h-screen'>
-          <div className='flex row-span-9'>
-            <MenuBar />
-            <div className='grid grid-cols-12'>
-              <MainScreen showMenu={showMenu} />
-              <ArtistsScreen />
-            </div>
+      <div className='relative flex h-screen w-screen flex-col overflow-hidden pb-32 lg:pb-0'>
+        <div className='flex min-h-0 flex-1 flex-col lg:flex-row'>
+          <MenuBar />
+          <div className='grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-12'>
+            <MainScreen
+              showMenu={showMenu}
+              onOpenArtistsPanel={() => setShowArtistsPanel(true)}
+            />
+            <ArtistsScreen
+              isOpen={showArtistsPanel}
+              onClose={() => setShowArtistsPanel(false)}
+            />
           </div>
-          <Playback />
+        </div>
+        <div className='fixed bottom-16 left-0 right-0 z-40 lg:static'>
+          <Playback onOpenArtistsPanel={() => setShowArtistsPanel(true)} />
         </div>
       </div>
     </Container>
