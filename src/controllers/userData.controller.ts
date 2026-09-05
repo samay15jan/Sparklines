@@ -97,31 +97,40 @@ export class UpdateUserProfile {
     })
   }
 
-  public updateRecentlyPlayed = async (req: Request, res: Response) => {
+   public updateRecentlyPlayed = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
-    const user = await User.findById(userId)
+
+    if (action !== 'add') {
+      const user = await User.findById(userId)
+      if (!user) {
+        res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
+        return undefined
+      }
+      res.status(200).json({
+        status: globalConstants.status.success,
+        message: 'Updated Recently Played',
+        data: user.recentlyPlayed,
+      })
+      return undefined
+    }
+
+    // Remove any existing entry for this song first — atomic, no read-modify-write race.
+    await User.findByIdAndUpdate(userId, { $pull: { recentlyPlayed: { id: data.id } } })
+
+    // Add it to the front and cap the list at 50 — also atomic. MongoDB won't let
+    // $pull and $push touch the same path in one call, so this stays a second op.
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $push: { recentlyPlayed: { $each: [data], $position: 0, $slice: 50 } } },
+      { new: true }
+    )
+
     if (!user) {
       res.status(404).json({ status: globalConstants.status.failed, message: 'User does not exist' })
       return undefined
     }
-    if (action === 'add') {
-      const isAlreadyplayed = user.recentlyPlayed.some((item) => item.id === data.id) // checking if already played
-      if (isAlreadyplayed) {
-        const filteredArray = user.recentlyPlayed.filter((item) => item.id !== data.id) // fitering previous item
-        if (filteredArray) {
-          user.recentlyPlayed = filteredArray // removing previous item
-        }
-        user.recentlyPlayed.unshift(data) // adding item at first position
-      } else {
-        user.recentlyPlayed.unshift(data) // adding item normally
-      }
-    }
-    // Setting max limit
-    if (user.recentlyPlayed.length > 50) {
-      user.recentlyPlayed = user.recentlyPlayed.slice(0, 50)
-    }
-    await user.save()
+
     res.status(200).json({
       status: globalConstants.status.success,
       message: 'Updated Recently Played',
