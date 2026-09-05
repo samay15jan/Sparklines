@@ -36,8 +36,10 @@ export class App {
   private initializeMiddlewares() {
     const allowedOrigins = [
       'https://sparklines.vercel.app',
-      'https://sparklines.samay15jan.xyz',
-      'http://localhost:3000'
+      'https://sparklines.samay15jan.com',
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://192.168.1.35:5173',
     ];
   
     this.app.use(morgan(this.config.log.format))
