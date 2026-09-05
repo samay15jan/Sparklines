@@ -8,14 +8,16 @@ import { artistSongs, recommendedSongs } from '../../../api/apiMethods'
 const AudioDetails = lazy(() => import('./AudioDetails'))
 const AudioVisualizer = lazy(() => import('./AudioVisualizer'))
 const AudioController = lazy(() => import('./AudioController'))
+const ControllerButtons = lazy(() => import('./ControllerButtons'))
+const SeekBar = lazy(() => import('./Seekbar'))
 const MenuButtons = lazy(() => import('./MenuButtons'))
 const VolumeController = lazy(() => import('./VolumeController'))
 
 const Container = styled.div`
-  ${tw`bg-black w-screen p-1 text-sm font-semibold`}
+  ${tw`bg-black w-full p-1 text-sm font-semibold lg:h-24 lg:border-t lg:border-white/10 lg:px-6 lg:py-0`}
 `
 const SubContainer = styled.div`
-  ${tw`grid grid-cols-2 items-center gap-2 lg:grid-cols-3 lg:justify-between`}
+  ${tw`grid h-full grid-cols-[minmax(200px,1fr)_2fr_minmax(200px,1fr)] items-center gap-6`}
 `
 
 const Player = () => {
@@ -108,6 +110,7 @@ const Player = () => {
 
 const Playback = ({ isPublic, onOpenArtistsPanel }) => {
   const [currentSong] = useRQGlobalState('currentSong', null)
+  const [, setSelectedScreen] = useRQGlobalState('contentPlay', 'nowPlaying')
 
   // Set Webpage Title
   useDocumentTitle(
@@ -116,21 +119,58 @@ const Playback = ({ isPublic, onOpenArtistsPanel }) => {
       : 'Sparklines - A music streaming platform'
   )
 
+  function handleExpandNowPlaying() {
+    setSelectedScreen('nowPlaying')
+    onOpenArtistsPanel?.()
+  }
+
   return (
     <>
       {!isPublic && (
         <Container>
-          <SubContainer>
-            <div className='flex min-w-0'>
-              <AudioDetails />
-              <AudioVisualizer />
+          {/* Desktop: full bar with seek, volume and secondary controls */}
+          <div className='hidden lg:block'>
+            <SubContainer>
+              <div className='flex min-w-0 items-center'>
+                <AudioDetails />
+                <AudioVisualizer />
+              </div>
+              <AudioController />
+              <div className='flex justify-end'>
+                <MenuButtons onOpenArtistsPanel={onOpenArtistsPanel} />
+                <VolumeController />
+              </div>
+            </SubContainer>
+          </div>
+
+          {/* Mobile: compact mini-player. Tapping the row (outside the
+              like/play/prev/next buttons and the seek bar) expands to
+              Now Playing. */}
+          <div className='flex flex-col gap-1.5 py-1 lg:hidden'>
+            <div
+              className='flex items-center gap-2'
+              onClick={handleExpandNowPlaying}
+            >
+              <div className='flex min-w-0 flex-1 items-center'>
+                <AudioDetails />
+              </div>
+              <div
+                className='flex items-center'
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MenuButtons onOpenArtistsPanel={onOpenArtistsPanel} />
+              </div>
+              <div
+                className='flex items-center'
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ControllerButtons />
+              </div>
             </div>
-            <AudioController />
-            <div className='col-span-2 flex justify-end lg:col-span-1'>
-              <MenuButtons onOpenArtistsPanel={onOpenArtistsPanel} />
-              <VolumeController />
+            <div onClick={(e) => e.stopPropagation()}>
+              <SeekBar />
             </div>
-          </SubContainer>
+          </div>
         </Container>
       )}
       {isPublic && (

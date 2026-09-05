@@ -4,8 +4,8 @@ const ControllerButtons = lazy(() => import('./ControllerButtons'))
 
 const AudioController = () => {
   return (
-    <div className='flex justify-center'>
-      <div className='grid grid-cols-1'>
+    <div className='flex justify-center lg:w-full'>
+      <div className='grid grid-cols-1 lg:w-full lg:max-w-xl lg:justify-items-center lg:gap-1'>
         <ControllerButtons />
         <SeekBar />
       </div>

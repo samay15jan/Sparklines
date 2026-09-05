@@ -52,7 +52,7 @@ const MenuButtons = ({ isPublic, onOpenArtistsPanel }) => {
       className={
         isPublic
           ? 'mt-10 ml-44 flex justify-center gap-4 opacity-80'
-          : 'mt-2 flex justify-center gap-4 opacity-70 lg:mt-6 lg:ml-20'
+          : 'flex items-center justify-center gap-3 opacity-70 lg:gap-4'
       }
     >
       {!isPublic && (
@@ -72,29 +72,29 @@ const MenuButtons = ({ isPublic, onOpenArtistsPanel }) => {
         />
       )}
       <CgPlayButtonR
-        size={18}
+        className={`hidden w-[18px] h-[18px] cursor-pointer lg:block lg:w-5 lg:h-5 ${
+          isShowNowPlaying ? 'text-[#1db954]' : ''
+        }`}
         onClick={() => handleButtons('nowPlaying')}
-        style={isShowNowPlaying ? { color: '#1db954' } : ''}
-        className='cursor-pointer'
       />
       <MdOutlineLyrics
-        size={18}
+        className={`hidden w-[18px] h-[18px] cursor-pointer lg:block lg:w-5 lg:h-5 ${
+          isShowLyrics ? 'text-[#1db954]' : ''
+        }`}
         onClick={() => handleButtons('lyrics')}
-        style={isShowLyrics ? { color: '#1db954' } : ''}
-        className='cursor-pointer'
       />
       <HiOutlineQueueList
-        size={18}
+        className={`hidden w-[18px] h-[18px] cursor-pointer lg:block lg:w-5 lg:h-5 ${
+          isShowqueue ? 'text-[#1db954]' : ''
+        }`}
         onClick={() => handleButtons('queue')}
-        style={isShowqueue ? { color: '#1db954' } : ''}
-        className='cursor-pointer'
       />
       {!isPublic && (
         <LuMonitorSpeaker
-          size={18}
+          className={`hidden w-[18px] h-[18px] cursor-pointer lg:block lg:w-5 lg:h-5 ${
+            isDevices ? 'text-[#1db954]' : ''
+          }`}
           onClick={() => handleButtons('devices')}
-          style={isDevices ? { color: '#1db954' } : ''}
-          className='cursor-pointer'
         />
       )}
       {isPublic && (

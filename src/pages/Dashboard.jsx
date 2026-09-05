@@ -76,10 +76,10 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <div className='relative flex h-screen w-screen flex-col overflow-hidden pb-32 lg:pb-0'>
+      <div className='relative flex h-screen w-screen flex-col overflow-hidden pb-40 lg:pb-0'>
         <div className='flex min-h-0 flex-1 flex-col lg:flex-row'>
           <MenuBar />
-          <div className='grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-12'>
+          <div className='grid min-h-0 flex-1 gap-2 grid-cols-1 lg:grid-cols-12'>
             <MainScreen
               showMenu={showMenu}
               onOpenArtistsPanel={() => setShowArtistsPanel(true)}

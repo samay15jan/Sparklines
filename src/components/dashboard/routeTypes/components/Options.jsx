@@ -177,7 +177,7 @@ const Options = ({
 
       {type === 'liked' && (
         <LikedButton
-          className={style ? style : 'mt-2 mr-5'}
+          className={style ? `${style} hidden lg:block` : 'mt-2 mr-5'}
           onClick={handleClick}
         >
           {isSelected ? (

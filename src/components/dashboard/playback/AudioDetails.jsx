@@ -5,23 +5,23 @@ import useRQGlobalState from '../../../utils/useRQGlobalState'
 import { useNavigate } from 'react-router-dom'
 
 const Image = styled.img`
-  ${tw`w-16 h-16 rounded-lg p-1 ml-[6px] mr-1 pointer-events-none select-none`}
+  ${tw`w-12 h-12 rounded-lg mr-2 pointer-events-none select-none lg:h-14 lg:w-14 lg:rounded-md lg:mr-3`}
 `
 const Heading = styled.div`
-  ${tw`px-1 mt-3 opacity-80 cursor-pointer`}
+  ${tw`px-1 opacity-80 cursor-pointer truncate text-[13px] lg:text-sm lg:font-semibold lg:opacity-90 lg:max-w-[180px]`}
 `
 const SubHeading = styled.div`
-  ${tw`flex gap-1 px-1 text-[12px] opacity-50`}
+  ${tw`flex gap-1 px-1 text-[11px] opacity-50 truncate lg:mt-1 lg:text-xs`}
 `
 
 const AudioData = () => {
   const [currentSong] = useRQGlobalState('currentSong', null)
   const data = currentSong?.data
-  const artistName = data?.primaryArtists?.split(',')?.slice(0, 2)
+  const artistName = data?.primaryArtists?.split(',')?.slice(0, 1)
   const artistId = data?.primaryArtistsId
     ?.replaceAll(' ', '')
     .split(',')
-    ?.slice(0, 2)
+    ?.slice(0, 1)
 
   const navigate = useNavigate()
 
@@ -34,7 +34,7 @@ const AudioData = () => {
       {data ? (
         <>
           <Image src={data?.image[0]?.link} alt='' />
-          <div className='grid grid-rows-2'>
+          <div className='grid min-w-0 grid-rows-2 gap-0.5 lg:justify-center'>
             <Heading
               className='hover:underline'
               onClick={() => handleMenu('track', data?.id)}

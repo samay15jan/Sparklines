@@ -6,7 +6,7 @@ import { SlVolumeOff, SlVolume1, SlVolume2 } from 'react-icons/sl'
 import { FaExpandAlt } from 'react-icons/fa'
 
 const SeekingBar = styled.input`
-  ${tw`mt-3 w-[15vh]`}
+  ${tw`mt-3 w-[15vh] lg:mt-0 lg:w-24`}
   -webkit-appearance: none;
   -moz-appearance: none;
   border: solid 1px #4d4d4d;
@@ -61,10 +61,12 @@ const VolumeController = ({ isPublic }) => {
   return (
     <div
       className={
-        isPublic ? 'flex gap-3 mt-8' : 'flex gap-3 mt-5 absolute right-5'
+        isPublic
+          ? 'flex gap-3 mt-8'
+          : 'flex gap-3 mt-5 lg:mt-0 lg:items-center lg:justify-end lg:w-full'
       }
     >
-      <div className='mt-1 opacity-80'>
+      <div className='mt-1 opacity-80 lg:mt-0'>
         {(currentVolume > 0 && currentVolume < 50 && <SlVolume1 size={18} />) ||
           (currentVolume >= 50 && <SlVolume2 size={18} />) ||
           (currentVolume === 0 && <SlVolumeOff size={18} />)}

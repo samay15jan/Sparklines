@@ -5,6 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import queryClient from './utils/queryClient'
 import Loading from './utils/Loading'
+import ErrorBoundary from './components/ErrorBoundary'
 import Playlists from './components/dashboard/routeTypes/Playlists'
 const LikedSongs = lazy(
   () => import('./components/dashboard/routeTypes/LikedSongs')
@@ -36,14 +37,17 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Landing />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: '/auth',
     element: <Authentication />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: '/dashboard',
     element: <Dashboard />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: 'playlist/:id',
@@ -90,6 +94,7 @@ const router = createBrowserRouter([
   {
     path: '/developer',
     element: <Developer />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: 'api',
@@ -112,6 +117,7 @@ const router = createBrowserRouter([
   {
     path: '/public/:id',
     element: <Public />,
+    errorElement: <ErrorBoundary />,
   },
 ])
 

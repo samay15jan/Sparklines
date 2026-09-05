@@ -12,7 +12,7 @@ import tw from 'twin.macro'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const ButtonsContainer = styled.div`
-  ${tw`flex justify-center gap-6 my-1`}
+  ${tw`flex items-center justify-center gap-3 my-1 lg:gap-5`}
 `
 
 const ControllerButtons = () => {
@@ -100,46 +100,47 @@ const ControllerButtons = () => {
   return (
     <ButtonsContainer>
       <FaShuffle
-        size={20}
-        style={
-          isShuffling
-            ? { color: '#1db954', marginTop: '10px' }
-            : { opacity: 0.6, marginTop: '10px' }
-        }
+        className={`hidden w-5 h-5 cursor-pointer lg:block lg:w-6 lg:h-6 ${
+          isShuffling ? 'text-[#1db954]' : 'opacity-60'
+        }`}
         onClick={() => handleButtons('shuffle')}
       />
 
       <FaBackwardStep
-        size={25}
-        style={
-          isPrevious
-            ? { color: '#1db954', marginTop: '8px' }
-            : { opacity: 0.6, marginTop: '8px' }
-        }
+        className={`hidden w-[25px] h-[25px] cursor-pointer lg:block lg:w-7 lg:h-7 ${
+          isPrevious ? 'text-[#1db954]' : 'opacity-60'
+        }`}
         onClick={() => handleButtons('previous')}
       />
 
-      <button onClick={() => setPlaying(!playing)}>
-        {playing ? <FaCirclePause size={35} /> : <FaCirclePlay size={35} />}
+      <button
+        onClick={() => setPlaying(!playing)}
+        className='flex min-h-11 min-w-11 items-center justify-center lg:min-h-0 lg:min-w-0'
+        aria-label={playing ? 'Pause' : 'Play'}
+      >
+        {playing ? (
+          <FaCirclePause className='w-[35px] h-[35px] lg:h-10 lg:w-10' />
+        ) : (
+          <FaCirclePlay className='w-[35px] h-[35px] lg:h-10 lg:w-10' />
+        )}
       </button>
 
-      <FaForwardStep
-        size={25}
-        style={
-          isNext
-            ? { color: '#1db954', marginTop: '8px' }
-            : { opacity: 0.6, marginTop: '8px' }
-        }
+      <button
         onClick={() => handleButtons('next')}
-      />
+        className='flex min-h-11 min-w-11 items-center justify-center lg:min-h-0 lg:min-w-0'
+        aria-label='Next'
+      >
+        <FaForwardStep
+          className={`w-[25px] h-[25px] lg:w-7 lg:h-7 ${
+            isNext ? 'text-[#1db954]' : 'opacity-60'
+          }`}
+        />
+      </button>
 
       <FaRepeat
-        size={20}
-        style={
-          isLooping
-            ? { color: '#1db954', marginTop: '10px' }
-            : { opacity: 0.6, marginTop: '10px' }
-        }
+        className={`hidden w-5 h-5 cursor-pointer lg:block lg:w-6 lg:h-6 ${
+          isLooping ? 'text-[#1db954]' : 'opacity-60'
+        }`}
         onClick={() => handleButtons('loop')}
       />
     </ButtonsContainer>

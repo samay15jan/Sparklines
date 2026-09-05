@@ -219,13 +219,14 @@ const QueueList = ({
   }
 
   function trimTextToLetters(text, maxLength) {
+    if (!text) return ''
     if (text.length <= maxLength) {
       return text
     } else {
       return text.slice(0, maxLength) + '...'
     }
   }
-
+  
   const style = {
     transform: CSS.Transform.toString(transform),
     transition: {

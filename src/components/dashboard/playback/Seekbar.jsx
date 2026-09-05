@@ -4,57 +4,79 @@ import tw from 'twin.macro'
 import useRQGlobalState from '../../../utils/useRQGlobalState'
 
 const Container = styled.div`
-  ${tw`flex gap-2`}
+  ${tw`flex w-full items-center gap-2 lg:gap-3`}
 `
 const TimeLabel = styled.label`
-  ${tw`mt-1 text-[12px] opacity-60`}
+  ${tw`hidden text-[11px] opacity-60 tabular-nums lg:block lg:text-xs`}
 `
 const SeekingBar = styled.input`
-  ${tw`mt-3 w-[60vh]`}
+  ${tw`w-full`}
   -webkit-appearance: none;
   -moz-appearance: none;
-  border: solid 1px #4d4d4d;
-  border-radius: 20px;
-  height: 4px;
-  outline: none;
-  background-color: #4d4d4d;
-  color: white;
+  appearance: none;
 
-  /* For Chrome/Safari */
+  height: 4px;
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+
+  /* Chrome / Safari / Edge */
   &::-webkit-slider-runnable-track {
-    background-color: #121212;
-    border: solid 1px #ffffff;
+    width: 100%;
+    height: 4px;
+    border-radius: 20px;
+    background: ${({ $progress = 0 }) =>
+      `linear-gradient(
+        to right,
+        #ffffff 0%,
+        #ffffff ${$progress}%,
+        #4d4d4d ${$progress}%,
+        #4d4d4d 100%
+      )`};
   }
-  &:hover::-webkit-slider-runnable-track {
-    background-color: #1db954;
-    border: solid 1px #1db954;
-  }
+
   &::-webkit-slider-thumb {
-    opacity: 0;
-  }
-  &:hover::-webkit-slider-thumb {
-    opacity: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -3px;
+
     width: 10px;
     height: 10px;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.1s;
   }
 
-  /* For Firefox */
-  &::-moz-range-progress {
-    background-color: #ffffff;
-    border: solid 1px #ffffff;
+  &:hover::-webkit-slider-thumb {
+    opacity: 1;
   }
-  &:hover::-moz-range-progress {
-    background-color: #1db954;
-    border: solid 1px #1db954;
+
+  /* Firefox */
+  &::-moz-range-track {
+    height: 4px;
+    border-radius: 20px;
+    background-color: #4d4d4d;
+  }
+
+  &::-moz-range-progress {
+    height: 4px;
+    border-radius: 20px;
+    background-color: #ffffff;
   }
 
   &::-moz-range-thumb {
-    opacity: 0;
-  }
-  &:hover::-moz-range-thumb {
-    opacity: 1;
     width: 10px;
     height: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    opacity: 0;
+  }
+
+  &:hover::-moz-range-thumb {
+    opacity: 1;
   }
 `
 
