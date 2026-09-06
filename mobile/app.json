@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "sparklines",
+    "slug": "Sparklines",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/music.png",
+    "scheme": "sparklines",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "jsEngine": "hermes",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/music.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#1B1B1E",
+          "dark": {
+            "image": "./assets/images/music.png",
+            "backgroundColor": "#1B1B1E"
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
+      "expo-audio",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5abccdaa-a48b-4e1c-a9f3-c63560856525"
+      }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.samay15jan.sparklines"
+    },
+    "ios": {
+      "bundleIdentifier": "com.samay15jan.sparklines",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}
