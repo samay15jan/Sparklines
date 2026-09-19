@@ -15,7 +15,8 @@ const LogoContainer = ({ text, image, whiteBg, Icon, navigation }) => {
   return (
     <Container
       className={
-        (whiteBg && 'bg-black text-white border-black hover:text-black hover:bg-white transition-colors duration-300') ||
+        (whiteBg &&
+          'bg-black text-white border-black hover:text-black hover:bg-white transition-colors duration-300') ||
         (text === 'Sparklines' && 'bg-[#dad4f1]')
       }
       onClick={handleNavigation}

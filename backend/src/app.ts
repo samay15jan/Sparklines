@@ -32,29 +32,31 @@ export class App {
     this.initializeRouteFallback()
     this.initializeErrorHandling()
   }
-  
+
   private initializeMiddlewares() {
     const allowedOrigins = [
       'https://sparklines.vercel.app',
       'https://sparklines.samay15jan.com',
-      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:4173',
       'http://localhost:5173',
-      'http://192.168.1.35:5173',
-    ];
-  
+    ]
+
     this.app.use(morgan(this.config.log.format))
-    this.app.use(cors({
-      origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, origin);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-      methods: ['GET', 'POST', 'OPTIONS'],
-      credentials: true,
-      allowedHeaders: ['Content-Type', 'userId', 'Authorization'],
-    }))
+    this.app.use(
+      cors({
+        origin: function (origin, callback) {
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, origin)
+          } else {
+            callback(new Error('Not allowed by CORS'))
+          }
+        },
+        methods: ['GET', 'POST', 'OPTIONS'],
+        credentials: true,
+        allowedHeaders: ['Content-Type', 'userId', 'Authorization'],
+      })
+    )
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(rateLimiterMiddleware)

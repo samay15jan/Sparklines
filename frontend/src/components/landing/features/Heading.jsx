@@ -24,7 +24,10 @@ const Heading = () => {
         <div className='w-6 h-12 rounded-r-full mt-3 bg-[#dad4f1]' />
       </div>
       <HeadingText>Improve your music taste</HeadingText>
-      <button onClick={() => navigate('/auth')} className='flex jusitfy-center gap-2 w-44 border-2 border-black rounded-full text-md font-bold p-2 my-5 hover:bg-black hover:text-white transition-colors'>
+      <button
+        onClick={() => navigate('/auth')}
+        className='flex jusitfy-center gap-2 w-44 border-2 border-black rounded-full text-md font-bold p-2 my-5 hover:bg-black hover:text-white transition-colors'
+      >
         <div className='mt-1 ml-3'>START NOW</div>
         <RiLoginCircleFill size={30} />
       </button>

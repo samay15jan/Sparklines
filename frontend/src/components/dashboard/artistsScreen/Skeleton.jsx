@@ -27,7 +27,13 @@ const Skeleton = () => {
   let isPublic = currentPath.startsWith('/public/')
 
   return (
-    <div className={isPublic ? 'm-2 rounded-lg grid col-span-4 overflow-scroll max-h-[50vh] text-sm font-bold' : 'bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold'}>
+    <div
+      className={
+        isPublic
+          ? 'm-2 rounded-lg grid col-span-4 overflow-scroll max-h-[50vh] text-sm font-bold'
+          : 'bg-[#0f0f0f] m-2 rounded-lg grid col-span-4 overflow-scroll h-auto text-sm font-bold'
+      }
+    >
       <SubContainer>
         <HeadingSkeleton />
         <ImageSkeleton />

@@ -41,7 +41,9 @@ const MenuCard = ({
         </p>
         <img
           className={
-            theme === 'light' ? 'opacity-50 rounded-[50px] pointer-events-none select-none transition-opacity  duration-300 ease-in-out ' : 'rounded-[50px] pointer-events-none select-none'
+            theme === 'light'
+              ? 'opacity-50 rounded-[50px] pointer-events-none select-none transition-opacity  duration-300 ease-in-out '
+              : 'rounded-[50px] pointer-events-none select-none'
           }
           src={image}
         />

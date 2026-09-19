@@ -23,7 +23,7 @@ const app = new App([
   new ModulesRoute(),
   new AuthRoute(),
   new UserRoute(),
-  new ApiRoute(),
+  new ApiRoute()
 ])
 
 export default app.getServer()

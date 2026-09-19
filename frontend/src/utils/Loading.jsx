@@ -27,7 +27,7 @@ const Loading = () => {
     }, 50)
 
     return () => clearTimeout(timeout)
-  }, []) 
+  }, [])
 
   return (
     <Container>

@@ -39,16 +39,16 @@ const Bottom = () => {
           A OpenSource Alternative <br /> for all your needs
         </Heading>
         <div className='flex lg:hidden relative left-32 lg:left-3/4 lg:bottom-40 gap-1'>
-        <button
-          onClick={() => navigate('/auth')}
-          className='flex jusitfy-center gap-2 border-2 border-gray-500 rounded-full text-sm font-bold p-2 my-5 bg-white hover:bg-black hover:text-white transition-colors'
-        >
-          <div className='mt-1 ml-2'>START NOW</div>
-          <RiLoginCircleFill className='mr-2' size={30} />
-        </button>
-        <div className='w-4 h-8 rounded-r-full mt-7 border-2 border-gray-500' />
-        <div className='w-4 h-4 rounded-full mt-9 border-2 border-gray-500' />
-      </div>
+          <button
+            onClick={() => navigate('/auth')}
+            className='flex jusitfy-center gap-2 border-2 border-gray-500 rounded-full text-sm font-bold p-2 my-5 bg-white hover:bg-black hover:text-white transition-colors'
+          >
+            <div className='mt-1 ml-2'>START NOW</div>
+            <RiLoginCircleFill className='mr-2' size={30} />
+          </button>
+          <div className='w-4 h-8 rounded-r-full mt-7 border-2 border-gray-500' />
+          <div className='w-4 h-4 rounded-full mt-9 border-2 border-gray-500' />
+        </div>
       </div>
       <div className='relative lg:left-72 flex gap-2 lg:gap-4 pointer-events-none select-none mx-5 lg:mx-5 my-5 lg:my-0'>
         <img

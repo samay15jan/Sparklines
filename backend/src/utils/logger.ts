@@ -8,7 +8,7 @@ const levels = {
   warn: 1,
   info: 2,
   http: 3,
-  debug: 4,
+  debug: 4
 }
 
 const colors = {
@@ -16,7 +16,7 @@ const colors = {
   warn: 'yellow',
   info: 'green',
   http: 'magenta',
-  debug: 'white',
+  debug: 'white'
 }
 
 winston.addColors(colors)
@@ -33,5 +33,5 @@ export const logger = winston.createLogger({
   level: config.log.level,
   levels,
   format,
-  transports,
+  transports
 })

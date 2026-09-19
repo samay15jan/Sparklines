@@ -12,7 +12,9 @@ const TopArtists = ({
     <div className='relative w-auto lg:w-96 h-[572px] mt-20 bg-[#020f14] rounded-[50px]'>
       <div>
         <div className='text-white opacity-80 text-sm font-bold absolute top-10 left-10 z-50 flex'>
-          <button className='rounded-3xl border-2 py-1 px-2 hover:text-black hover:bg-white transition-colors'>{menuName}</button>
+          <button className='rounded-3xl border-2 py-1 px-2 hover:text-black hover:bg-white transition-colors'>
+            {menuName}
+          </button>
           <button className='rounded-full border-2 py-1 px-2 hover:text-black hover:bg-white transition-colors'>
             {menuIcon1}
           </button>

@@ -97,7 +97,7 @@ export class UpdateUserProfile {
     })
   }
 
-   public updateRecentlyPlayed = async (req: Request, res: Response) => {
+  public updateRecentlyPlayed = async (req: Request, res: Response) => {
     const { data, action } = req.body
     const userId = req.headers.userid
 

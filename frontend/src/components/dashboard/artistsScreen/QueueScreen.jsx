@@ -226,7 +226,7 @@ const QueueList = ({
       return text.slice(0, maxLength) + '...'
     }
   }
-  
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition: {

@@ -85,10 +85,10 @@ const VolumeController = ({ isPublic }) => {
           }
         }}
       />
-        <FaExpandAlt
-          size={15}
-          style={{ opacity: 0.7, marginTop: '7px', marginLeft: '5px' }}
-        />
+      <FaExpandAlt
+        size={15}
+        style={{ opacity: 0.7, marginTop: '7px', marginLeft: '5px' }}
+      />
     </div>
   )
 }

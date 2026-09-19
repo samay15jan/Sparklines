@@ -57,7 +57,10 @@ const Hero = ({ apiResponse }) => {
           <Player apiResponse={apiResponse} />
         </div>
         <div className='flex w-2/3 mt-4 lg:mt-0 lg:w-auto ml-2 lg:ml-0'>
-          <Button onClick={() => navigate('/auth')} className='bg-[#CAFC00] shadow-xl shadow-[#CAFC00]'>
+          <Button
+            onClick={() => navigate('/auth')}
+            className='bg-[#CAFC00] shadow-xl shadow-[#CAFC00]'
+          >
             GET PREMIUM <GoArrowUpRight size={30} />
           </Button>
           <Button onClick={() => navigate('/auth')}>
@@ -66,7 +69,11 @@ const Hero = ({ apiResponse }) => {
         </div>
       </div>
       <div className='hidden lg:block relative w-auto h-auto mx-5'>
-        <img className='drop-shadow-2xl pointer-events-none select-none' src='/icons/hero_person.png' alt='' />
+        <img
+          className='drop-shadow-2xl pointer-events-none select-none'
+          src='/icons/hero_person.png'
+          alt=''
+        />
         <Player apiResponse={apiResponse} />
       </div>
     </div>

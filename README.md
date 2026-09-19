@@ -38,6 +38,8 @@ Here're some of the project's best features:
 
 <h2>🛠️ Installation Steps:</h2>
 
+docker build -t sparklines-backend . && docker run --rm --env-file .env -p 3000:3000 sparklines-backend
+
 ### Web:-
 
 #### Build from source:-

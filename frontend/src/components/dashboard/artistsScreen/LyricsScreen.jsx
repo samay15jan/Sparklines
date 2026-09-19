@@ -12,7 +12,13 @@ const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
             <MdClose size={30} />
           </button>
         )}
-        <div className={isPublic ? 'text-xl mt-48 text-center w-auto': 'text-xl mt-80 text-center w-auto'}>
+        <div
+          className={
+            isPublic
+              ? 'text-xl mt-48 text-center w-auto'
+              : 'text-xl mt-80 text-center w-auto'
+          }
+        >
           Lyrics Not found !
         </div>
       </>
@@ -78,7 +84,15 @@ const LyricsScreen = ({ lyricsData, songData, showMenu, isPublic }) => {
               <h1 className='text-center'>{songData?.name}</h1>
             </div>
           )}
-          <div className={isPublic ? 'm-5 opacity-80 px-5 text-2xl mt-0 text-center flex max-h-[50vh] overflow-y-scroll' : 'm-10 text-2xl mt-4 text-center'}>{lyrics}</div>
+          <div
+            className={
+              isPublic
+                ? 'm-5 opacity-80 px-5 text-2xl mt-0 text-center flex max-h-[50vh] overflow-y-scroll'
+                : 'm-10 text-2xl mt-4 text-center'
+            }
+          >
+            {lyrics}
+          </div>
         </div>
       )}
     </>
