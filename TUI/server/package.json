@@ -12,7 +12,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "dockerode": "^4.0.9",
+    "dockerode": "^5.0.1",
     "express": "^5.2.1",
     "wrtc": "^0.4.7",
     "ws": "^8.19.0",
