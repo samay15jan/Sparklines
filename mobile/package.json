@@ -19,7 +19,7 @@
     "ajv": "^6.12.6",
     "ajv-keywords": "^3.5.2",
     "axios": "^1.9.0",
-    "expo": "53.0.9",
+    "expo": "57.0.24",
     "expo-audio": "^0.4.4",
     "expo-av": "~15.1.4",
     "expo-blur": "~14.1.4",
@@ -39,7 +39,7 @@
     "nativewind": "^4.1.23",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-native": "0.79.2",
+    "react-native": "0.87.1",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
@@ -50,7 +50,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
+    "@babel/core": "^8.0.6",
     "@types/react": "~19.0.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
